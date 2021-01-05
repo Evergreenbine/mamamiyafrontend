@@ -1,3 +1,11 @@
+/* theme color */
+$--color-primary: teal;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
 *{
     /* 这个表示文字如果挤满盒子，会被挤压*/
     box-sizing: border-box;
