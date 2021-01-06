@@ -13,17 +13,7 @@
 </template>
 <script>
 export default {
-    name:"login",
-    data(){
-        return{
-            name:""
-        }
-    },
-    methods:{
-        login(){
-
-        }
-    }
+    name:"login"
 }
 </script>
 
@@ -41,7 +31,6 @@ export default {
     text-decoration: none;
     color: rgb(168, 166, 166);
 }
-.mainpanel{
-   
-}
+.mainpanel{}
+
 </style>

@@ -12,12 +12,12 @@ const routes = [
     name: 'Home',
     component: Home
   },{
-    path: '/login',
+    path: '/new',
     name: 'Login',
     component:Login,
     children:[
-      {path:'/login/register',component:Register},
-      {path:'/login/login',component:SubLogin}
+      {path:'/new/register',component:Register},
+      {path:'/new/login',component:SubLogin}
     ]
   }
 ]

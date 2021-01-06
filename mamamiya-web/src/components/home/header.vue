@@ -2,8 +2,11 @@
   <div id="header2" class="d-flex fd-row" >
       <div class="logo">Mamamiya</div>
       <div id="serchAndLogin">
-        <div class="login d-flex fd-rowr">
-          <p class="word" @click="login">注册</p>
+        <div id="userinfo" v-show="headertag" class="d-flex fd-rowr">
+          <p>你好呀,{{userinfo}}</p>
+        </div>
+        <div v-show="!headertag" class="login d-flex fd-rowr">
+          <p class="word" @click="register">注册</p>
           <p class="word"  @click="login">登录</p>
         </div>
         <div class="serch">
@@ -19,14 +22,29 @@ export default {
     name:'header2',
     data(){
       return {
-        content:"hah"
+        content:"hah",
+        userinfo:"",
+        headertag:true
       }
     },
     methods: {
       login(){
         this.$router.replace({
-          path:'/login',query:{}
+          path:'/new/login',query:{}
         })
+      },
+      register(){
+        this.$router.replace({
+          path:'/new/register',query:{}
+        })
+      }
+    },
+    created(){
+      this.userinfo = localStorage.getItem("username");
+      if(this.userinfo){
+        this.headertag = true
+      }else{
+        this.headertag = false
       }
     }
 }
@@ -38,12 +56,9 @@ export default {
     margin-top: 20px;
     width: 1100px;
     height: 80px;
-    background: rgba(238, 238, 237, 0);
+    background: rgba(245, 245, 239, 0);
     position: relative;
     margin-bottom: 20px;
-  }
-  .btn{
-    width: 100px;
   }
   .logo{
     position: absolute;;
@@ -53,6 +68,14 @@ export default {
     font-size: 100px;
     left: -50px; 
     top:-35px 
+  }
+  #userinfo{
+    position: absolute;
+    width: 500px;
+    height: 30px;
+    right: 0px; 
+    color: rgb(183, 184, 185);
+    margin-right: 10px;
   }
   .login{
     position: absolute;
@@ -81,6 +104,8 @@ export default {
     left: 0px;
     bottom: 0px;
     border: none;
+    font-size: 20px;
+    color:rgb(149, 151, 153) ;
   }
   .btn{
     position: absolute;
