@@ -1,43 +1,62 @@
 <template>
-<div id="register">
-    <div id="loginpanel" class="jc-center" >
-        <h1>注册mamamiya</h1>
-        <div><input　class="inputpanel" placeholder="用户名/邮箱" v-model="user.name"></div>
-        <div><input　class="inputpanel" placeholder="密码" v-model="user.password"></div>
-        <div class="loginbtn" @click="register" >注册</div>
-        <p style="margin-top:30px">已有账号? 
-        <router-link to="/new/login">直接登录</router-link></p>
-    </div>
-</div>
+  <div id="Login">
+     <div>
+        <b-card title="注册mamamiya" sub-title="" class="bcard">
+           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+              <b-form-group id="input-group-1" label="用户名" label-for="input-1" class="inputbox">
+                  <b-form-input
+                   id="input-1"
+                    v-model="user.username"
+                   placeholder="请输入用户名"
+                    required
+                   ></b-form-input>     
+              </b-form-group>
+              <b-form-group id="input-group-2" label="密码" label-for="input-2" class="inputbox">
+                  <b-form-input
+                   id="input-2"
+                    v-model="user.password"
+                   placeholder="请输入密码"
+                    required
+                   ></b-form-input>     
+              </b-form-group>
+              <b-button type="submit" variant="primary" class="subtn">Submit</b-button>
+              <b-button type="reset" variant="danger">Reset</b-button>
+           </b-form>
+          <div class="linktoregister">
+            还没有账号?<b-link href="/new/login">登录账号</b-link>
+          </div>
+        </b-card>
+      </div>
+  </div>
 </template>
 
 <script>
 export default {
-    data(){
-        return{
-            user:{
-                name:"",
-                password:""
-            }
-        }
-    },
-    methods:{
-        register(){
-            console.log(this.user.name);
-            console.log(this.user.password);
-            console.log("注册");
-        }
-    }
-
+  name:"Login",
+   data(){
+      return{
+        user:{
+          username:"",
+          password:""
+        },
+        show:true
+      }
+   }
 }
 </script>
 
-<style>
-.registerpanel{
-    position: relative;
-    width: 1000px;
-    height: 500px;
-    border: 1px solid gainsboro;
-    top: 100px;
+<style scoped>
+.bcard{
+  width: 1000px;
+  height: 500px;
+}
+.linktoregister{
+  margin-top: 20px;
+}
+.inputbox{
+  margin-top: 30px;
+}
+.subtn{
+margin-right: 10px;
 }
 </style>

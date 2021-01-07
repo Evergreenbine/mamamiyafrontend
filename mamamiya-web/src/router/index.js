@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-const Login = ()=> import('../components/login/Login')
-const SubLogin = ()=> import('../components/login/SubLogin')
-const Register = () => import('../components/login/Register')
+const LoginIndex = ()=> import('../components/login/LoginIndex')
+const Login = ()=>import('../components/login/Login')
+const Register = ()=>import('../components/login/Register')
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,11 +13,11 @@ const routes = [
     component: Home
   },{
     path: '/new',
-    name: 'Login',
-    component:Login,
+    name: 'LoginIndex',
+    component:LoginIndex,
     children:[
       {path:'/new/register',component:Register},
-      {path:'/new/login',component:SubLogin}
+      {path:'/new/login',component:Login}
     ]
   }
 ]

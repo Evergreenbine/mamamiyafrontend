@@ -12,59 +12,70 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 }
 
 /* 定义flex布局*/
-.d-flex{
-    display: flex;
-}
+// .d-flex{
+//     display: flex;
+// }
 /* 属性决定主轴的方向（即项目的排列方向）*/
-$flex-di:(
-    row:row,
-    rowr:row-reverse,
-    column:column,
-    columnr:column-reverse
-);
-/* 定义flex-directon属性*/
-@each $key,$value in $flex-di{
-    .fd-#{$key}{
-        flex-direction: $value;
-    }
-}
+// $flex-di:(
+//     row:row,
+//     rowr:row-reverse,
+//     column:column,
+//     columnr:column-reverse
+// );
+// /* 定义flex-directon属性*/
+// @each $key,$value in $flex-di{
+//     .fd-#{$key}{
+//         flex-direction: $value;
+//     }
+// }
 /* 定义是否换行*/
-$flex-wrap:(
-    nowarp:wrap,
-    wrap:wrap,
-    wrapr:wrap-reverse
-);
-@each $key,$value in $flex-wrap {
-    .flex-#{$key}{
-        flex-wrap: $value;
-    }
-}
+// $flex-wrap:(
+//     nowarp:wrap,
+//     wrap:wrap,
+//     wrapr:wrap-reverse
+// );
+// @each $key,$value in $flex-wrap {
+//     .flex-#{$key}{
+//         flex-wrap: $value;
+//     }
+// }
 
 /* 定义交叉轴上的对齐方式*/
-$align-items:(
-    start:flex-start,
-    end:flex-end,
-    center:center,
-    baseline:baseline,
-    stretch:stretch
-);
-@each $key,$value in $align-items {
-    .al-#{$key}{
-        align-items: $value;
-    }
-}
+// $align-items:(
+//     start:flex-start,
+//     end:flex-end,
+//     center:center,
+//     baseline:baseline,
+//     stretch:stretch
+// );
+// @each $key,$value in $align-items {
+//     .al-#{$key}{
+//         align-items: $value;
+//     }
+// }
 
 /*定义主轴上的对齐方式*/
-$flex-jc:(
-    start:flex-start,
-    end:flex-end,
-    center:center,
-    bwtween:space-between,
-    around:space-around
-);
+// $flex-jc:(
+//     start:flex-start,
+//     end:flex-end,
+//     center:center,
+//     bwtween:space-between,
+//     around:space-around
+// );
 /*定义justify-content的样式*/
-@each $key,$value in $flex-jc {
-    .jc-#{$key}{
-        justify-content: $value;
+// @each $key,$value in $flex-jc {
+//     .jc-#{$key}{
+//         justify-content: $value;
+//     }
+// }
+
+/* 定义定位*/
+$positon:(
+    abso:absolute,
+    rela:relative
+);
+@each $key,$value in $positon {
+    .p-#{$key}{
+        position: $value;
     }
 }
