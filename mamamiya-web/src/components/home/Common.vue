@@ -1,12 +1,9 @@
 <template>
   <div id="Common">
       <div class="navbar margin-auto max-width ">
-      <el-breadcrumb separator="/">
-  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-  <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-  <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-  <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-</el-breadcrumb>
+          <div class="navtab d-flex ">
+            <div>nihao</div>
+          </div>
       </div>
   </div>
 </template>
@@ -22,6 +19,13 @@ export default {
     height: 300px;
     border: 1px solid palegreen;
 }
+.navtabitems{
+    top: 0px;
+    left: 0px;
+    width: 100px;
+    height: 0px;
+    margin-right: 10px;
+    border: 1px solid blue;
+}
 </style>>
 
-</style>

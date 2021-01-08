@@ -2,7 +2,7 @@
 <div id="LoginIndex"  >
   
   <b-navbar toggleable="lg" type="light" variant="light" >
-    <b-navbar-brand href="/">Mamamiya</b-navbar-brand>
+    <b-navbar-brand href="#" to="/">Mamamiya</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -12,7 +12,7 @@
         <b-nav-item href="#" class="bnavbox">知识</b-nav-item>
         <b-nav-item href="#" class="bnavbox">论坛</b-nav-item>
         <b-nav-item href="#" class="bnavbox">资讯</b-nav-item>
-        <b-nav-item href="#" class="bnavbox">商城</b-nav-item>
+        <b-nav-item href="#" to="/shop" class="bnavbox">商城</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>

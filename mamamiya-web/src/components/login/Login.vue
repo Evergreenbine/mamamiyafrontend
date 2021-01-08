@@ -22,11 +22,11 @@
                     required
                    ></b-form-input>     
               </b-form-group>
-              <b-button type="submit" variant="primary" class="subtn" @click="login" >Submit</b-button>
-              <b-button type="reset" variant="danger" @click="onReset">Reset</b-button>
+              <b-button type="submit" variant="primary" class="subtn" @click="login" >登录</b-button>
+              <b-button type="reset" variant="danger" @click="onReset">重置</b-button>
            
           <div class="linktoregister">
-            还没有账号?<b-link href="/new/register">注册账号</b-link>
+            还没有账号?<b-link to="/new/register" href="#">注册账号</b-link>
           </div>
         </b-card>
       </div>

@@ -18,12 +18,10 @@
                     required
                    ></b-form-input>     
               </b-form-group>
-              <b-button type="submit" variant="primary" class="subtn">Submit</b-button>
-              <b-button type="reset" variant="danger">Reset</b-button>
-          
+              <b-button type="submit" variant="primary" class="subtn">注册</b-button>
+              <b-button type="reset" variant="danger">重置</b-button>
           <div class="linktoregister">
-            还没有账号?
-            <router-link></router-link>
+             已有账号?<b-link to="/new/login" href="#">直接登录</b-link>
           </div>
         </b-card>
       </div>
