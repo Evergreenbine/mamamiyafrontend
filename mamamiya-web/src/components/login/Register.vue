@@ -2,6 +2,14 @@
   <div id="Login">
      <div>
         <b-card title="注册mamamiya" sub-title="" class="bcard">
+              <b-form-group id="input-group-3" label="用户邮箱" label-for="input-3" class="inputbox">
+                  <b-form-input
+                   id="input-3"
+                    v-model="user.username"
+                   placeholder="请输入用户邮箱"
+                    required
+                   ></b-form-input>     
+              </b-form-group>
               <b-form-group id="input-group-1" label="用户名" label-for="input-1" class="inputbox">
                   <b-form-input
                    id="input-1"

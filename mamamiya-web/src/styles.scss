@@ -97,3 +97,11 @@ $val in $boxsize {
         border: 2px solid blue;
     }
 }
+
+$bordernone:( top:none, left:none, right:none, bottom:none);
+@each $key,
+$val in $bordernone {
+    .bornone-#{$key} {
+        border-#{$key}: none
+    }
+}
