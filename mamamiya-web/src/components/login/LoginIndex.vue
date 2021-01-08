@@ -7,25 +7,14 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav class="d-flex jc-center">
-        <b-nav-item href="#">知识</b-nav-item>
-        <b-nav-item href="#" >论坛</b-nav-item>
-        <b-nav-item href="#" >资讯</b-nav-item>
-        <b-nav-item href="#" >商城</b-nav-item>
+      
+      <b-navbar-nav class="d-flex jc-center container">
+        <b-nav-item href="#" class="bnavbox">知识</b-nav-item>
+        <b-nav-item href="#" class="bnavbox">论坛</b-nav-item>
+        <b-nav-item href="#" class="bnavbox">资讯</b-nav-item>
+        <b-nav-item href="#" class="bnavbox">商城</b-nav-item>
       </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-       
-        <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
-          <template #button-content>
-            <em>User</em>
-          </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 
@@ -50,5 +39,8 @@ export default {
   margin-top: 100px;
   width: 1000px;
   height: 500px;
+}
+.bnavbox{
+    width: 250px;
 }
 </style>

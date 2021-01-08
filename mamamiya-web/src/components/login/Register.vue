@@ -2,7 +2,6 @@
   <div id="Login">
      <div>
         <b-card title="注册mamamiya" sub-title="" class="bcard">
-           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
               <b-form-group id="input-group-1" label="用户名" label-for="input-1" class="inputbox">
                   <b-form-input
                    id="input-1"
@@ -21,9 +20,10 @@
               </b-form-group>
               <b-button type="submit" variant="primary" class="subtn">Submit</b-button>
               <b-button type="reset" variant="danger">Reset</b-button>
-           </b-form>
+          
           <div class="linktoregister">
-            还没有账号?<b-link href="/new/login">登录账号</b-link>
+            还没有账号?
+            <router-link></router-link>
           </div>
         </b-card>
       </div>
