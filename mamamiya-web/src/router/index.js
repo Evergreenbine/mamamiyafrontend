@@ -9,6 +9,10 @@ const Register = () =>
     import ('../components/login/Register')
 const ShopIndex = () =>
     import ('../components/shop/ShopIndex')
+const ShopTemplate = () =>
+    import ('../components/shop/ShopTemplate')
+const BrandTemplate = () =>
+    import ('../components/shop/BrandTemplate')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -19,7 +23,6 @@ const routes = [{
     path: '/new',
     redirect: '/new/login',
     name: 'LoginIndex',
-
     component: LoginIndex,
     children: [
         { path: '/new/register', component: Register },
@@ -27,7 +30,12 @@ const routes = [{
     ]
 }, {
     path: '/shop',
-    component: ShopIndex
+    redirect: '/shop/index',
+    component: ShopIndex,
+    children: [
+        { path: '/shop/index', component: ShopTemplate },
+        { path: '/shop/morebrand', component: BrandTemplate }
+    ]
 }]
 
 const router = new VueRouter({

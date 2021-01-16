@@ -105,3 +105,23 @@ $val in $bordernone {
         border-#{$key}: none
     }
 }
+
+
+/* 调试边框*/
+
+.border-test {
+    margin-top: 20px;
+    border: 1px solid blue;
+    height: 300px;
+}
+
+
+/* shop 常用样式*/
+
+.mb {
+    margin-bottom: 30px;
+}
+
+.color-g {
+    color: rgb(104, 103, 103);
+}
