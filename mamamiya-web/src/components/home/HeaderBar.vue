@@ -5,8 +5,15 @@
       <div class="loginbox position-ab">
         <router-link to='/new/login' class="lobtn" v-show="showtag">登录</router-link>
         <router-link to='/new/register' class="lobtn" v-show="showtag">注册</router-link>
-        <router-link to='/user' class="lobtn" v-show="!showtag">你好呀,{{username}}</router-link>   
+        <router-link to='/user' class="lobtn uu " v-show="!showtag">你好呀,{{username}}
+        <div class="userinformation">
+          <!-- <img class="avat" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/> -->
+        </div>
+        </router-link>   
       </div>
+      <!-- <div class="userinfo position-ab">
+          hello
+      </div> -->
       <!-- <div class="user position-re">user <b-button variant="outline-primary">Button</b-button></div> -->
       <div class="search max-width position-ab">
         <div>
@@ -29,7 +36,7 @@ export default {
   data(){
     return {
       username:"",
-      showtag:true
+      showtag:true,
     }
   },
   methods:{
@@ -50,6 +57,7 @@ export default {
 <style scoped>
 .maxbar{
   height: 200px;
+  /* border: 1px solid orange; */
 }
 .logo{
   color: pink;
@@ -61,17 +69,44 @@ export default {
 }
 
 .loginbox{
-  top: 45px;
+  top: 25px;
   right: -70px;
   width: 300px;
-
+  /* border: 1px solid black; */
 }
+/* .userinfo{
+  right: -70px;
+  width: 300px;
+  top: 70px;
+  border: 1px solid black;
+  border-top: none;
+  height: 80px;
+  z-index: 1;
+} */
 
 .lobtn{
   right: 0;
   margin-left: 20px;
   text-decoration: none;
 }
+.loginbox{
+  cursor: pointer;
+  height: 85px;
+  /* border: 1px solid black; */
+}
+/* .userinformation{
+  position: relative;
+  width: 300px;
+  height: 60px;
+  border-top: 1px solid gray;
+} */
+
+/* .avat{
+  position:absolute;
+  left: 0px;
+  width: 60px;
+  height: 60px;
+} */
 .user{
   flex-grow: 6;
   border: 1px solid blue;

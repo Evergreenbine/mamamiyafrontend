@@ -2,10 +2,11 @@
   <div id="morebrand" class="max-width margin-auto" >
      <div id="pagenav" class="max-width margin-auto postion-re">
          <p  class="all position-ab">所有品牌 <i>(共100品牌 )</i></p>
+         <!-- 分页导航-->
          <div class="brandnav position-ab margin-auto">
-             <a class="brandnavitem" href="#">A</a>
-             <a class="brandnavitem" href="#">B</a>
-             <a class="brandnavitem" href="#">C</a>
+             <a class="brandnavitem" href="#A">A</a>
+             <a class="brandnavitem" href="#B">B</a>
+             <a class="brandnavitem" href="#C">C</a>
              <a class="brandnavitem" href="#">D</a>
              <a class="brandnavitem" href="#">E</a>
              <a class="brandnavitem" href="#">F</a>
@@ -30,7 +31,32 @@
              <a class="brandnavitem" href="#">Y</a>
              <a class="brandnavitem" href="#">Z</a>
          </div>
-         
+        <!-- 品牌项目-->
+         <div class="brand-items position-ab margin-auto max-width">
+             <!-- 第一个 -->
+             <div id="A" class="brand-item max-width d-flex">
+                <div class="brand-item-logo position-re">
+                    <h2>A</h2>
+                </div>
+                 <div class="bitem " style="border:none"></div>
+             </div>
+             <!-- 第二个 -->
+            <div id="B" class="brand-item max-width d-flex">
+                <div class="brand-item-logo position-re">
+                    <h2>B</h2>
+                </div>
+                 <div class="bitem " ></div>
+             </div>
+            <!-- 第三个 -->
+             <div id="C" class="brand-item max-width d-flex">
+                <div class="brand-item-logo position-re">
+                    <h2>C</h2>
+                </div>
+                 <div class="bitem " ></div>
+             </div>
+             
+         </div>
+          
      </div>
   </div>
 </template>
@@ -43,12 +69,13 @@ export default {
 
 <style scoped>
 #morebrand{
-    height: 500px;
+    /* height: 500px; */
     border: 1px solid pink;
 }
 #pagenav{
      position:relative;
 }
+/* logo*/
 #pagenav p{
     display: inline-block;
     position:absolute;
@@ -63,6 +90,7 @@ export default {
 #pagenav i{
     font-size: 15px;
 }
+/* 分页导航栏*/
 .brandnav{
     top:15px;
     width: 910px;
@@ -75,6 +103,35 @@ export default {
     /* border: 1px solid pink; */
     line-height: 35px;
     text-decoration: none;
+}
+/* 实际的品牌列表*/
+.brand-items{
+    top: 100px;
+    /* height: 100px; */
+    /* border: 1px solid blue; */
+}
+.brand-item{
+    height: 300px;
+    /* border-top: 1px solid gray; */
+    /* border: 1px solid blue; */
+    margin-bottom: 20px;
+}
+.brand-item-logo{
+    width: 100px;
+}
+.brand-item-logo h2 {
+    position: absolute;
+    color: #007bff;
+    top: -18px;
+    left: 20px;
+
+}
+.bitem{
+    border-top: 1.5px solid pink;
+    width: 999px;
+    height: 300px;
+    /* border: 1px solid blue; */
+    margin-bottom: 20px;
 }
 </style>
 

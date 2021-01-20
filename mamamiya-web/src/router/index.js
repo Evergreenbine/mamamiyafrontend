@@ -13,6 +13,8 @@ const ShopTemplate = () =>
     import ('../components/shop/ShopTemplate')
 const BrandTemplate = () =>
     import ('../components/shop/BrandTemplate')
+const User = () =>
+    import ('../components/user/User')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -36,6 +38,9 @@ const routes = [{
         { path: '/shop/index', component: ShopTemplate },
         { path: '/shop/morebrand', component: BrandTemplate }
     ]
+}, {
+    path: '/user',
+    component: User
 }]
 
 const router = new VueRouter({

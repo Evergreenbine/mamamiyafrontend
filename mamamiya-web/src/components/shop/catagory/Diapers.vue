@@ -4,7 +4,7 @@
           <!-- 左边的盒子 -->
           <div class="leftbox">
               <!-- logo -->
-             <div class="catatag"><p>奶粉</p></div>
+             <div class="catatag"><p>尿布</p></div>
              <!-- 选项卡顶部的盒子 -->
              <div class="tabcard d-flex">
                  <!-- <div class="tabcard-item" style="border-left:1px solid gainsboro" >热门商品</div>
@@ -26,17 +26,14 @@
                 <!-- {{item}} -->
                  <a class="subbox-item "  :key=index v-for="(item,index) in bboxitem "  :class="{subboxactive : index === subId}"
                     @mousemove="sel(index)"
-                 >
-                 <div :class="{hiddenimg : index == subId}">{{item}}</div>
-                 <img src="http://info.ci123.com/brand/files/products/70/25/12589.jpg"  class="hiddenimg" :class="{showimg : index == subId}" alt="图片无法加载..."/>
-                 </a>
+                 >{{item}}</a>
                 </div>
                  <!-- <div class="submaxbox-item topp">haha</div> -->
              </div>
           </div>
           <!-- 右边的盒子 -->
           <div class="rightbox">
-            <div id="recommendBox"></div>
+            hah 
           </div>
       </div>
   </div>
@@ -157,17 +154,6 @@ export default {
     width: 330px;
     height: 100px;
     border-bottom: 1px solid gainsboro; 
-}
-.hiddenimg{
-    display: none;
-}
-.showimg{
-    display: block;
-    width: 72px;
-    height: 72px;
-    border: 1px solid blueviolet ;
-    margin-left: 20px;
-    margin-top: 22px;
 }
 
 
