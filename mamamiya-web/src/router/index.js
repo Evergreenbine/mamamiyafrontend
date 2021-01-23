@@ -20,6 +20,8 @@ const User = () =>
     import ('../components/user/User')
 const MilkSelect = () =>
     import ('../components/shop/catagory/MilkSelect')
+const ShopCar = () =>
+    import ('../components/shop/ShopCar')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -48,7 +50,8 @@ const routes = [{
                 { path: '/shop/index/tem', component: LittleShopTem }
             ]
         },
-        { path: '/shop/milk', component: MilkSelect }
+        { path: '/shop/milk', component: MilkSelect },
+        { path: '/shop/shopcar', component: ShopCar }
     ]
 }, {
     path: '/user',

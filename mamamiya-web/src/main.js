@@ -9,15 +9,17 @@ import http from './http'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import StringUtils from './utils'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.prototype.$http = http
+Vue.prototype.strutil = StringUtils
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
