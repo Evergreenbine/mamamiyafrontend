@@ -62,7 +62,7 @@ export default {
            let ele = document.getElementById("dealplane");
            console.log(scrollHeight - scrollTop );
         //    这 "=" 超级重要,因为没有等号的话，好到到达300，样式改变，导致要滑动的距离又增长，结果出现死循环而发生卡屏
-           if(scrollHeight - scrollTop <= clientHeight+300){
+           if(scrollHeight - scrollTop <= clientHeight+500){
                 ele.style.position = "static";
                
            }else {
@@ -136,6 +136,8 @@ export default {
     height: 100px;
     margin-top: 25px;
     margin-left: 20px;
+    text-decoration: none;
+    
 }
 .iteminfo{
     float: left;

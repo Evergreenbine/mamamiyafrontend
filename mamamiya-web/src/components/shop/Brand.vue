@@ -2,20 +2,10 @@
    <div id="brand" class="max-width margin-auto mb">
        <div id="section-logo"><p class="position-ab">热门品牌 </p></div>
        <div id="brandnav" class="max-width">
-           <p class="bitem">伊利</p>
-           <p class="bitem">蒙牛</p>
-           <p class="bitem">雀巢</p>
-           <p class="bitem">安佳</p>
-           <p class="bitem">亨氏</p>
-           <p class="bitem">依云</p>
-           <p class="bitem">金领冠</p>
-           <p class="bitem">合生</p>
-           <p class="bitem">苏菲</p>
-           <p class="bitem bonone">飞鹤</p>
-           <p class="bitem">飞鹤</p>
-           <p class="bitem">飞鹤</p>
-           <p class="bitem">飞鹤</p>
-           <p class="bitem bonone">飞鹤</p>
+           <p class="bitem" v-for="(item,index) in brandarr" :key="index">
+               {{item.bname}}
+           </p>
+        
            <p class="morebrand" @click="morebrand"> {{tag}} </p>
        </div>
    </div>
@@ -26,6 +16,7 @@ export default {
     name:'Brand',
     data(){
         return {
+            brandarr:'',
             tag:"更多品牌"
         }
     },
@@ -42,7 +33,16 @@ export default {
           
         }
     },
+    async mounted() {
+          const axios = this.$config. getAxiosInstance('shop')
+       let res = await axios.get('/api/brand');
+       console.log(res);
+       this.brandarr = res.data.result
+    },
     created(){
+     
+    //    console.log(res.data.result[0][1]);
+    //    this.brandarr = res.data.result
        if(this.$route.fullPath == "/shop/morebrand"){
                 this.tag="收起品牌 <<<"
        }else{

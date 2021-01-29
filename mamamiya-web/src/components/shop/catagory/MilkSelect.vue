@@ -43,16 +43,22 @@
   </div>
 
   <div id="listmilk" class="max-width margin-auto d-flex flex-wrap">
-    
-    <div v-for="(item,index) in 12" :key="index">
+    <div v-for="(item,index) in itemsarr" :key="index">
     <div class="cardbox position-re">
-      <img src="https://img11.360buyimg.com/n7/jfs/t1/26610/11/9243/53159/5c7ccff8E0bf8c8fa/c3473a8ca1ae0617.jpg" class="cardimg"/>
+      <img :src="item.img" class="cardimg"/>
       <p class="price">
-        520
+       ¥ {{item.price}}
       </p>
-      <p class="title">title</p>
-      <p class="cardbrand">安佳</p>
+      <p class="title">{{item.recommend}}</p>
+      <p class="cardbrand">{{item.bname}}</p>
       <div class="button">加入购物车</div>
+      <el-rate
+  v-model="item.rate"
+  disabled
+  show-score
+  text-color="#ff9900"
+  score-template="{value}" class="elrate">
+</el-rate>
     </div>
 
   </div>
@@ -74,7 +80,9 @@ export default {
       brand:['飞鹤','美赞臣','伊利','蒙牛','诺优能'],
       age:['0 - 6 个月','6 - 12个月','12 - 24个月','24 - 36 个月'] ,
       price:['0 - 100 元','100 - 200 元','200 -300 元','300 - 400 元'],
-      priceval:[] 
+      itemsarr:[],
+      priceval:[],
+      value: 1 ,
     }
   },
   methods: {
@@ -91,6 +99,13 @@ export default {
       }
        
     } 
+  },
+  async created(){
+       const axios = this.$config. getAxiosInstance('shop')
+       let res = await axios.get('/api/milks');
+       
+       this.itemsarr = res.data.result
+       console.log(this.items);
   }
 
 }
@@ -201,12 +216,17 @@ export default {
 }
 /* 价格 */
 .cardbox .price{
-  text-align: left;
+  display: block;
+   text-align: right;
    width: 240px;
    height: 30px;
-   border: 1px solid slateblue;
+   /* border: 1px solid slateblue; */
    top: 260px;
    position: absolute;
+   color: red;
+   right: 13px;
+   font-size: 25px;
+
 }
 /* 标题 */
 .cardbox .title{
@@ -214,9 +234,11 @@ export default {
    text-align: left;
    width: 240px;
    height: 30px;
-   border: 1px solid slateblue;
+   /* border: 1px solid slateblue; */
    top: 310px;
+   left: 5px;
    position: absolute;
+   color: rgb(136, 133, 133);
 }
 /* 品牌 */
 .cardbox .cardbrand{
@@ -224,9 +246,13 @@ export default {
    text-align: left;
    width: 240px;
    height: 30px;
-   border: 1px solid slateblue;
+   /* border: 1px solid slateblue; */
+  color: rgb(136, 133, 133);
    top: 360px;
    position: absolute;
+   font-size: 13px;
+   left: 5px;
+   
 }
 .button{
   position: absolute;
@@ -242,6 +268,11 @@ export default {
 .button:hover{
   border: 1px solid red;
   
+}
+.elrate{
+  position: absolute;
+  top: 388px;
+  left: 1px;
 }
 </style>>
 

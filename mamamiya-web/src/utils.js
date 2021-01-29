@@ -1,5 +1,5 @@
-const StringUitls = {
-
+class StringUtils {
+    constructor() {}
     isBlank(str) {
         if (str == null || str == '') {
             return true
@@ -8,10 +8,21 @@ const StringUitls = {
         }
     }
 }
-const LogIntecepter = {
+class LoginIntecepter {
+    str;
+    constructor() {
+        this.str = new StringUtils()
+    }
+    isLogin(obj) {
+        let username = localStorage.getItem("username")
+        let token = localStorage.getItem("token")
+        console.log(obj);
+        if (!this.str.isBlank(username) && !this.str.isBlank(token)) {
 
-    isLogin() {
-
+            obj.okHandle()
+        } else {
+            obj.failHandle()
+        }
     }
 }
-export default StringUitls
+export { StringUtils, LoginIntecepter }

@@ -5,15 +5,21 @@ import store from './store'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 import './styles.scss'
-import http from './http'
+// import http from './http'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import StringUtils from './utils'
+import { StringUtils, LoginIntecepter } from './utils'
+import { config } from './http'
+import { ip } from './ip'
+
+
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-Vue.prototype.$http = http
-Vue.prototype.strutil = StringUtils
+Vue.prototype.$config = new config()
+Vue.prototype.$strutil = new StringUtils()
+Vue.prototype.$lointe = new LoginIntecepter()
+Vue.prototype.$ip = new ip()
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false

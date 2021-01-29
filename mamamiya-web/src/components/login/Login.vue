@@ -55,7 +55,7 @@ export default {
          },
          token:this.$store.state.token
        }
-       let res = await this.$http.post("/login",data)
+       let res = await this.$http.post(":8002/login",data)
       //  console.log(res);
        if(res.data.httpStatus=="OK"){
          this.user.token = res.data.result;
