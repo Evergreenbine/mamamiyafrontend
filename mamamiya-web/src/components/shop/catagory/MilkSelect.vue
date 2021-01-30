@@ -3,26 +3,32 @@
     <div id="tagnav">
     <div class="tag d-flex ">
       <p class="tagname ">分类</p>
-      <p class="tag-item" v-for="(item,index) in cataarr" :key="index">{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in cataarr" :key="index" :class="{con : index === cid}" 
+      @click="selectcata(index)" >{{item}}</p>
     </div> 
 
     <div class="tag d-flex">
       <p class="tagname">阶段</p>
-      <p class="tag-item" v-for="(item,index) in stage" :key="index">{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in stage" :key="index" :class="{con : index === sid}" 
+      @click="selectsta(index)">{{item}}</p>
     </div> 
     <div class="tag d-flex flex-wrap">
-      <p class="tagname">品牌</p>
-      <p class="tag-item bitem" v-for="(item,index) in brand" :key="index">{{item}}</p>
-      <p class="more">更多 >></p>
+      <p class="tagname" >品牌</p>
+      <div class="brandbox d-flex flex-wrap">
+      <p class="tag-item bitem" v-for="(item,index) in brand" :key="index" :class="{con : index === cid}"
+      >{{item.bname}}</p>
+      <p class="more" @click="showmorebrand"> 更多 >></p>
+      </div>
+      
     </div> 
 
     <div class="tag d-flex">
       <p class="tagname">年龄</p>
-      <p class="tag-item" v-for="(item,index) in age" :key="index">{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in age" :key="index":class="{con : index === cid}">{{item}}</p>
     </div> 
     <div class="tag d-flex" :class="{inputmoreactive:imactive == true}">
       <p class="tagname" >价格</p>
-      <p class="tag-item" v-for="(item,index) in price" :key="index">{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in price" :key="index" :class="{con : index === cid}">{{item}}</p>
       <p class="inputmore" @click="input()">输入 >></p>
       <!-- <el-input v-model="input" placeholder="请输入内容"></el-input> -->
     </div> 
@@ -51,7 +57,7 @@
       </p>
       <p class="title">{{item.recommend}}</p>
       <p class="cardbrand">{{item.bname}}</p>
-      <div class="button">加入购物车</div>
+      <div class="button" @click="toShopCar(item)">加入购物车</div>
       <el-rate
   v-model="item.rate"
   disabled
@@ -68,24 +74,37 @@
 </template>
 
 <script>
+
 export default {
   name:"milkSelect",
   data() {
     return {
+      // 分类条件样式条件变量
+      cid :-1,
+      // 阶段条件变量
+      sid:-1,
+      // 展示更多条件变量
+      more:0,
+      // 价格输入样式条件变量
       imactive:false,
       inputhidden:false,
       count:0,
+      // 条件数字
       cataarr:['羊奶粉','早产儿奶粉','婴幼儿奶粉','防腹泻奶粉','孕产妇奶粉'],
       stage:['1段','2段','3段','4段','5段'],
-      brand:['飞鹤','美赞臣','伊利','蒙牛','诺优能'],
+      brand:[],
       age:['0 - 6 个月','6 - 12个月','12 - 24个月','24 - 36 个月'] ,
       price:['0 - 100 元','100 - 200 元','200 -300 元','300 - 400 元'],
+      // 默认列表数组
       itemsarr:[],
       priceval:[],
-      value: 1 ,
+      // 购物车
+      shopcar:''
+     
     }
   },
   methods: {
+    // input 显示控制方法
     input(){
       if( this.count % 10 == 0){
         this.count = 1;
@@ -96,16 +115,59 @@ export default {
         this.count = 0;
         this.imactive = false;
         this.inputhidden = false;
+      } 
+    },
+    // 更多品牌显示控制方法
+    async showmorebrand(){
+      const axios = this.$config. getAxiosInstance('shop');
+      let res = await axios.get('/api/brand/0');
+      this.brand=  res.data.result
+    },
+    selectcata(index){
+      this.cid = index;
+    },
+    selectsta(index){
+      this.sid = index;
+    },
+    // 购物车
+    toShopCar(item){
+      
+      // 拼接购物车item
+      var goods = {
+        id:item.gid,
+        price:item.price,
+        count:item.count,
+        img:item.img,
+        rec:item.recommend
       }
-       
-    } 
+    
+      // 丢到vuex
+      this.$store.commit('increase',goods)
+
+      // console.log(goods);
+      // // this.$store.commit('increase',item)
+      // console.log(this.shopcar);
+
+    }
   },
+ 
   async created(){
+    // 购物车逻辑
+      //  this.shopcar = localStorage.getItem("shopset")
+      //  console.log(this.shopcar);
        const axios = this.$config. getAxiosInstance('shop')
        let res = await axios.get('/api/milks');
-       
        this.itemsarr = res.data.result
-       console.log(this.items);
+      //  初始化每件商品的购物车数量
+       for(let item of this.itemsarr){
+        //  console.log("分界线");
+        //  console.log(item);
+         item.count = 0;
+       }
+       let resbrand = await axios.get('/api/brand/5');
+       this.brand = resbrand.data.result
+      
+      //  console.log(this.items);
   }
 
 }
@@ -118,6 +180,7 @@ export default {
 .tag{
   border-bottom: 1px solid  rgba(93, 155, 247, 0.26);
   margin-bottom: 5px;
+  /* border: 1px solid black; */
 }
 .tagname{
   width: 150px;
@@ -269,10 +332,18 @@ export default {
   border: 1px solid red;
   
 }
+/* 评分 */
 .elrate{
   position: absolute;
   top: 388px;
   left: 1px;
+}
+.con{
+  background-color: gainsboro;
+}
+/* 更多品牌样式 */
+.brandbox{
+  width: 948px;
 }
 </style>>
 

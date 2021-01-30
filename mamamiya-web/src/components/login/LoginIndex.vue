@@ -41,9 +41,8 @@ export default {
       let username = localStorage.getItem('username');
       // console.log(this.strutil.isBlank(username));
       // 全局工具类
-      if(this.strutil.isBlank(username) == false){
+      if(this.$strutil.isBlank(username) == false){
         this.$router.replace('/')
-        
       }
       
     }

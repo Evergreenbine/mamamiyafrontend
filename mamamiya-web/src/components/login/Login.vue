@@ -55,7 +55,8 @@ export default {
          },
          token:this.$store.state.token
        }
-       let res = await this.$http.post(":8002/login",data)
+      const axios = this.$config. getAxiosInstance('user')
+      let res = axios.$http.post("/api/login",data)
       //  console.log(res);
        if(res.data.httpStatus=="OK"){
          this.user.token = res.data.result;

@@ -8,15 +8,20 @@
       <div class="shopitems max-width margin-auto">
           <!-- 全部商品 -->
           <div id="allitem">
-                <div class="item" v-for="(item,index) in 19" :key="index">
+                <div class="item" v-for="(item,index) in  shopcar2" :key="index" >
                     <input type="checkbox" class="iswant">
-                    <img src="https://img.alicdn.com/bao/uploaded/i1/2616970884/TB1gcGcpIj_B1NjSZFHXXaDWpXa_!!2-item_pic.png_80x80.jpg" alt="" class="itemimg">
-                    <p class="iteminfo">title</p>
+                    <img :src="item.img" alt="纳尼？我的图片去哪了？" class="itemimg">
+                    <p class="iteminfo">{{item.rec}}</p>
                     <div class="selectinfo"></div>
-                    <el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字" class="countnums"></el-input-number>
-                    <p class="needprice">¥500</p>
+                    <!-- <el-input-number v-model="item.count" @change="handleChange(item.count)" :min="1"  label="描述文字" class="countnums"></el-input-number> -->
+                    <div class="countnums">
+                        <div class="numsde" @click="numsde(item.count)" >-</div>
+                        <div ><input class="numsinput" type="text" :placeholder="item.count" ></div>
+                        <div class="numsplus" @click="numsplus(item.count)">+</div>
+                    </div>
+                    <p class="needprice">¥{{item.price*item.count}}</p>
                     <div class="buttons">
-                     <el-button type="danger">删除</el-button>
+                     <el-button type="danger" >删除</el-button>
                      </div>
                 </div>
           </div> 
@@ -45,13 +50,18 @@
 
 <script>
 export default {
-    methods: {
-        data() {
+    data() {
             return {
-                num: 1
+                // 购物车信息
+                shopcar2:[]
             }
         },
- 
+    methods: {
+        numsde(count){
+            alert(count)
+            count--;
+        },
+
         handleScroll () {
             // var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
 
@@ -60,7 +70,7 @@ export default {
            let clientHeight = document.documentElement.clientHeight;
       
            let ele = document.getElementById("dealplane");
-           console.log(scrollHeight - scrollTop );
+        //    console.log(scrollHeight - scrollTop );
         //    这 "=" 超级重要,因为没有等号的话，好到到达300，样式改变，导致要滑动的距离又增长，结果出现死循环而发生卡屏
            if(scrollHeight - scrollTop <= clientHeight+500){
                 ele.style.position = "static";
@@ -74,7 +84,11 @@ export default {
      
     },
     created() {
-       
+     
+    //  console.log(this.$store.state.shopcar);
+    this.shopcar2 =this.$store.state.shopcar
+      
+  
     },
     mounted(){
       
@@ -139,12 +153,13 @@ export default {
     text-decoration: none;
     
 }
+// 商品的推荐语
 .iteminfo{
     float: left;
     margin-top: 25px;
     margin-left: 25px;
     width: 250px;
-    border: 1px solid greenyellow;
+    // border: 1px solid greenyellow;
 }
 .selectinfo{
     float: left;
@@ -152,18 +167,62 @@ export default {
     margin-top: 25px;
     height: 100px;
     margin-left: 25px;
-    border: 1px solid goldenrod;
+    // border: 1px solid goldenrod;
 }
+// 算商品的数量的
 .countnums{
     float: left;
     margin-top: 25px;
     margin-left: 20px;
+    // border: 1px solid seagreen;
+    width: 200px;
+    height: 45px;
+}
+.countnums{
+    .numsde{
+        float: left;
+        width: 45px;
+        height: 45px;
+        border: 1px solid#75758B;
+        font-size: 35px;
+        line-height: 35px;
+         color: #75758B;
+         cursor: pointer;
+    }
+    .numsplus{
+        float: left;
+        width: 45px;
+        height: 45px;
+        border: 1px solid #75758B;
+        font-size: 25px;
+        line-height: 40px;
+         color: #75758B;
+    }
+    .numsinput{
+        cursor: pointer;
+        display: block;
+        float: left;
+        width: 105px;
+        height: 45px;
+          border: 1px solid#75758B;
+          border-left: none;
+          border-right: none;
+          text-align: center;
+          font-size: 20px;
+          color: #75758B;
+          text-decoration: none;
+          outline: none;
+    }
+   
 }
 .needprice{
     float: left;
     width: 50px;
     margin-top: 25px;
     margin-left: 10px;
+    color:red;
+    margin-left: 20px;
+    font-size: 22px;
 }
 .buttons{
     margin: 25px;

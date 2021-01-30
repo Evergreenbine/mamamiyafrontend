@@ -1,6 +1,6 @@
 <template>
   <div id="littleShopTem">
-       <LunBotu/>
+       <!-- <LunBotu/> -->
        <Milk/>
        <Diapers/>
   </div>
