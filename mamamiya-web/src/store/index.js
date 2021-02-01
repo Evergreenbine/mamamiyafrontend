@@ -32,11 +32,14 @@ export default new Vuex.Store({
         increase(state, goods) {
             // console.log(goods);
             // 判断是否有重复的商品标志
+            // alert(goods.store)
+            // 将item数量+1 或 也可以直接将count设置为1也行
             goods.count++;
             var flag = false;
 
             state.shopcar.some(item => {
                 if (item.id == goods.id) {
+                    // 赋值给购物车里的item
                     item.count += parseInt(goods.count)
                     flag = true
                     return true

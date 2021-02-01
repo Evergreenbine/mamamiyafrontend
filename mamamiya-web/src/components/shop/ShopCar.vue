@@ -9,22 +9,24 @@
           <!-- 全部商品 -->
           <div id="allitem">
                 <div class="item" v-for="(item,index) in  shopcar2" :key="index" >
-                    <input type="checkbox" class="iswant">
+                    <!-- wantitem是选中的数组 -->
+                    <input type="checkbox" class="iswant" :value="item" v-model="wantitem" >
                     <img :src="item.img" alt="纳尼？我的图片去哪了？" class="itemimg">
                     <p class="iteminfo">{{item.rec}}</p>
                     <div class="selectinfo"></div>
                     <!-- <el-input-number v-model="item.count" @change="handleChange(item.count)" :min="1"  label="描述文字" class="countnums"></el-input-number> -->
                     <div class="countnums">
-                        <div class="numsde" @click="numsde(item.count)" >-</div>
-                        <div ><input class="numsinput" type="text" :placeholder="item.count" ></div>
-                        <div class="numsplus" @click="numsplus(item.count)">+</div>
+                        <div class="numsde" @click="numsde(index)" >-</div>
+                        <div ><input class="numsinput" @change="numsinput(index)" type="number" :placeholder="item.count" v-model="item.count"  ></div>
+                        <div class="numsplus" @click="numsplus(index)">+</div>
                     </div>
                     <p class="needprice">¥{{item.price*item.count}}</p>
                     <div class="buttons">
-                     <el-button type="danger" >删除</el-button>
+                     <el-button type="danger" @click="delitem(index)" >删除</el-button>
                      </div>
                 </div>
           </div> 
+        
           <!-- 紧张库存 -->
           <div id="queshaoitem">
          </div>    
@@ -36,11 +38,11 @@
           <input type="checkbox" class="allcheck"/>
           <div><p>全选</p></div>
           <div><p>删除</p></div>
-          <div><p>清除失效宝贝</p></div>
-          <div><p>移入收藏夹</p></div>
+          <!-- <div><p>清除失效宝贝</p></div> -->
+          <!-- <div><p>移入收藏夹</p></div> -->
           <div class="toright">
           <div><p class="items">已选3件宝贝</p></div>
-          <div><p class="acount">合计(不含运费)：100元</p></div>
+          <div><p class="acount">合计(不含运费)：<span>{{this.summoney}}</span>元</p></div>
            <b-button variant="danger" style="margin-top:20px;width=100px">结算</b-button>
            
           </div>
@@ -53,15 +55,126 @@ export default {
     data() {
             return {
                 // 购物车信息
-                shopcar2:[]
+                shopcar2:[],
+                // 选中的购物车
+                wantitem:[],
+                // 选中物品的总金额
+                summoney:0
             }
         },
-    methods: {
-        numsde(count){
-            alert(count)
-            count--;
-        },
+    watch:{
+         numsinput(index){
+           if(this.shopcar2[index].count<1){
+               alert("商品数必须大于1")
+               return;
+           }else if(this.shopcar2[index].count > this.shopcar2[index].store){
 
+           }
+        },
+        wantitem:function(val,oldVal){
+        //    console.log(val);
+        // ? 为啥要清零？因为我this.summoney 一直等于的是选中的数组的和
+        // 如果不清零，它就会把变化前还存的数值加回去
+         this.summoney = 0;
+         var sum = 0
+           for(var i=0;i<val.length;i++){
+                sum += val[i].price*val[i].count
+           }
+           this.summoney = sum
+        }
+    },
+    methods: {
+        // 需要添加bug
+        // 传入index,再从购物车里面找到对应的item,然后--
+        numsde(index){
+            // 要处理下选中的物品的车车
+             
+            // alert(count)
+            if(--this.shopcar2[index].count < 1 ){
+               
+                alert("商品被删除")
+                  // 要处理下选中的物品的车车
+                 for (var j = 0;j< this.wantitem.length;j++) {
+                 console.log(this.wantitem[j].id);
+                 if(this.shopcar2[index].id == this.wantitem[j].id){
+                     this.wantitem.splice(j,1)
+                     console.log(this.wantitem);
+                 }
+                 }
+         
+                // 后续再处理
+                this.shopcar2.splice(index,1)
+            }
+            // 不同于上面的那个选定个的数组，这个checkbox双向绑定的是item,所以选定数组里的count也会改变，这也说明,watch它只会监听到数组的变化
+            // 不会监听到数组里的元素的变化,所以我们再对选定的车进行求和就好
+            // for (var j = 0;j< this.wantitem.length;j++) {
+            //     //  console.log(this.wantitem[j].id);
+            //      if(this.shopcar2[index].id == this.wantitem[j].id){
+            //          alert(this.shopcar2[index].count)
+            //          alert(this.wantitem[j].count)
+                    
+            //         //  this.wantitem[j].count = this.shopcar2[index].count
+            //         //  this.wantitem.splice(j,1)
+            //         //  console.log(this.wantitem);
+            //      }
+            // }
+            // 因为选中的车也是双向绑定一个item,所以如果你改变购物车里的item，如果选中的车里面有这个物品，它也同时会被改变，所以就不用再判断选中的车里、
+            // 是否有这个item，直接求和就行
+           var sum = 0
+           for(var i=0;i<this.wantitem.length;i++){
+                sum += this.wantitem[i].price*this.wantitem[i].count
+           }
+        //    alert(sum)
+           this.summoney = sum
+           
+            // 将新的购物车存到本地
+            localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
+            // console.log(this.shopcar2);
+            // localStorage.setItem('')
+        },
+        numsplus(index){
+            // alert(this.wantitem)
+            if(++this.shopcar2[index].count > this.shopcar2[index].store){
+                this.shopcar2[index].count--
+                alert("超出库存")
+            }
+            var sum = 0
+            for(var i=0;i<this.wantitem.length;i++){
+                sum += this.wantitem[i].price*this.wantitem[i].count
+            }
+        //    alert(sum)
+           this.summoney = sum
+            localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
+        },
+        // 还有bug的地方
+        // numsinput(index){
+        //    if(this.shopcar2[index].count<1){
+
+        //        alert("商品数必须大于1")
+        //        return;
+        //    }else if(this.shopcar2[index].count > this.shopcar2[index].store){
+
+        //    }
+        // },
+        // 删除商品
+        delitem(index){
+            console.log(this.wantitem[0].id);
+             //  选中的车子里删除物品
+            //  先要把选中的车子的物品找一下,看下有没有,我们再删除它
+             for (var j = 0;j< this.wantitem.length;j++) {
+                 console.log(this.wantitem[j].id);
+                 if(this.shopcar2[index].id == this.wantitem[j].id){
+                     this.wantitem.splice(j,1)
+                     console.log(this.wantitem);
+                 }
+             }
+             
+            // 购物车中删除商品
+             this.shopcar2.splice(index,1)
+             localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
+            
+           
+        },
         handleScroll () {
             // var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
 
@@ -80,18 +193,13 @@ export default {
             //    ele.style.margin=0;
            }
 
-        }
-     
+        },
     },
     created() {
-     
     //  console.log(this.$store.state.shopcar);
-    this.shopcar2 =this.$store.state.shopcar
-      
-  
+        this.shopcar2 =this.$store.state.shopcar
     },
     mounted(){
-      
         window.addEventListener('scroll',this.handleScroll)
         
     }
@@ -197,6 +305,7 @@ export default {
         font-size: 25px;
         line-height: 40px;
          color: #75758B;
+         cursor: pointer;
     }
     .numsinput{
         cursor: pointer;
@@ -258,6 +367,13 @@ export default {
         float: left;
         margin-top: 27px;
         margin-left: 15px;
+    }
+    .acount{
+        span{
+            color: red;
+            font-size: 20px;
+            line-height: 20px;
+        }
     }
 }
 

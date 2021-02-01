@@ -138,7 +138,8 @@ export default {
         price:item.price,
         count:item.count,
         img:item.img,
-        rec:item.recommend
+        rec:item.recommend,
+        store:item.store
       }
     
       // 丢到vuex
