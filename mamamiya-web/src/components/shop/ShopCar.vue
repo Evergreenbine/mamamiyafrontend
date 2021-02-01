@@ -36,7 +36,7 @@
       </div>
       <div id="dealplane" class="dealplane max-width margin-auto">   
           <input type="checkbox" class="allcheck"/>
-          <div><p>全选</p></div>
+          <div @change="iwantall"><p>全选</p></div>
           <div><p>删除</p></div>
           <!-- <div><p>清除失效宝贝</p></div> -->
           <!-- <div><p>移入收藏夹</p></div> -->
@@ -158,11 +158,12 @@ export default {
         // },
         // 删除商品
         delitem(index){
-            console.log(this.wantitem[0].id);
-             //  选中的车子里删除物品
+            // console.log(this.wantitem[0].id);
+            //   选中的车子里删除物品
             //  先要把选中的车子的物品找一下,看下有没有,我们再删除它
              for (var j = 0;j< this.wantitem.length;j++) {
-                 console.log(this.wantitem[j].id);
+                //  alert(this.wantitem[j])
+                //  console.log(this.wantitem[j].id);
                  if(this.shopcar2[index].id == this.wantitem[j].id){
                      this.wantitem.splice(j,1)
                      console.log(this.wantitem);
@@ -174,6 +175,12 @@ export default {
              localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
             
            
+        },
+        iwantall(){
+            // let arr = document.getElementsByClassName("iswant")
+            // for(var i =0;i<arr.length;i++){
+            //    alert(arr[i].getAttribute("checked"))
+            // }
         },
         handleScroll () {
             // var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
