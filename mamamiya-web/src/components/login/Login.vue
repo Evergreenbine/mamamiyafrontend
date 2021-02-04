@@ -48,6 +48,7 @@ export default {
    },
    methods:{
      async login(){
+       
        let data = {
          params:{
            "useraccount":this.user.username,
@@ -56,8 +57,8 @@ export default {
          token:this.$store.state.token
        }
       const axios = this.$config. getAxiosInstance('user')
-      let res = axios.$http.post("/api/login",data)
-      //  console.log(res);
+      let res = await axios.post("/api/login",data)
+       console.log(res);
        if(res.data.httpStatus=="OK"){
          this.user.token = res.data.result;
          this.$store.commit('login',this.user)

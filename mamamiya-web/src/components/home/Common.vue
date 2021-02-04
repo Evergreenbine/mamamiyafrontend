@@ -6,12 +6,12 @@
              <div class="navitem d-flex fd-row ">
                  <div class="navitem-sub">社区</div>
                  <div class="subnavitem">圈圈</div>
-                 <div class="subnavitem">论坛</div>  
+                 <div class="subnavitem"><router-link to="/bbsindex">论坛</router-link></div>  
              </div>
              <div class="navitem d-flex fd-row">
                  <div class="navitem-sub">学问</div>
                  <div class="subnavitem">问答</div>
-                 <div class="subnavitem">知识</div>  
+                 <div class="subnavitem"><router-link to="/ques">知识</router-link></div>  
              </div>
              <div class="navitem d-flex fd-row " style="border-right:none ">
                  <div class="navitem-sub">商城</div>

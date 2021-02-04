@@ -22,41 +22,64 @@ const MilkSelect = () =>
     import ('../components/shop/catagory/MilkSelect')
 const ShopCar = () =>
     import ('../components/shop/ShopCar')
+const Test = () =>
+    import ('../components/FullTextEditor')
+const QuesIndex = () =>
+    import (
+        '../components/question/QuesIndex'
+    )
+
+const BBSIndex = () =>
+    import (
+        '../components/bbs/BBSIndex'
+    )
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    name: 'Home',
-    component: Home
-}, {
-    path: '/new',
-    redirect: '/new/login',
-    name: 'LoginIndex',
-    component: LoginIndex,
-    children: [
-        { path: '/new/register', component: Register },
-        { path: '/new/login', component: Login }
-    ]
-}, {
-    path: '/shop',
-    redirect: '/shop/index',
-    component: ShopIndex,
-    children: [{
-            path: '/shop/index',
-            redirect: '/shop/index/tem',
-            component: ShopTemplate,
-            children: [
-                { path: '/shop/morebrand', component: BrandTemplate },
-                { path: '/shop/index/tem', component: LittleShopTem }
-            ]
-        },
-        { path: '/shop/milk', component: MilkSelect },
-        { path: '/shop/shopcar', component: ShopCar }
-    ]
-}, {
-    path: '/user',
-    component: User
-}]
+        path: '/',
+        name: 'Home',
+        component: Home
+    }, {
+        path: '/new',
+        redirect: '/new/login',
+        name: 'LoginIndex',
+        component: LoginIndex,
+        children: [
+            { path: '/new/register', component: Register },
+            { path: '/new/login', component: Login }
+        ]
+    }, {
+        path: '/shop',
+        redirect: '/shop/index',
+        component: ShopIndex,
+        children: [{
+                path: '/shop/index',
+                redirect: '/shop/index/tem',
+                component: ShopTemplate,
+                children: [
+                    { path: '/shop/morebrand', component: BrandTemplate },
+                    { path: '/shop/index/tem', component: LittleShopTem }
+                ]
+            },
+            { path: '/shop/milk', component: MilkSelect },
+            { path: '/shop/shopcar', component: ShopCar }
+        ]
+    }, {
+        path: '/user',
+        component: User
+    }, {
+        path: '/questest',
+        component: Test
+    }, {
+        path: '/ques',
+        component: QuesIndex
+    },
+    // 论坛首页
+    {
+        path: '/bbsindex',
+        component: BBSIndex
+    }
+]
 
 const router = new VueRouter({
     mode: 'history',

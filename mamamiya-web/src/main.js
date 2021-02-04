@@ -13,7 +13,11 @@ import { StringUtils, LoginIntecepter } from './utils'
 import { config } from './http'
 import { ip } from './ip'
 
-
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.prototype.$config = new config()
