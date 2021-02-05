@@ -2,7 +2,8 @@
      //  不同模块的地址
      address = {
          shop: "http://localhost:8003",
-         user: "http://localhost:8002"
+         user: "http://localhost:8002",
+         bbs: "http://localhost:8004"
      };
      constructor() {};
      getUrl(moudule) {
@@ -12,6 +13,9 @@
          }
          if (moudule === "user") {
              url = this.address.user
+         }
+         if (moudule === "bbs") {
+             url = this.address.bbs
          }
          return url
      }

@@ -26,7 +26,7 @@
             </quill-editor>
         </el-row>
     
- <div v-html="this.content">{{this.content}}</div>
+ <!-- <div v-html="this.content">{{this.content}}</div> -->
   </div>
 </template>
 
@@ -160,6 +160,10 @@ export default {
 <style>
 #fulltext{
     width: 700px;
-    height: 500px;
+    height: 300px;
+}
+.ql-editor{
+
+  height: 300px;
 }
 </style>
