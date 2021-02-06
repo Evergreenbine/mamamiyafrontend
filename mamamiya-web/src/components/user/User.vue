@@ -62,11 +62,11 @@
       <div class="postcontent">
         <div class="titlebox d-flex" >
           <p class="titleword">标题</p>
-          <el-input v-model="input" placeholder="请输入内容" style="margin-right:10px"></el-input>
-           
-           <el-select v-model="this.circle" slot="prepend" placeholder="请选择" >
-             
-             <!-- <el-option label="item.c" value="item.cid" v-for="(item,index) in this.circle" :key="index"></el-option> -->
+          <el-input v-model="post.content" placeholder="请输入标题" style="margin-right:10px"></el-input>
+           <!-- this.circle.canme 怎么就不行咧？ -->
+           <el-select v-model="circle.cname" slot="prepend" placeholder="请选择圈子" >
+             <el-option :label="item.cname" :value="item.cid" v-for="(item,index) in this.circle" :key="index">
+             </el-option>
          
            </el-select>
 
