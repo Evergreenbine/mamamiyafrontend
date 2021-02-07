@@ -12,15 +12,17 @@
                 >
         </el-upload>
 
-      
+       <!-- <button @click="myclick">test</button> -->
     
         <!--富文本编辑器组件-->
         <el-row v-loading="quillUpdateImg">
             <quill-editor
-                    v-model="detailContent"
+                    v-model="content"
                     ref="myQuillEditor"
                     :options="editorOption"
                     @change="onEditorChange($event)"
+                    @blur="onEditorBlur($event)"
+                    @focus="onEditorFocus($event)"
                     @ready="onEditorReady($event)"
             >
             </quill-editor>
@@ -61,7 +63,7 @@ export default {
         quillUpdateImg: false,
         headerToken: {'X-Auth-Token': localStorage.getItem('accessToken')},
         actionUrl: process.env.VUE_APP_URL + '/api/upload',
-        detailContent: '', // 富文本内容
+        // 富文本内容
         content: JSON.parse(localStorage.getItem("content")),
         editorOption: {
           // some quill options
@@ -95,54 +97,68 @@ export default {
       }
     },
      methods: {
+      //  测试子组件向父组件传值
+      //  myclick(){
+      //   console.log("子容器里的方法");
+      //    this.$emit("func","hah")
+      //  },
       onEditorBlur(quill) {
-        localStorage.setItem("content",JSON.stringify(this.content))
+        // 保存到本地,这种图片有点bug,因为这时是使用el-upload组件的，如果调大小就会失去焦点，然后只会保存调大小之前的，先暂时不管
+        // localStorage.setItem("content",JSON.stringify(this.content))
         
-        console.log('editor blur!', quill)
+        // console.log('editor blur!', quill)
+        // 保存完就发送给父组件的表单
+        setTimeout(()=>{
+          // 给10s钟调整图片大小，因为怎么说，点击图片就已经离开了焦点
+          localStorage.setItem("content",JSON.stringify(this.content))
+          // alert("将自动保存到本地")
+        },10000)
+        this.$emit("func",this.content)
+        // console.log(this.content);
       },
       onEditorFocus(quill) {
-
+        this.content = JSON.parse(localStorage.getItem("content"))
         console.log('editor focus!', quill)
       },
       onEditorReady(quill) {
         console.log('editor ready!', quill)
       },
       onEditorChange({ quill, html, text }) {
-        console.log('editor change!', quill, html, text)
+        // console.log('editor change!', quill, html, text)
         this.content = html
       },
       // 上传图片前
-            beforeUpload(res, file) {
+      beforeUpload(res, file) {
                 this.quillUpdateImg = true
-            },
+      },
             // 上传图片成功
-            async uploadSuccess(res, file) {
-                // res为图片服务器返回的数据
-                // 获取富文本组件实例
-                let quill = this.$refs.myQuillEditor.quill
-               
-                // 如果上传成功
-                if (res.code === 1) {
-                    // 获取光标所在位置
-                    let length = quill.getSelection().index;
-                    // 插入图片  res.info为服务器返回的图片地址
-                    const img = "<img src='" + res.url + "'/>"
-                    quill.insertEmbed(length, 'image', res.url)
-                    // 调整光标到最后
-                    quill.setSelection(length + 1)
-                } else {
-                    this.$message.error('图片插入失败1')
-                }
-                // loading动画消失
-                this.quillUpdateImg = false
-            },
-            // 上传图片失败
-            uploadError(res, file) {
-                // alert(res.code)
-                // loading动画消失
-                this.quillUpdateImg = false
-                this.$message.error('图片插入失败2')
-            }
+      async uploadSuccess(res, file) {
+          // res为图片服务器返回的数据
+          // 获取富文本组件实例
+          let quill = this.$refs.myQuillEditor.quill
+         
+          // 如果上传成功
+          if (res.code === 1) {
+              // 获取光标所在位置
+              let length = quill.getSelection().index;
+              // 插入图片  res.info为服务器返回的图片地址
+              const img = "<img src='" + res.url + "'/>"
+              quill.insertEmbed(length, 'image', res.url)
+              // 调整光标到最后
+              quill.setSelection(length + 1)
+          } else {
+              this.$message.error('图片插入失败1')
+          }
+          // loading动画消失
+          this.quillUpdateImg = false
+      },
+       // 上传图片失败
+       uploadError(res, file) {
+           // alert(res.code)
+           // loading动画消失
+           this.quillUpdateImg = false
+           this.$message.error('图片插入失败2')
+       }
     },
     created(){
      

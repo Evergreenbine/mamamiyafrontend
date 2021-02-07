@@ -62,19 +62,18 @@
       <div class="postcontent">
         <div class="titlebox d-flex" >
           <p class="titleword">标题</p>
-          <el-input v-model="post.content" placeholder="请输入标题" style="margin-right:10px"></el-input>
-           <!-- this.circle.canme 怎么就不行咧？ -->
-           <el-select v-model="circle.cname" slot="prepend" placeholder="请选择圈子" >
-             <el-option :label="item.cname" :value="item.cid" v-for="(item,index) in this.circle" :key="index">
+          <el-input v-model="post.title" placeholder="请输入标题" style="margin-right:10px"></el-input>
+           <!-- this.circle.canme 怎么就不行咧？el-select 估计默认会绑定个value，就会传到selectedCircle里去 -->
+           <el-select v-model="circle.cname" slot="prepend" placeholder="请选择圈子" @change="selectedCircle">
+             <el-option :label="item.cname" :value="item.cid" v-for="item in this.circle" :key="item.cid" >
              </el-option>
-         
            </el-select>
 
         </div>
-        
-        <FullTextEditor/>
+        <!-- 子向父传值 this.$emit("func",data),这个fun就基本像是自定义事件或属性，子组件绑定这个fun，即获得一个新的事件一样 父组件使用savecontent接受即可 -->
+        <FullTextEditor v-on:func="savecontent"/>
 
-         <b-button variant="outline-primary" class="publish">发布</b-button>
+         <b-button variant="outline-primary" class="publish" @click="publish">发布</b-button>
       </div>
      
     </div>
@@ -99,12 +98,15 @@ export default {
         },
         post:{
           title:'',
-          content:'',
-          author:this.username,
-          time:new Date(),
-          useraccount:this.useraccount,
+          // content:'',这里不定义是单独传到后端，避免被Requestbody转码
+          // author:this.user.username 因为user是created执行后才有值，而post，user都是在这之前赋值，所以这样赋值会出现undefined
+          author:'',
+          time:'',
+          useraccount:'',
           cid:''
         },
+        // 单独接收子组件传来的内容
+        content:'',
         circle:[]
   
       }
@@ -127,8 +129,21 @@ export default {
         this.user.avator = res.url
         this.saveinfo()
       },
+      // 接受从子组件富文本编辑器传来的内容
+      savecontent(content){
+        this.content = content
+        console.log("父组件中的debug info"+content);
+        console.log("查看保存后的内容(this.content)"+this.content);
+      },
+      // 这是获取下拉框中选中的圈子
+      selectedCircle(cid){
+        // console.log("你他吗选中的是"+index);
+        this.post.cid = cid
+        console.log(this.post.cid);
+      },
+      // 第二页上传头像的方法
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
+        const isJPG = file.type === 'image/jpeg' || 'image/png';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
         if (!isJPG) {
@@ -138,10 +153,26 @@ export default {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
+      },
+      // 发布帖子的方法
+      async publish(){
+        // alert(this.user.username)
+        // alert(this.post.author)
+        this.post.author = this.user.username
+        this.post.useraccount = this.user.useraccount
+         const bbsaxios = this.$config.getAxiosInstance('bbs')
+         let res = await bbsaxios({
+           url:'/api/post',
+           method:'post',
+           data:this.post,
+           params:{
+             postcircle:this.content
+           }
+         })
       }
     },
     async created() {
-       
+      //  后端分了模块 user模块
        const axios = this.$config.getAxiosInstance('user')
        let resp = await axios.get('/api/user/1170559835')
        let result =resp.data.result;
@@ -150,7 +181,7 @@ export default {
        this.user.useraccount = result.useraccount
        this.user.avator = result.avator
        this.user.address = result.address
-
+      //  论坛模块
        const bbsaxios = this.$config.getAxiosInstance('bbs')
        let resp2 = await bbsaxios.get('/api/circle')
        let result2 = resp2.data.result
