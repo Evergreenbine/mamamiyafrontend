@@ -3,7 +3,8 @@
      address = {
          shop: "http://localhost:8003",
          user: "http://localhost:8002",
-         bbs: "http://localhost:8004"
+         bbs: "http://localhost:8004",
+         admin: "http://localhost:8005"
      };
      constructor() {};
      getUrl(moudule) {
@@ -16,6 +17,9 @@
          }
          if (moudule === "bbs") {
              url = this.address.bbs
+         }
+         if (moudule === "admin") {
+             url = this.address.admin
          }
          return url
      }

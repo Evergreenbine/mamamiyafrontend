@@ -28,10 +28,16 @@ const QuesIndex = () =>
     import (
         '../components/question/QuesIndex'
     )
+const BBSpost = () =>
+    import ('../components/bbs/BBSpost')
 
 const BBSIndex = () =>
     import (
         '../components/bbs/BBSIndex'
+    )
+const BBsDetail = () =>
+    import (
+        '../components/bbs/BBSPostDetail'
     )
 Vue.use(VueRouter)
 
@@ -66,7 +72,8 @@ const routes = [{
         ]
     }, {
         path: '/user',
-        component: User
+        component: User,
+
     }, {
         path: '/questest',
         component: Test
@@ -77,7 +84,48 @@ const routes = [{
     // 论坛首页
     {
         path: '/bbsindex',
-        component: BBSIndex
+        component: BBSIndex,
+        hidden: true
+    },
+    {
+        path: '/bbs/post',
+        component: BBSpost
+
+    }, {
+        path: '/bbs/detail',
+        component: BBsDetail
+    },
+    // 管理员
+    {
+        path: '/admin',
+        redirect: '/admin/login',
+        component: () =>
+            import ('../components/admin/AdminLoginIndex'),
+
+        children: [{
+                path: '/admin/login',
+                component: () =>
+                    import ('../components/admin/AdminLogin'),
+            },
+            {
+                path: '/admin/register',
+                component: () =>
+                    import ('../components/admin/AdminRegister')
+            }
+        ]
+    }, {
+        path: '/admin/shop',
+        component: () =>
+            import ('../components/admin/shop/ShopAdmin'),
+        children: [{
+            path: '/admin/shop/create',
+            component: () =>
+                import ('../components/admin/shop/ShopCreate')
+        }, {
+            path: '/admin/shop/list',
+            component: () =>
+                import ('../components/admin/shop/ShopList')
+        }]
     }
 ]
 

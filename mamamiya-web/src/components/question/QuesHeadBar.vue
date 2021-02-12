@@ -1,11 +1,8 @@
 <template>
+<div>
+     <TopBar/>
 <div id="gaga">
-    <div class="highnav  margin-auto">
-      <div class="goo" @click="index">mamamiya</div>
-      <div>商城</div>
-      <div>论坛</div>
-      <div>资讯</div>
-      </div>
+   
   <div id="quesheadbar"  class="max-width margin-auto position-re">
       
       <div class="queslogo">
@@ -22,41 +19,30 @@
           <div class="quesitem bbnn">幼儿期</div>
       </div>
   </div>
-  </div>
+</div>
+</div>
 </template>
 
 <script>
+import TopBar from '../TopBar'
 export default {
-    methods:{
-        index(){
-            this.$router.push('/')
+    data() {
+        return {
+          
         }
+    },
+    methods:{
+       
+    },
+    components:{
+        TopBar
     }
 }
 </script>
 
 <style lang="scss" scoped>
    
-    .highnav{
-        width: inherit;
-        height: 35px;
-        // border: 1px solid gold;
-        background-color: gainsboro;
-        .goo{
-            width: 395px;
-        }
-        div{
-            margin: 0;
-            width: 200px;
-            height: 35px;
-            float: left;
-            text-decoration: none;
-            line-height: 35px;
-            font-size: 23px;
-            color: rgb(179, 179, 179);
-            cursor: pointer;
-        }
-    }
+  
      #quesheadbar{
         height: 150px;
         // border: 1px solid green;
@@ -85,7 +71,7 @@ export default {
         bottom: 0;
         .quesitem{
              float: left;
-             width: 219px;
+             width: 220px;
              font-size: 18px;
              line-height: 50px;
              font-weight: 550;

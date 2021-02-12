@@ -34,7 +34,7 @@ export default {
         }
     },
     async mounted() {
-          const axios = this.$config. getAxiosInstance('shop')
+       const axios = this.$config. getAxiosInstance('shop')
        let res = await axios.get('/api/brand');
        console.log(res);
        this.brandarr = res.data.result

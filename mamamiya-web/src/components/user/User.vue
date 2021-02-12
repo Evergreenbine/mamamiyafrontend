@@ -88,7 +88,7 @@ export default {
     data() {
       return { 
         // 控制变量
-        pid:3,
+        pid:1,
         user:{
           username:'',
           useraccount:'',
@@ -98,7 +98,7 @@ export default {
         },
         post:{
           title:'',
-          // content:'',这里不定义是单独传到后端，避免被Requestbody转码
+          content:this.content,//这里不定义是单独传到后端，避免被Requestbody转码
           // author:this.user.username 因为user是created执行后才有值，而post，user都是在这之前赋值，所以这样赋值会出现undefined
           author:'',
           time:'',
@@ -166,15 +166,17 @@ export default {
            method:'post',
            data:this.post,
            params:{
-             postcircle:this.content
+            //  postcircle:this.content
            }
          })
+        
       }
     },
     async created() {
       //  后端分了模块 user模块
        const axios = this.$config.getAxiosInstance('user')
-       let resp = await axios.get('/api/user/1170559835')
+       let useraccount = JSON.parse(localStorage.getItem('username'))
+       let resp = await axios.get(`/api/user/${useraccount}`)
        let result =resp.data.result;
        this.user.username = result.username
        this.user.password = result.password

@@ -71,11 +71,11 @@ export default {
             
             imageDrop: true,      //图片拖拽
             imageResize: {
-           displayStyles: {
-             backgroundColor: "black",
-             border: "none",
-             color: "white"
-           },
+            displayStyles: {
+              backgroundColor: "black",
+              border: "none",
+              color: "white"
+            },
            modules: ["Resize", "DisplaySize", "Toolbar"]
          },
             toolbar: { 
@@ -91,7 +91,7 @@ export default {
                                     }
                           }
                 }
-                }//工具菜单栏配置
+              }//工具菜单栏配置
           }
         }
       }

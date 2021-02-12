@@ -39,7 +39,6 @@
 <script>
 export default {
   name:"HeaderBar",
-  
   data(){
     return {
       username:"",
@@ -67,7 +66,7 @@ export default {
        
     },
     toUser(){
-      this.$router.replace('/user')
+      this.$router.push('/user')
     },
     toShopCar(){
       this.$router.replace('/shop/shopcar')

@@ -9,8 +9,7 @@ import BBSHeader from './header/BBSHeader'
 
 export default {
     components:{
-        BBSHeader
-     
+        BBSHeader 
     }
 }
 </script>

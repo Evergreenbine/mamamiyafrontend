@@ -4,13 +4,8 @@
         <div class="hobby">
             <div id="bbscenter" class="max-width margin-auto">
                 <div class="hobbynav max-width margin-auto d-flex  fd-row"  >
-                    <div class="hobbyitem">同龄圈</div>
-                    <div class="hobbyitem">宝宝美食</div>
-                    <div class="hobbyitem">甜蜜圈</div>
-                    <div class="hobbyitem">准妈妈</div>
-                    <div class="hobbyitem">女人心事</div>
-                    <div class="hobbyitem">宝宝靓衣</div>
-                    <div class="hobbyitem">宝宝玩具</div>   
+                    <div class="hobbyitem" v-for="item  in this.circle" :key="item.cid" @click="tothequan(item.cid)">{{item.cname}}</div>
+                   
                     <div class=" hobbyitemmores" @mouseover="mid = true" @mouseleave="mid = false" :class="{hobbyitemmore : mid == true}">更多圈子</div>  
                 </div>
                 <div id="morequan"  class="morequan max-width margin-auto"  v-show="this.mid == 1" @mouseover="mid = true" @mouseleave="mid = false">
@@ -26,7 +21,8 @@ export default {
     data() {
         return {
             //控制更多圈子的变量
-            mid:0
+            mid:0,
+            circle:[]
         }
     },
     methods:{
@@ -37,7 +33,18 @@ export default {
                this.mid =1
            }
           
+        },
+        tothequan(val){
+            this.$router.push({path:'/bbs/post',query:{
+                cid:val
+            }})
         }
+    },
+   async created(){
+       const bbsaxios = this.$config.getAxiosInstance('bbs')
+       let resp = await bbsaxios.get('/api/circle')
+       let result = resp.data.result
+       this.circle = result
     }
 }
 </script>
@@ -80,8 +87,9 @@ export default {
     .morequan{
         position: absolute;
         height: 200px;
-        border: 1px solid greenyellow;
+        // border: 1px solid greenyellow;
         z-index: 1;
+        background-color: #fff;
     }
 }
 
