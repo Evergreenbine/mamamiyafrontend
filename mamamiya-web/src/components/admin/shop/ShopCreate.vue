@@ -95,7 +95,7 @@ export default {
           {sid:4,sname:"5段"},
       ],  
       cata:[
-          { cid:0,cname:"婴幼儿奶粉"},{cid:1,cname:"羊奶粉"},{cid:2,cname:"防腹泻奶粉"}
+          { cid:0,cname:"羊奶粉"},{cid:1,cname:"婴幼儿奶粉"},{cid:2,cname:"防腹泻奶粉"}
           ],
       brandarr:[], 
       age:[{

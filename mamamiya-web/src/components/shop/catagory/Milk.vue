@@ -2,7 +2,7 @@
   <div id="milk">
       <div class="maxbox max-width margin-auto d-flex">
           <!-- 左边的盒子 -->
-          <div class="leftbox">
+        <div class="leftbox">
               <!-- logo -->
              <div class="catatag"><p>奶粉</p></div>
 
@@ -22,20 +22,75 @@
              </div>
 
              <!-- 选项卡选项 -->
-             <div class="submaxbox">
-                 <div class="subbox" v-show=" index==curId "  :key="index"
-                v-for="(item,index) in tabcarditem">
+            <div class="submaxbox">
+                <!-- 第一页 -->
+                 <div class="subbox" v-show="this.curId == 0 ">
                 <!-- {{item}} 这是商品选项内容-->
-                    <a class="subbox-item "  :key=index v-for="(item,index) in bboxitem "  :class="{subboxactive : index === subId}"
+                    <a class="subbox-item d-flex"  :key=index v-for="(item,index) in bboxitem "  :class="{subboxactive : index === subId}"
                        @mousemove="sel(index)"
                     >
-                         <div :class="{hiddenimg : index == subId}">{{item}}</div>
-                         <img src="http://info.ci123.com/brand/files/products/70/25/12589.jpg"  class="hiddenimg" :class="{showimg : index == subId}" alt="图片无法加载..."/>
+                         <div :class="{hiddenimg : index == subId}">{{item.recommend}}</div>
+                         
+                         <img :src="item.img"  class="hiddenimg" :class="{showimg : index == subId}" alt="图片无法加载..."/>
+                         <p>{{item.price}}</p>
+                    </a>
+                </div>
+
+                <!-- 第二页 -->
+                 <div class="subbox" v-show="this.curId == 1 ">
+                <!-- {{item}} 这是商品选项内容-->
+                    <a class="subbox-item d-flex"  :key=index v-for="(item,index) in bboxitem "  :class="{subboxactive : index === subId}"
+                       @mousemove="sel(index)"
+                    >
+                         <div :class="{hiddenimg : index == subId}">{{item.recommend}}</div>
+                         
+                         <img :src="item.img"  class="hiddenimg" :class="{showimg : index == subId}" alt="图片无法加载..."/>
+                         <div class="hiddenimg" :class="{showinfo : index == subId }">
+                              <p>商品名:{{item.gname}}</p>
+                              <p>价格:{{item.price}}</p> 
+                               <el-rate
+                                    v-model="item.rate"
+                                    disabled
+                                    show-score
+                                    text-color="#ff9900"
+                                    score-template="{value}" class="elrate">
+                                </el-rate>
+                         </div>
+                        
+                    </a>
+                </div>
+
+                <!-- 第三页 -->
+                 <div class="subbox" v-show="this.curId == 2 ">
+                <!-- {{item}} 这是商品选项内容-->
+                    <a @click="goto(item)" class="subbox-item d-flex"  :key=index v-for="(item,index) in bboxitem "  :class="{subboxactive : index === subId}"
+                       @mousemove="sel(index)"
+                    >
+                         <div :class="{hiddenimg : index == subId}">{{item.recommend}}</div>
+                         
+                         <img :src="item.img"  class="hiddenimg" :class="{showimg : index == subId}" alt="图片无法加载..."/>
+                         <div class="hiddenimg" :class="{showinfo : index == subId }">
+                              <p class="ptag">品牌:{{item.bname}}</p>
+                              <p class="ptag">商品名:{{item.gname}}</p>
+                              <p class="ptag">价格:{{item.price}}</p> 
+                               <el-rate
+                                    v-model="item.rate"
+                                    disabled
+                                    show-score
+                                    text-color="#ff9900"
+                                    score-template="{value}" class="elrate">
+                                </el-rate>
+                         </div>
+                        
                     </a>
                 </div>
                  <!-- <div class="submaxbox-item topp">haha</div> -->
-             </div>
-          </div>
+            </div>
+                 
+               
+        </div>
+
+
           <!-- 右边的盒子 -->
           <div class="rightbox">
               <div id="select"  @click="moreSelect(cata[0])"><p>更多选项 >></p></div>
@@ -61,21 +116,12 @@ export default {
             subId:0,
             cata:['milk'],
             tabcarditem:[
-                "热门商品",  
-                "好评商品",
-                "新品推荐"    
+                "热门商品", 
+                "新品推荐", 
+                "好评商品"
             ],
-            bboxitem:[
-                "你好ya",
-                "你好ya",
-                "你好ya",
-                "你好呀",
-                "你好呀",
-                "你好呀",
-                "你好呀",
-                "你好呀"
-                
-            ]
+            // 好评商品盒
+            bboxitem:[]
         }
     },
     methods:{
@@ -88,7 +134,26 @@ export default {
         moreSelect(cata){
             // alert(cata)
             this.$router.push('/shop/'+cata);
+        },
+        
+        // 去到专门的商品页
+        goto(item){
+            this.$router.push({
+                path:'/shop/milkbrand',
+                query:{
+                    bid:item.bid,
+                    gid:item.gid
+                }
+            })
         }
+    },
+    async created(){
+         const axios = this.$config.getAxiosInstance('shop')
+         let res = await axios.get('/api/milks/good');
+         this.bboxitem = res.data
+         console.log(res);
+
+       
     }
 
 }
@@ -182,9 +247,20 @@ export default {
     display: block;
     width: 72px;
     height: 72px;
-    border: 1px solid blueviolet ;
+    /* border: 1px solid blueviolet ; */
     margin-left: 20px;
     /* margin-top: 16px;  */
+}
+.showinfo{
+     display: block;
+     width: 220px;
+     height: 100px;
+     /* border:solid 1px gold; */
+     position: absolute;
+     right: 0;     
+}
+.ptag{
+    margin: 0;
 }
 /* 激活后图片样式*/
 .subboxactive img{

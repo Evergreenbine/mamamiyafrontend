@@ -21,17 +21,16 @@
           hello
       </div> -->
       <!-- <div class="user position-re">user <b-button variant="outline-primary">Button</b-button></div> -->
-      <div class="search max-width position-ab">
+      <!-- <div class="search max-width position-ab">
         <div>
           <b-input-group>
           <b-form-input type="search" ></b-form-input>
           <b-input-group-append>
             <b-button variant="outline-secondary" style="z-index:0">搜索</b-button>
           </b-input-group-append>
-         </b-input-group>
-      </div>
-      
-      </div>
+          </b-input-group>
+        </div> 
+      </div> -->
     </div>
   </div>
 </template>

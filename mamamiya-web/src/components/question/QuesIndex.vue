@@ -1,6 +1,7 @@
 <template>
   <div id="quesindex" class="max-width margin-auto">
      <QuesHeadBar/>
+     <router-view/>
   </div>
 </template>
 
@@ -13,8 +14,6 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
-</style>>
+<style lang="scss" scoped>
 
 </style>

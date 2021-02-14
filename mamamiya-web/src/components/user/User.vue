@@ -132,8 +132,8 @@ export default {
       // 接受从子组件富文本编辑器传来的内容
       savecontent(content){
         this.content = content
-        console.log("父组件中的debug info"+content);
-        console.log("查看保存后的内容(this.content)"+this.content);
+        // console.log("父组件中的debug info"+content);
+        console.log("查看保存后的内容(this.content)                 "+this.content);
       },
       // 这是获取下拉框中选中的圈子
       selectedCircle(cid){

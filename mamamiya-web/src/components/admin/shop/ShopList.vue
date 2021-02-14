@@ -1,62 +1,73 @@
 <template>
   <div>
-    <div v-for="item in this.itemsarr" :key="item.gid" style="margin-bottom:10px">
-      <div class="gitem d-flex ">
-        <img :src="item.img" alt="#">
-        <div class="rightbox d-flex flex-wrap" style="border:1px solid gray">
-         <div><p class="tagname">品牌名</p><el-input v-model="item.bname" class="input2"></el-input></div>
-         <div><p class="tagname">价格</p><el-input v-model="item.price" class="input2"></el-input></div>
-         <div><p class="tagname">推荐语</p><el-input v-model="item.recommend" class="input2"></el-input></div>
-         <div><p class="tagname">阶段</p><el-input v-model="item.stage" class="input2"></el-input></div>
+    <div v-for="(item,index) in this.itemsarr" :key="index" style="margin-bottom:10px" >
+      <div class="gitem d-flex " @click="getImageTypeIndex(index)">
+        <el-upload 
+          class="avatar-uploader inoimga"
+          action="http://localhost:8003/api/upload"
+
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          >
+          <img v-if="item.img" :src="item.img" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <div class="rightbox d-flex flex-wrap" >
+         <div class="item d-flex"><p class="tagname">价格</p><el-input v-model="item.price" class="input2"></el-input></div>
+         <div class="item d-flex"><p class="tagname">推荐语</p><el-input v-model="item.recommend" class="input2"></el-input></div>
+         <div class="item d-flex"><p class="tagname">库存</p><el-input v-model="item.store" class="input2"></el-input></div>
+         <div class="item d-flex"><p class="tagname">商品名</p><el-input v-model="item.gname" class="input2"></el-input></div>
+        
         <!-- 分类 -->
         <div class="item d-flex">
            <p class="tagname">分类</p> 
-           <el-select v-model="cata.cname" placeholder="请选择" @change="selectcata">
+           <el-select v-model="item.cata" placeholder="请选择" >
               <el-option
-                 v-for="item in cata"
-                 :key="item.value"
-                 :label="item.cname"
-                 :value="item.cid">
+                 v-for="cataitem in cata"
+                 :key="cataitem.cata"
+                 :label="cataitem.cname"
+                 :value="cataitem.cata">
               </el-option>
           </el-select>
         </div> 
          <!-- 品牌 -->
         <div class="item d-flex">
         <p class="tagname">品牌</p> 
-        <el-select v-model="brandarr.bname" placeholder="请选择" @change="selectbrand">
+        <el-select v-model="item.bid" placeholder="请选择" >
             <el-option
-              v-for="item in brandarr"
-              :key="item.value"
-              :label="item.bname"
-              :value="item.bid">
+              v-for="branditem in brandarr"
+              :key="branditem.value"
+              :label="branditem.bname"
+              :value="branditem.bid">
             </el-option>
          </el-select>
         </div>  
        <!-- 年龄 -->
       <div class="item d-flex">
         <p class="tagname">年龄</p>  
-        <el-select v-model="age.value" placeholder="请选择" @change="selectage">
+        <el-select v-model="item.age" placeholder="请选择" >
             <el-option
-              v-for="item in age"
-              :key="item.aid"
-              :label="item.value"
-              :value="item.aid">
+              v-for="ageitem in age"
+              :key="ageitem.aid"
+              :label="ageitem.value"
+              :value="ageitem.aid">
             </el-option>
          </el-select>
       </div>
        <!-- 阶段 -->
       <div class="item d-flex">
         <p class="tagname">阶段</p>  
-        <el-select v-model="stage.sname" placeholder="请选择" @change="selectstage">
+        <el-select v-model="item.stage" placeholder="请选择">
             <el-option
-              v-for="item in stage"
-              :key="item.value"
-              :label="item.sname"
-              :value="item.sid">
+              v-for="stageitem in stage"
+              :key="stageitem.value"
+              :label="stageitem.sname"
+              :value="stageitem.sid">
             </el-option>
          </el-select>
       </div> 
-    
+      <el-button type="success"  class="savebutton" @click="updateitem(item)">保存修改</el-button>
+      <el-button type="danger"  class="savebutton" @click="dele(item.gid)">删除</el-button>
      
         </div>
       </div>
@@ -68,6 +79,8 @@
 export default {
   data(){
       return {
+        // 获取当前的图片的index
+        imgindex:0,
         brandarr:[], 
         stage:[
             {sid:0,sname:"1段"},
@@ -77,7 +90,7 @@ export default {
             {sid:4,sname:"5段"},
         ],  
         cata:[
-             { cid:0,cname:"婴幼儿奶粉"},{cid:1,cname:"羊奶粉"},{cid:2,cname:"防腹泻奶粉"}
+            {cata:0,cname:"羊奶粉"}, { cata:1,cname:"婴幼儿奶粉"},{cata:2,cname:"防腹泻奶粉"}
         ],
      
         age:[{
@@ -97,19 +110,34 @@ export default {
       }
   },
   methods:{
-     selectcata(cid){
-        this.good.cata = cid
+    async updateitem(item){
+      console.log(item);
+      const axios = this.$config. getAxiosInstance('admin')
+      let res = await axios.post('/api/ugood',item)
+      console.log(res); 
     },
-    selectstage(sid){
-        this.good.stage = sid
+    async dele(gid){
+      const axios = this.$config. getAxiosInstance('admin')
+      console.log(gid);
+      let res = await axios.get(`/api/demilk/${gid}`)
+      window.location.reload();
+      console.log(res);
+      // console.log(res); 
     },
-    selectbrand(bid){
-        console.log(bid);
-        this.good.bid = bid
+    handleAvatarSuccess(res, file) {
+        // alert(res.url)
+        // alert(this.imgindex);
+        // 改变相应item的img
+        this.itemsarr[this.imgindex].img = res.url
+        // this.saveinfo()
     },
-    selectage(aid){
-        this.good.age = aid
-    },
+    // 获取修改图片的坐标
+    getImageTypeIndex(index){
+      // alert(index)
+      this.imgindex = index
+      // alert(this.imgindex);
+    }
+   
   },
   async created(){
       const axios = this.$config. getAxiosInstance('shop')
@@ -141,6 +169,11 @@ export default {
   input2{
     height: 20px;
   }
+}
+.savebutton{
+  width: 100px;
+  height: 45px;
+  margin-left: 10px;
 }
 </style>
 

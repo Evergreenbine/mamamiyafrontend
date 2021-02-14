@@ -24,7 +24,7 @@
 
     <div class="tag d-flex">
       <p class="tagname">年龄</p>
-      <p class="tag-item" v-for="(item,index) in age" :key="index":class="{con : index === cid}">{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in age" :key="index" :class="{con : index === cid}" >{{item}}</p>
     </div> 
     <div class="tag d-flex" :class="{inputmoreactive:imactive == true}">
       <p class="tagname" >价格</p>
@@ -89,7 +89,7 @@ export default {
       imactive:false,
       inputhidden:false,
       count:0,
-      // 条件数字
+      // 条件数字 条件以这里为准
       cataarr:['羊奶粉','婴幼儿奶粉','防腹泻奶粉'],
       stage:['1段','2段','3段','4段','5段'],
       brand:[],

@@ -9,6 +9,7 @@
           <template slot="title">分类</template>
           <el-menu-item index="/admin/shop/create">新建商品</el-menu-item>
           <el-menu-item index="/admin/shop/list">商品列表</el-menu-item>
+          <el-menu-item index="/admin/shop/brand">品牌列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

@@ -68,7 +68,12 @@ const routes = [{
                 ]
             },
             { path: '/shop/milk', component: MilkSelect },
-            { path: '/shop/shopcar', component: ShopCar }
+            { path: '/shop/shopcar', component: ShopCar },
+            {
+                path: '/shop/milkbrand',
+                component: () =>
+                    import ('../components/shop/catagory/MilkBrand')
+            }
         ]
     }, {
         path: '/user',
@@ -79,7 +84,17 @@ const routes = [{
         component: Test
     }, {
         path: '/ques',
-        component: QuesIndex
+        redirect: '/ques/konwIndex',
+        component: QuesIndex,
+        children: [{
+            path: '/ques/konw',
+            component: () =>
+                import ('../components/question/Knowlege')
+        }, {
+            path: '/ques/konwIndex',
+            component: () =>
+                import ('../components/question/KnowlegeIndex')
+        }]
     },
     // 论坛首页
     {
@@ -125,6 +140,10 @@ const routes = [{
             path: '/admin/shop/list',
             component: () =>
                 import ('../components/admin/shop/ShopList')
+        }, {
+            path: '/admin/shop/brand',
+            component: () =>
+                import ('../components/admin/shop/BrandCreate')
         }]
     }
 ]
