@@ -25,7 +25,6 @@
         更多商品
      </div>
      <div class="midbox3 max-width margin-auto d-flex">
-
          <div class="shopitem position-re" v-for="(item,index) in bidshop" :key="index" @click="goto(item)">
              <img :src="item.img" alt="" class="shopimg">
              <p class="title">{{item.gname}}</p>

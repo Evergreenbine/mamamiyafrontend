@@ -45,7 +45,9 @@ const routes = [{
         path: '/',
         name: 'Home',
         component: Home
-    }, {
+    },
+    // 登录
+    {
         path: '/new',
         redirect: '/new/login',
         name: 'LoginIndex',
@@ -54,7 +56,9 @@ const routes = [{
             { path: '/new/register', component: Register },
             { path: '/new/login', component: Login }
         ]
-    }, {
+    },
+    // 商城
+    {
         path: '/shop',
         redirect: '/shop/index',
         component: ShopIndex,
@@ -75,26 +79,47 @@ const routes = [{
                     import ('../components/shop/catagory/MilkBrand')
             }
         ]
-    }, {
+    },
+    {
         path: '/user',
         component: User,
 
-    }, {
+    },
+    {
         path: '/questest',
         component: Test
-    }, {
+    },
+    // 知识付费
+    {
         path: '/ques',
         redirect: '/ques/konwIndex',
         component: QuesIndex,
         children: [{
-            path: '/ques/konw',
-            component: () =>
-                import ('../components/question/Knowlege')
-        }, {
-            path: '/ques/konwIndex',
-            component: () =>
-                import ('../components/question/KnowlegeIndex')
-        }]
+                path: '/ques/konw',
+                component: () =>
+                    import ('../components/question/Knowlege')
+            }, {
+                path: '/ques/konwIndex',
+                component: () =>
+                    import ('../components/question/KnowlegeIndex')
+            }, {
+                path: '/ques/konw/pay',
+                component: () =>
+                    import ('../components/question/KonwPay')
+            },
+            // 提问首页
+            {
+                path: '/ques/konw/index',
+                component: () =>
+                    import ('../components/question/KnowIndex')
+            },
+            // 问题详情
+            {
+                path: '/ques/konw/index/detail',
+                component: () =>
+                    import ('../components/question/KonwDetail')
+            }
+        ]
     },
     // 论坛首页
     {
@@ -110,7 +135,13 @@ const routes = [{
         path: '/bbs/detail',
         component: BBsDetail
     },
-    // 管理员
+    // 提问首页
+    // {
+    //     path: '/konw/index',
+    //     component: () =>
+    //         import ('../components/question/KnowIndex')
+    // },
+    // 管理员登录
     {
         path: '/admin',
         redirect: '/admin/login',
@@ -128,7 +159,9 @@ const routes = [{
                     import ('../components/admin/AdminRegister')
             }
         ]
-    }, {
+    },
+    // 商城管理员
+    {
         path: '/admin/shop',
         component: () =>
             import ('../components/admin/shop/ShopAdmin'),
@@ -145,7 +178,14 @@ const routes = [{
             component: () =>
                 import ('../components/admin/shop/BrandCreate')
         }]
-    }
+    },
+    // 主要管理员
+    {
+        path: '/admin/main',
+        component: () =>
+            import ('../components/admin/mainadmin/MainAdmin')
+    },
+
 ]
 
 const router = new VueRouter({

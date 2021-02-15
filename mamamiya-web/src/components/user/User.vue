@@ -5,6 +5,8 @@
       <div class="tag" @click="pid =1" :class="{tagctive:pid == 1}"> 个人中心</div>
       <div class="tag" @click="pid =2" :class="{tagctive:pid == 2}"> 编辑资料</div>
       <div class="tag" @click="pid =3" :class="{tagctive:pid == 3}"> 发布帖子</div>
+      <div class="tag" @click="pid =4" :class="{tagctive:pid == 4}"> 发布提问</div>
+      <div class="tag" @click="pid =5" :class="{tagctive:pid == 5}"> 查看其它</div>
     </div>
     <!-- 第一页 -->
    <div class="infobox position-re" v-show="pid == 1">
@@ -57,6 +59,7 @@
      
       </div>
     </div>
+
     <!-- 第3页 -->
     <div class="infobox position-re" v-show="pid == 3">
       <div class="postcontent">
@@ -72,11 +75,43 @@
         </div>
         <!-- 子向父传值 this.$emit("func",data),这个fun就基本像是自定义事件或属性，子组件绑定这个fun，即获得一个新的事件一样 父组件使用savecontent接受即可 -->
         <FullTextEditor v-on:func="savecontent"/>
-
          <b-button variant="outline-primary" class="publish" @click="publish">发布</b-button>
-      </div>
-     
+         </div>
     </div>
+
+    <!-- 第4页 发布问题 -->
+    <div class="infobox position-re" v-show="pid == 4">
+      <div class="qusbox" >
+       <el-form :label-position="labelPosition" label-width="80px" :model="question">
+        <el-form-item label="问题标题" >
+          <div class="d-flex">
+          <el-input v-model="question.title"></el-input>
+            <el-select v-model="question.qcid" placeholder="请选择">
+              <el-option
+                v-for="item in this.quescata2"
+                :key="item.qcid"
+                :label="item.qname"
+                :value="item.qcid">
+              </el-option>
+            </el-select>
+          </div>
+        </el-form-item>
+        <el-form-item label="问题内容">
+          <el-input rows="10" v-model="question.content" type="textarea" maxlength="150"
+          placeholder="最多输入150字哟" style="height:200px" ></el-input>
+        </el-form-item>
+        <el-button @click="publishques">发布提问</el-button>
+       </el-form>
+      </div>
+    </div>
+
+    <!-- 第5页 -->
+    <div class="infobox position-re" v-show="pid == 5">
+      <div class="qusbox" >
+        余额:<el-input v-model="post.title" placeholder="请输入标题" style="margin-right:10px"></el-input> 
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -87,8 +122,20 @@ export default {
     name:"user",
     data() {
       return { 
+        labelPosition:'left',
         // 控制变量
-        pid:1,
+        pid:4,
+        // 问题
+        question:{
+          title:'',
+          useraccount:'',
+          content:'',
+          qcid:''
+        },
+        // 这个是问题分类变量
+        quescata2:'',
+
+        // 用户
         user:{
           username:'',
           useraccount:'',
@@ -96,6 +143,7 @@ export default {
           address:'',
           avator: ''
         },
+        // 贴子
         post:{
           title:'',
           content:this.content,//这里不定义是单独传到后端，避免被Requestbody转码
@@ -107,6 +155,7 @@ export default {
         },
         // 单独接收子组件传来的内容
         content:'',
+        // 圈子分类
         circle:[]
   
       }
@@ -170,6 +219,17 @@ export default {
            }
          })
         
+      },
+      // 发布问题的方法
+      async publishques(){
+        // alert(this.question.content)
+        const bbsaxios = this.$config.getAxiosInstance('bbs')
+        this.question.useraccount =  this.user.useraccount
+        let res = await bbsaxios.post("/api/ques",this.question)
+        if(res.data == 1){
+          alert("发布问题成功")
+          this.pid =1
+        }
       }
     },
     async created() {
@@ -189,6 +249,10 @@ export default {
        let result2 = resp2.data.result
        this.circle = result2
        console.log(result2);
+
+      //  查询问题分类
+      let quescata = await bbsaxios.get("/api/ques/all")
+      this.quescata2 = quescata.data
      
     }
   
@@ -326,6 +390,13 @@ p{
     bottom: 8px;
     right: 0px;
     width: 200px;
+  }
+
+  // 发布问题盒子
+  .qusbox{
+    width: 900px;
+    margin-top: 30px;
+    margin-left: 15px;
   }
 </style>
 

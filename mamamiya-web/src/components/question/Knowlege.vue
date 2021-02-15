@@ -15,11 +15,36 @@ export default {
         }
     },
     async created(){
-        let kid = this.$route.query.kid
+         let kid = this.$route.query.kid
+         let isfree =this.$route.query.isfree
+        //  alert(kid)
          const bbsaxios = this.$config.getAxiosInstance('bbs')
-         let res = await bbsaxios.get(`/api/konw/${kid}`)
-         this.konwpost= res.data
-         console.log(res);
+
+         //  查看是否是直接跳过来的
+        let resp = await bbsaxios({
+               url:"/api/konws/isfree",
+               methods:"get",
+               params:{
+                   kid:kid,
+                   useraccount:JSON.parse(localStorage.getItem("username"))
+               }
+        })
+
+        if(resp.data == 1 || isfree){
+            // 返回文章内容
+            let res = await bbsaxios.get(`/api/konw/${kid}`)
+            this.konwpost= res.data
+            console.log(res);
+        }else{
+            this.$router.push({
+                path:'/ques/konwIndex'
+            })
+        }
+
+      
+
+
+        
     }
 }
 </script>

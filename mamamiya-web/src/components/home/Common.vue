@@ -10,7 +10,7 @@
              </div>
              <div class="navitem d-flex fd-row">
                  <div class="navitem-sub">学问</div>
-                 <div class="subnavitem">问答</div>
+                 <div class="subnavitem"><router-link :to="{path:'/ques/konw/index'}">问答</router-link></div>
                  <div class="subnavitem"><router-link to="/ques">知识</router-link></div>  
              </div>
              <div class="navitem d-flex fd-row " style="border-right:none ">

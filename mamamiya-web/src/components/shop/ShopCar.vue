@@ -43,7 +43,7 @@
           <div class="toright">
           <div><p class="items">已选3件宝贝</p></div>
           <div><p class="acount">合计(不含运费)：<span>{{this.summoney}}</span>元</p></div>
-           <b-button variant="danger" style="margin-top:20px;width=100px">结算</b-button>
+           <b-button variant="danger" style="margin-top:20px;width=100px" @click="purchase">结算</b-button>
            
           </div>
       </div>
@@ -84,6 +84,10 @@ export default {
         }
     },
     methods: {
+        async purchase(){
+            const axios = this.$config. getAxiosInstance('shop')
+            let res = await axios.post("/api/milks/purchase",this.wantitem)
+        },
         // 需要添加bug
         // 传入index,再从购物车里面找到对应的item,然后--
         numsde(index){

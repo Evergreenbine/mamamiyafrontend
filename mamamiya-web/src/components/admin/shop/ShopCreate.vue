@@ -115,7 +115,7 @@ export default {
         gname:"伊利",
         price:246.00,
         store:100,
-        createtime:"2021/2/11",
+        createtime:'',
         recommend:"这奶粉真不错",
         rate:0,
         cata:0,

@@ -11,13 +11,13 @@
       <div class="search">
           
       </div>
-      <div class="quescata max-width">
+      <!-- <div class="quescata max-width">
           <div class="quesitem">准备怀孕</div>
           <div class="quesitem">怀孕期</div>
           <div class="quesitem">分娩必读</div>
           <div class="quesitem">婴幼儿期</div>
           <div class="quesitem bbnn">幼儿期</div>
-      </div>
+      </div> -->
   </div>
 </div>
 </div>
@@ -44,7 +44,7 @@ export default {
    
   
      #quesheadbar{
-        height: 150px;
+        height: 100px;
         // border: 1px solid green;
     }
     .queslogo{
@@ -63,26 +63,26 @@ export default {
         border: solid 1px green ;
         top: 18px;
     }
-    .quescata{
+    // .quescata{
         
-        position: absolute;
-        height: 50px;
-        // border: 1px solid green;
-        bottom: 0;
-        .quesitem{
-             float: left;
-             width: 220px;
-             font-size: 18px;
-             line-height: 50px;
-             font-weight: 550;
-             color: white;
-             background-color:  rgba(51, 190, 132, 0.507);
-             border-right: 1px solid white;
-             cursor: pointer;
-        }
-        .bbnn{
-             border-right: 1px solid rgba(51, 190, 132, 0.507);
-        }
-    }
+    //     position: absolute;
+    //     height: 50px;
+    //     // border: 1px solid green;
+    //     bottom: 0;
+    //     .quesitem{
+    //          float: left;
+    //          width: 220px;
+    //          font-size: 18px;
+    //          line-height: 50px;
+    //          font-weight: 550;
+    //          color: white;
+    //          background-color:  rgba(51, 190, 132, 0.507);
+    //          border-right: 1px solid white;
+    //          cursor: pointer;
+    //     }
+    //     .bbnn{
+    //          border-right: 1px solid rgba(51, 190, 132, 0.507);
+    //     }
+    // }
 </style>
 
