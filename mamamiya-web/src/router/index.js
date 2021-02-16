@@ -183,7 +183,12 @@ const routes = [{
     {
         path: '/admin/main',
         component: () =>
-            import ('../components/admin/mainadmin/MainAdmin')
+            import ('../components/admin/mainadmin/MainAdmin'),
+        children: [{
+            path: '/admin/main/circle',
+            component: () =>
+                import ('../components/admin/mainadmin/BBsAdmin')
+        }]
     },
 
 ]

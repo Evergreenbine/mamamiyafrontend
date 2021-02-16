@@ -32,19 +32,17 @@
         <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
             <!-- 每个title -->
             <div v-for="item in this.reszero" :key="item.kid" class="titleitem" >
-                 <div @click="togoto(item)" :class="{notfree : item.isfree == 0}">
+                 <div  @click="togoto(item)" :class="{notfree : item.isfree == 0}">
                     {{item.title}}
                  </div>
             </div>
-        
-
         </div>     
     </div>
 
     <!-- 怀孕期 -->
      <div id="two" class="max-width margin-auto konwbox position-re" :class="{activecc:org==2}">
-        <p class="logo">准备怀孕</p>
-        <p class="more" @click="moreshow(1)" >{{moretag}}</p>
+        <p class="logo">怀孕期</p>
+        <p class="more" @click="moreshow(2)" >{{moretag}}</p>
 
         <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
             <!-- 每个title -->
@@ -53,24 +51,24 @@
                     {{item.title}}
                  </div>
             </div>
-        
-
         </div>     
     </div>
     <!-- 分娩必读 -->
-    <div id="3" class="max-width margin-auto konwbox position-re" :class="{activecc:org==3}">
+       <div id="three" class="max-width margin-auto konwbox position-re" :class="{activecc:org==3}">
         <p class="logo">分娩必读</p>
-       <p class="more" @click="moreshow(3)" >{{moretag}}</p>
+        <p class="more" @click="moreshow(3)" >{{moretag}}</p>
+
         <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
-            <div v-for="item in this.res" :key="item.kid" class="titleitem" >
-                 <div><router-link :to="{path:'/ques/konw',query:{
-                     kid:item.kid
-                 }}" >{{item.title}}</router-link></div>
+            <!-- 每个title -->
+            <div v-for="item in this.restwo" :key="item.kid" class="titleitem" >
+                 <div @click="togoto(item)" :class="{notfree : item.isfree == 0}">
+                    {{item.title}}
+                 </div>
             </div>
         </div>     
     </div>
     <!-- 婴幼儿期 -->
-    <div id="4" class="max-width margin-auto konwbox position-re" :class="{activecc:org==4}">
+    <div id="four" class="max-width margin-auto konwbox position-re" :class="{activecc:org==4}">
         <p class="logo">婴幼儿期</p>
        <p class="more" @click="moreshow(4)" >{{moretag}}</p>
         <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
@@ -82,7 +80,7 @@
         </div>     
     </div>
     <!-- 幼儿期 -->
-    <div id="5" class="max-width margin-auto konwbox position-re" :class="{activecc:org==5}">
+    <div id="five" class="max-width margin-auto konwbox position-re" :class="{activecc:org==5}">
         <p class="logo">幼儿期</p>
         <p class="more" @click="moreshow(5)" >{{moretag}}</p>
         <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
@@ -107,6 +105,7 @@ export default {
             restwo:'',
             resthree:'',
             resfour:'',
+           
             // 控制变量
             org:0,
             moretag:"更多>>>",
@@ -137,7 +136,6 @@ export default {
                    useraccount:JSON.parse(localStorage.getItem("username"))
                }
                 })
-
               
              //    付过费的或者本身就是免费的，就可以跳转
                 if(res.data == 1 || item.isfree == 1){
@@ -177,6 +175,12 @@ export default {
         // 怀孕期
         let resone = await bbsaxios.get('/api/konws/1')
         this.resone = resone.data
+
+        // 分娩必读
+        let restwo = await bbsaxios.get('/api/konws/2')
+        this.restwo = restwo.data
+
+        
     },
 
 }

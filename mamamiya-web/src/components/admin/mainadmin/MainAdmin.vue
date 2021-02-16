@@ -9,14 +9,15 @@
           <template slot="title">分类</template>
           <el-menu-item index="/admin/shop/create">新建知识</el-menu-item>
           <el-menu-item index="/admin/shop/list">知识列表</el-menu-item>
-          <el-menu-item index="/admin/shop/brand">品牌列表</el-menu-item>
+          <el-menu-item index="/admin/main/circle">圈子管理</el-menu-item>
+      
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
 
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
-        <span class="color">Shop</span>
+        <span class="color">Main</span>
       </el-header>
 
       <el-main>
@@ -27,7 +28,7 @@
 </template>
 <style>
 .el-header {
-  background-color: beige;
+  background-color: rgba(157, 157, 240, 0.411);
   color: #333;
   line-height: 60px;
 }

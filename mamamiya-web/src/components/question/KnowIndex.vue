@@ -10,8 +10,8 @@
       <!-- 问题列表 -->
       <div class="bigbigbox max-width" >
           <!-- 第一页 -->
-          <div id="one" v-show="this.showindex == 0" class="max-width catalist">
-              <div v-for="(item,index) in this.res" :key="index">
+          <div id="one" v-for="(item,index) in quescata.length" :key="index"  v-show="showindex == index" class="max-width catalist">
+              <div v-for="(item,index) in res" :key="index">
                     <div class="boxes max-width position-re">
                         <div class="btitle">
                             <router-link :to="{path:'/ques/konw/index/detail',query:{qid:item.qid}}">{{item.title}}</router-link></div>
@@ -21,19 +21,9 @@
              </div>
           </div>
           <!-- 第二页 -->
-          <div id="two" v-show="this.showindex == 1" class="max-width catalist">
-                <div v-for="(item,index) in this.res" :key="index">
-                    <div class="boxes max-width position-re">
-                        <div class="btitle"><router-link :to="'/'">{{item.title}}</router-link></div>
-                        <div class="bauthor">{{item.username}}</div>
-                        <div class="btime">{{item.createtime}}</div>
-                    </div>
-                </div>
-          </div>
+        
          <!-- 第三页 -->
-          <div id="two" v-show="this.showindex == 2" class="max-width catalist">
-              
-          </div>
+       
       </div>
   </div>
 </template>
@@ -99,7 +89,7 @@ export default {
 .bigbigbox{
     margin-top: 20px;
     height: 500px;
-    border: 1px gainsboro solid;
+    // border: 1px gainsboro solid;
 }
 .catalist{
     height: 500px;
