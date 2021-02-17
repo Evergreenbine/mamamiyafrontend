@@ -6,7 +6,8 @@
          <!-- <p>mamamiya论坛</p> -->
          <div class="search"></div>
          </div>
-      <div class="mainbody  margin-auto d-flex ">
+    <div class="mainbody  margin-auto d-flex ">
+          <!-- 左侧圈子 -->
           <div class="mainleft">
               <div class="circle position-re" v-for="item in circle" :key="item.cid" @click="getPostList(item.cid)">
                   <img class="ava" :src="item.avator"/>
@@ -15,8 +16,9 @@
                  
               </div>
           </div>
+           <!-- 整个圈子的右侧模板  -->
           <div class="mainright position-re " style="width:1200px">
-          <!-- 整个圈子的右侧模板  -->
+         <!-- 右侧大模板 -->
           <div class=" circlepost position-ab" v-for="item in circle" :key="item.cid" style="width:1200px"
           v-show="cid == item.cid"
           >   
@@ -26,16 +28,20 @@
                   <p class="ccname">{{item.cname}}</p>
                   <p class="ccintro">{{item.introduce}}</p>
                   <p class="follow">{{item.follownums}}人关注</p>
-                  <p class="follow2">{{item.follownums}}人关注</p>
+                  <p class="follow2" @click="focus(item.cid)">{{ isfollow == 1 ?"已":"点击"}}关注</p>
                   <!-- {{item}} -->
               </div>
-              <div class="post" v-for="item in cpost" :key="item.pid" @click="postDetail(item)" >
-                 <router-link to="#" class="posttitle">{{item.title}}</router-link>
-                 <router-link to="#" class="postauthor">{{item.author}}</router-link>
+              <!-- 贴子-->
+              <div class="postbox">
+                <div class="post" v-for="item in cpost" :key="item.pid" @click="postDetail(item)" >
+                   <router-link to="#" class="posttitle">{{item.title}}</router-link>
+                   <router-link to="#" class="postauthor">{{item.author}}</router-link>
+                </div>
               </div>
           </div>
           </div>
-      </div>
+    </div>
+
   </div>
 </template>
 
@@ -47,7 +53,11 @@ export default {
         return {
             // 圈子变量
             cid:'',
+            // 关注变量
+            isfollow:0,
+            // 圈子列表
             circle:[],
+            // 贴子列表
             cpost:[]
         }
     },
@@ -55,7 +65,9 @@ export default {
         TopBar
     },
     methods: {
+        // 根据cid获取贴子列表
        async getPostList(cid){
+        //    根据cid查询贴子列表
             this.cid = cid
             const bbsaxios = this.$config.getAxiosInstance('bbs')
             let res = await bbsaxios({
@@ -68,7 +80,20 @@ export default {
             
             // console.log(res);
             this.cpost = res.data.result
+
+            // 根据cid 和 useraccount 查询是否关注
+
+             let res2 = await bbsaxios({
+                url:'/api/isfollow',
+                method:'get',
+                params:{
+                    cid:cid,
+                    useraccount:JSON.parse(localStorage.getItem("username"))
+                }
+            })
+            this.isfollow = res2.data
         },
+        // 查询贴子详细信息
         async postDetail(item){
            
             this.$router.push({path:'/bbs/detail',query:{
@@ -77,11 +102,54 @@ export default {
                 useraccount:item.useraccount
             }})
             console.log(res);
+        },
+        // 点击关注
+        async focus(cid){
+            // 获取当前的 用户账号
+            let useraccount = JSON.parse(localStorage.getItem("username"))
+            
+            const bbsaxios = this.$config.getAxiosInstance('bbs')
+            if(this.isfollow == 0){
+                // 如果还没关注
+                let res = await bbsaxios({
+                    url:'/api/followcircle',
+                    methods:'get',
+                    params:{
+                        cid:cid,
+                        useraccount:useraccount
+                    }
+                })
+                if(res.data == 1){
+                    alert("关注成功")
+                    this.isfollow  = 1
+                    // 刷新关注人数
+                    this.$router.go(0)
+                }
+            }else{
+                // 如果已经关注
+                let res = await bbsaxios({
+                    url:'/api/nofollow',
+                    methods:'get',
+                    params:{
+                        cid:cid,
+                        useraccount:useraccount
+                    }
+                })
+                if(res.data == 1){
+                    alert("已取消关注")
+                    this.isfollow  = 0
+                    this.$router.go(0)
+                }
+
+            }
+
+            // alert(useraccount)
         }
     },
     async created(){
        let cid = this.cid = this.$route.query.cid
        const bbsaxios = this.$config.getAxiosInstance('bbs')
+    //    获取所有圈子
        let resp = await bbsaxios.get('/api/circle')
        let result = resp.data.result
        this.circle = result
@@ -161,6 +229,8 @@ export default {
         width: 1000px;
         margin-left: 70px;
         .circlepost{
+            // height: auto;
+            // border: 1px solid blue;
             // 右侧圈子信息
             .circleinfo{
                 width: inherit;
@@ -168,6 +238,7 @@ export default {
                 border: 1px solid rgba(0, 132, 255, 0.411);
                 margin-top: 5px;
                 margin-bottom: 35px;
+                position: absolute;
                 .cimg{
                     position: absolute;
                     width: 80px;
@@ -176,6 +247,7 @@ export default {
                     margin-top: 10px;
                 }
                 .ccname{
+                     color:#979797;
                     // border: 1px solid ghostwhite;
                     margin-top: 5px;
                     // position: absolute;
@@ -191,53 +263,59 @@ export default {
                      color:#979797;
                      margin-bottom: 10px;
                 }
+                // 关注人数
                 .follow{
-                    display: inline;
+                
                     width: 100px;
-                    // position: absolute;
-                    // left: 100px;
+                    position: absolute;
+                    left: 100px;
                     text-align: left;
-                    // bottom: 25px;
+                    bottom: -10px;
                     color:#979797;
-                    // border: 1px solid gainsboro;
-                    margin-left: 100px;
-                    margin-top: 40px;
+                   
                 }
                 .follow2{
-                    width: 100px;
-                    // position: absolute;
-                    // left: 100px;
-                    text-align: left;
-                    // bottom: 25px;
-                    color:#979797;
                     // border: 1px solid gainsboro;
-                    margin-left: 200px;
-                    margin-top: 40px;
+                    width: 100px;
+                    position: absolute;
+                    left: 180px;
+                    // text-align: left;
+                    bottom: -10px;
+                    color:white;
+                    cursor: pointer;
+                    background-color: rgba(255, 0, 0, 0.61);
                 }
             }
             
+            .postbox{
+                top: 150px;
+                    position: absolute;
+                    width: inherit;
+                     border: 1px solid rgba(0, 132, 255, 0.411);
+                    // 贴子列表
+                    .post{
+                        
+                        // position: ;
+                        height: 30px;
+                        // border: 1px solid yellow;
+                        width: inherit;
+                        .posttitle{
+                            line-height: 30px;
+                            position: absolute;
+                            left: 10px;
+                        // float: left;
+                        }
+                        .postauthor{
+                            position: absolute;
+                            right: 10px;
+                            color: gainsboro;
+                            font-size: 5px;
+                            line-height: 30px;
+                        }
 
-            // 贴子列表
-            .post{
-                position: relative;
-                height: 30px;
-                // border: 1px solid yellow;
-                width: inherit;
-                .posttitle{
-                    line-height: 30px;
-                    position: absolute;
-                    left: 10px;
-                // float: left;
-                }
-                .postauthor{
-                    position: absolute;
-                    right: 10px;
-                    color: gainsboro;
-                    font-size: 5px;
-                    line-height: 30px;
-                }
-                
+                    }
             }
+            
             
         }
         

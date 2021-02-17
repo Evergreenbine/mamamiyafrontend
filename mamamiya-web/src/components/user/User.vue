@@ -107,8 +107,16 @@
 
     <!-- 第5页 -->
     <div class="infobox position-re" v-show="pid == 5">
+
+      <div class="selectbox">
+          <div>查看金额</div>
+          <div>我的回复</div>
+          <div>我的贴子</div>
+          <div>回复我的</div>
+          <div>我关注的圈子</div> 
+      </div>
       <div class="qusbox" >
-        余额:<el-input v-model="post.title" placeholder="请输入标题" style="margin-right:10px"></el-input> 
+        余额:<el-input v-model="user.monney" placeholder="请输入标题" style="margin-right:10px"></el-input> 
       </div>
     </div>
 
@@ -124,7 +132,7 @@ export default {
       return { 
         labelPosition:'left',
         // 控制变量
-        pid:4,
+        pid:5,
         // 问题
         question:{
           title:'',
@@ -141,12 +149,13 @@ export default {
           useraccount:'',
           password:'',
           address:'',
-          avator: ''
+          avator: '',
+          monney:''
         },
         // 贴子
         post:{
           title:'',
-          content:this.content,//这里不定义是单独传到后端，避免被Requestbody转码
+          content:'',//这里不定义是单独传到后端，避免被Requestbody转码
           // author:this.user.username 因为user是created执行后才有值，而post，user都是在这之前赋值，所以这样赋值会出现undefined
           author:'',
           time:'',
@@ -180,9 +189,9 @@ export default {
       },
       // 接受从子组件富文本编辑器传来的内容
       savecontent(content){
-        this.content = content
+        this.post.content = content
         // console.log("父组件中的debug info"+content);
-        console.log("查看保存后的内容(this.content)                 "+this.content);
+        console.log("查看保存后的内容(this.post.content)                 "+this.post.content);
       },
       // 这是获取下拉框中选中的圈子
       selectedCircle(cid){
@@ -218,6 +227,9 @@ export default {
             //  postcircle:this.content
            }
          })
+         if(res.data == 1){
+           alert("发布帖子成功")
+         }
         
       },
       // 发布问题的方法
@@ -243,6 +255,8 @@ export default {
        this.user.useraccount = result.useraccount
        this.user.avator = result.avator
        this.user.address = result.address
+       this.user.monney = result.monney
+       console.log(result);
       //  论坛模块
        const bbsaxios = this.$config.getAxiosInstance('bbs')
        let resp2 = await bbsaxios.get('/api/circle')
