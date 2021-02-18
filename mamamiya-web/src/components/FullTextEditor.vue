@@ -117,7 +117,7 @@ export default {
         // console.log(this.content);
       },
       onEditorFocus(quill) {
-        this.content = JSON.parse(localStorage.getItem("content"))
+        // this.content = JSON.parse(localStorage.getItem("content"))
         console.log('editor focus!', quill)
       },
       onEditorReady(quill) {

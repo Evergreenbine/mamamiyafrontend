@@ -101,13 +101,12 @@ export default {
                 pid:item.pid,
                 useraccount:item.useraccount
             }})
-            console.log(res);
+            // console.log(res);
         },
         // 点击关注
         async focus(cid){
             // 获取当前的 用户账号
             let useraccount = JSON.parse(localStorage.getItem("username"))
-            
             const bbsaxios = this.$config.getAxiosInstance('bbs')
             if(this.isfollow == 0){
                 // 如果还没关注

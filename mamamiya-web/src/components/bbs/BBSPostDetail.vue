@@ -34,14 +34,17 @@
 
         <!-- 回复 -->
 
-        <div v-for="(item,index) in 5" :key="index"  class="replypost  margin-auto">
+        <div v-for="(item,index) in replypost" :key="index"  class="replypost  margin-auto">
             <div class="userinfo">
-                <img class="userimg" src="" alt="">
-                <p>骨川小夫</p>
+                <img class="userimg" :src="item.avator" alt="">
+                <p>{{item.username}}</p>
             </div>
             <div class="postcontent">
                 <div class="title">
-                    <!-- nihao  -->
+                    <div class="buttn" @click="replythis(item)">回复本楼</div>
+                </div>
+                <div>
+                    <div class="content" v-html="item.content">{{item.content}}</div>
                 </div>
             </div>
          
@@ -50,9 +53,9 @@
 
         <!-- 富文本编辑器 -->
            <div class="publishbox margin-auto">
-               <div class="huifushui">回复{{user.username}}</div>
-                <full-text-editor id="full"/>
-                <div class="replybtn">回复贴子</div>
+               <div class="huifushui">{{current == ''?'':`回复${current}`}}</div>
+                <full-text-editor id="full" @func="savecontent"/>
+                <div class="replybtn" @click="replypostmethod">回复贴子</div>
            </div>
          
       </div>
@@ -73,8 +76,50 @@ export default {
             user:{
                 avator:'',
                 username:'',
+                useraccount:''
             },
-            res:''
+            res:'',
+            replypost:[], //这是一个数组
+            replypost2:{
+                ruid: '',
+                useraccount: JSON.parse(localStorage.getItem("username")),
+                content:'' ,
+                pid:''
+            },
+            // 记录当前回复谁
+            current:'',
+            content:''
+        }
+    },
+    methods:{
+        // 回复层主
+        async replythis(user){
+            // 回复当前的是谁？
+            this.current = user.username
+
+            // 获取贴子id
+            let pid = this.$route.query.pid
+            
+
+            // 赋值一下
+            this.replypost2.ruid = user.useraccount
+            this.replypost2.pid =pid
+         
+
+            
+        },
+        savecontent(content){
+            this.replypost2.content = content
+            console.log("回复帖子的"+this.content);
+        },
+        async replypostmethod(){
+            const bbsaxios = this.$config.getAxiosInstance('bbs')
+            console.log(this.replypost2);
+            let res = await bbsaxios.post('/api/createReplyPost',this.replypost2)
+            if(res.data == 1){
+                alert("回帖子成功")
+                this.$router.go(0)
+            }
         }
     },
     components:{
@@ -96,11 +141,22 @@ export default {
                 //  useraccount:JSON.parse(localStorage.getItem('username'))
              }
          })
-    
+        // 查询楼主信息
          this.res = res.data.result[0]
          this.user.avator = this.res.avator
          this.user.username = this.res.username
-        console.log(this.user.avator);
+         this.user.useraccount = useraccount
+        // console.log(this.user.avator);
+        // console.log(pid);
+        // 构造默认的回复对象
+        this.replypost2.ruid = useraccount
+        this.replypost2.pid = pid
+
+        // 查询所有回复帖子的
+        let replypost = await bbsaxios.get(`/api/replypost/${pid}`)
+        // 保存所有回复
+        this.replypost = replypost.data
+        console.log(this.replypost);
     }
 }
 </script>
@@ -214,6 +270,19 @@ export default {
                 margin-top: 10px;
             }
         }
+        .buttn{
+            width: 120px;
+            height: 30px;
+            border: 1px solid gray;
+            float: right;
+            margin-top: 10px;
+            margin-right: 10px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+        .buttn:hover{
+            background-color: gainsboro;
+        }
         .postcontent{
             // background-color: antiquewhite;
             width: 698px;
@@ -222,7 +291,9 @@ export default {
                 height: 50px;
                 border-bottom: 1px solid gainsboro;
             }
-            
+            .content{
+                 overflow-x: auto;
+            }
         }
     }
     // 富文本编辑器
