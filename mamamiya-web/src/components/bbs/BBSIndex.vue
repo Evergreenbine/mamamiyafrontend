@@ -24,6 +24,7 @@
 
           </div>
       </div>
+      <div class="resource max-width margin-auto"></div>
   </div>
 </template>
 
@@ -59,6 +60,7 @@ export default {
     height: 50px;
     background-color: #FF7484;
 }
+// 资讯盒子
 .newsbox{
     margin-top: 30px;
     height: auto;
@@ -108,5 +110,12 @@ export default {
         height: 500px;
         border: 1px solid gold;
     }
+}
+// 资源盒子
+.resource{
+    margin-top: 80px;
+    height: 500px;
+    border: 1px solid gold;
+    margin-bottom: 100px;
 }
 </style>

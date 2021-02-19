@@ -2,20 +2,22 @@
   <div id="milkSelect" class="max-width margin-auto">
     <div id="tagnav">
     <div class="tag d-flex ">
-      <p class="tagname ">分类</p>
+      <p class="tagname "  @click="cid = ''">分类</p>
       <p class="tag-item" v-for="(item,index) in cataarr" :key="index" :class="{con : index === cid}" 
-      @click="selectcata(index)" >{{item}}</p>
+      @click="cid = index" >{{item}}</p>
+      
     </div> 
 
     <div class="tag d-flex">
-      <p class="tagname">阶段</p>
+      <p class="tagname" @click="sid = ''">阶段</p>
       <p class="tag-item" v-for="(item,index) in stage" :key="index" :class="{con : index === sid}" 
-      @click="selectsta(index)">{{item}}</p>
+      @click="sid = index">{{item}}</p>
     </div> 
     <div class="tag d-flex flex-wrap">
       <p class="tagname" >品牌</p>
       <div class="brandbox d-flex flex-wrap">
-      <p class="tag-item bitem" v-for="(item,index) in brand" :key="index" :class="{con : index === cid}"
+        <!-- 这里注意下,到时需要绑定的是index坐标对应的bid -->
+      <p class="tag-item bitem" v-for="(item,index) in brand" :key="index" @click="bid = index" :class="{con : index === bid}"
       >{{item.bname}}</p>
       <p class="more" @click="showmorebrand"> 更多 >></p>
       </div>
@@ -24,11 +26,11 @@
 
     <div class="tag d-flex">
       <p class="tagname">年龄</p>
-      <p class="tag-item" v-for="(item,index) in age" :key="index" :class="{con : index === cid}" >{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in age" :key="index" @click="aid = index" :class="{con : index === aid}" >{{item}}</p>
     </div> 
     <div class="tag d-flex" :class="{inputmoreactive:imactive == true}">
       <p class="tagname" >价格</p>
-      <p class="tag-item" v-for="(item,index) in price" :key="index" :class="{con : index === cid}">{{item}}</p>
+      <p class="tag-item" v-for="(item,index) in price" :key="index" @click="pid = index" :class="{con : index === pid}">{{item}}</p>
       <p class="inputmore" @click="input()">输入 >></p>
       <!-- <el-input v-model="input" placeholder="请输入内容"></el-input> -->
     </div> 
@@ -79,10 +81,30 @@ export default {
   name:"milkSelect",
   data() {
     return {
-      // 分类条件样式条件变量
-      cid :-1,
+       // 分类条件样式条件变量
+      cid :'',
       // 阶段条件变量
-      sid:-1,
+       sid:'',
+       // 品牌的条件变量
+       bid:'',
+       // 年龄段的id
+       aid:'',
+       // 价格的id
+       pid:'',
+      //  参数构造对象，因为watch监听不到对象内属性值的变化，故上面的变量是用于监听变化的，变化了就赋值给params对象
+      // 我们传给后端传的是一整个params条件对象,即保持一个一个选中状态的中间参数对象
+      params:{
+         cata :'',
+      // 阶段条件变量
+         stage:'',
+       // 品牌的条件变量
+       bid:'',
+       // 年龄段的id
+       age:'',
+       // 价格的id
+       pid:-1
+      },
+
       // 展示更多条件变量
       more:0,
       // 价格输入样式条件变量
@@ -102,6 +124,58 @@ export default {
       shopcar:''
      
     }
+  },
+  watch:{
+
+     cid:async function(val,oldVal){
+       this.params.cata =val
+       const axios = this.$config. getAxiosInstance('shop');
+       let res = await axios({
+         url:'/api/milk',
+         methods:'get',
+         params:{
+           cata:this.params.cata,
+           stage:this.params.stage,
+           age:this.params.age
+          
+        }
+       })
+       this.itemsarr = res.data.result
+       console.log(res.data);
+     },
+     sid:async function(val,oldVal){
+       this.params.stage =val
+       const axios = this.$config. getAxiosInstance('shop');
+       let res = await axios({
+         url:'/api/milk',
+         methods:'get',
+         params:{
+           cata:this.params.cata,
+           stage:this.params.stage,
+            age:this.params.age
+          
+        }
+       })
+       this.itemsarr = res.data.result
+       console.log(res.data);
+     },
+     aid:async function(val,oldVal){
+       this.params.age= val
+        const axios = this.$config. getAxiosInstance('shop');
+       let res = await axios({
+         url:'/api/milk',
+         methods:'get',
+         params:{
+           cata:this.params.cata,
+           stage:this.params.stage,
+            age:this.params.age
+          
+        }
+       })
+       this.itemsarr = res.data.result
+       console.log(res.data);
+     }
+
   },
   methods: {
     // input 显示控制方法
@@ -123,9 +197,7 @@ export default {
       let res = await axios.get('/api/brand/0');
       this.brand=  res.data.result
     },
-    selectcata(index){
-      this.cid = index;
-    },
+    
     selectsta(index){
       this.sid = index;
     },

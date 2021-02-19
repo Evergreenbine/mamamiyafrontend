@@ -53,6 +53,12 @@ export default {
     return {
       tableData: Array(20).fill(item)
     };
+  },
+  created(){
+    let a =JSON.parse(localStorage.getItem("admin"))
+    if(a == null || a == ''){
+      this.$router.replace({path:'/admin/login'})
+    }
   }
 };
 </script>
