@@ -5,8 +5,8 @@
          <div id="navitem-head" class=" max-width position-ab d-flex ">
              <div class="navitem d-flex fd-row ">
                  <div class="navitem-sub">社区</div>
-                 <div class="subnavitem">圈圈</div>
-                 <div class="subnavitem"><router-link to="/bbsindex">论坛</router-link></div>  
+                 <div class="subnavitem"><router-link to="/bbsindex">资讯</router-link></div>
+                 <div class="subnavitem"><router-link to="/bbs/post">论坛</router-link></div>  
              </div>
              <div class="navitem d-flex fd-row">
                  <div class="navitem-sub">学问</div>
@@ -15,8 +15,8 @@
              </div>
              <div class="navitem d-flex fd-row " style="border-right:none ">
                  <div class="navitem-sub">商城</div>
-                 <div class="subnavitem"><router-link to="/shop">用品</router-link></div>
-                 <div class="subnavitem">资讯</div>  
+                 <div class="subnavitem"><router-link to="/shop">奶粉</router-link></div>
+                 <div class="subnavitem">用品</div>  
              </div>    
          </div>   
          <!-- 轮播图 -->

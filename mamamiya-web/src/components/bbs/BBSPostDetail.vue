@@ -12,8 +12,8 @@
            <div class="middle max-width margin-auto position-re" >
           <!-- 顶部栏部分 -->
           <div class="headerinfo position-ab">
-               <div class="opbutton">发帖</div>
-               <div class="opbutton" @click="this.$router.push({path:'/user'})">回帖</div>
+               <div class="opbutton"><router-link :to="'/user'">发帖</router-link></div>
+               <div class="opbutton"><a href="#fulltext"> 回帖</a></div>
           </div>
           <!-- 头像部分 -->
           <div class="leftbody ">
@@ -34,17 +34,25 @@
 
         <!-- 回复 -->
 
-        <div v-for="(item,index) in replypost" :key="index"  class="replypost  margin-auto">
+        <div :id="index+1" v-for="(item,index) in replypost" :key="index"  class="replypost  margin-auto">
             <div class="userinfo">
                 <img class="userimg" :src="item.avator" alt="">
                 <p>{{item.username}}</p>
+                 <div class="floornums">第{{index+1}}楼</div>
             </div>
             <div class="postcontent">
                 <div class="title">
-                    <div class="buttn" @click="replythis(item)">回复本楼</div>
+                    <!-- {{item.ruid}} -->
+                    <!-- 回复->第{{item.floor}}楼的{{item.rname}} -->
+                    <div class="buttn" @click="replythis(item,index)"><a href="#fulltext"> 回复本楼</a></div>
                 </div>
                 <div>
+                   <div class="floorreply" v-show="item.floor != ''&&item.floor != null">
+                       <a class="huifu" :href="`#${item.floor}`" v-show="item.floor != ''&&item.floor != null">回复{{item.floor}}楼的{{item.rname}}</a>
+                       <p v-html="item.rcontent"></p>
+                   </div>
                     <div class="content" v-html="item.content">{{item.content}}</div>
+                   
                 </div>
             </div>
          
@@ -52,7 +60,7 @@
 
 
         <!-- 富文本编辑器 -->
-           <div class="publishbox margin-auto">
+           <div id="fulltext" class="publishbox margin-auto">
                <div class="huifushui">{{current == ''?'':`回复${current}`}}</div>
                 <full-text-editor id="full" @func="savecontent"/>
                 <div class="replybtn" @click="replypostmethod">回复贴子</div>
@@ -73,30 +81,39 @@ import BBsHeader from './header/BBSHeader'
 export default {
     data() {
         return {
+            // 这是楼主的信息
             user:{
                 avator:'',
                 username:'',
                 useraccount:''
             },
+            // 这个好像有点冗余，但不管它了
             res:'',
+            // 这是最开始进这个页面接受查询到的帖子的回复的数组
             replypost:[], //这是一个数组
+            // 这个是构造回帖的数据模型
             replypost2:{
                 ruid: '',
                 useraccount: JSON.parse(localStorage.getItem("username")),
                 content:'' ,
-                pid:''
+                pid:'',
+                // 这是假如你回复层主所需要携带的信息
+                rcontent:'',
+                floor:'',
+                rname:''
             },
             // 记录当前回复谁
             current:'',
+            // 这个测试用的
             content:''
         }
     },
     methods:{
         // 回复层主
-        async replythis(user){
+        async replythis(user,index){
             // 回复当前的是谁？
             this.current = user.username
-
+            // alert(user.content)
             // 获取贴子id
             let pid = this.$route.query.pid
             
@@ -104,14 +121,20 @@ export default {
             // 赋值一下
             this.replypost2.ruid = user.useraccount
             this.replypost2.pid =pid
+            // 如果是回复楼层的,添加层主的额外信息
+            this.replypost2.rcontent = user.content
+            this.replypost2.floor = index+1
+            this.replypost2.rname = user.username
          
 
             
         },
+        // 接受富文本子组件内容的方法
         savecontent(content){
             this.replypost2.content = content
             console.log("回复帖子的"+this.content);
         },
+        // 回复贴子的方法
         async replypostmethod(){
             const bbsaxios = this.$config.getAxiosInstance('bbs')
             console.log(this.replypost2);
@@ -269,6 +292,12 @@ export default {
                 height: 182px;
                 margin-top: 10px;
             }
+            .floornums{
+                width:inherit;
+                height: 20px;
+                background-color: ghostwhite;
+
+            }
         }
         .buttn{
             width: 120px;
@@ -295,6 +324,12 @@ export default {
                  overflow-x: auto;
             }
         }
+        .floorreply{
+            width:698px ;
+            height: 80px;
+            background-color: gainsboro;
+        }
+       
     }
     // 富文本编辑器
     .publishbox{
