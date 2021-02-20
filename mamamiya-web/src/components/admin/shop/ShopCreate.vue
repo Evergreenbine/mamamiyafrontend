@@ -73,7 +73,17 @@
       <div class="item d-flex">
         <p class="tagname">推荐语</p><el-input v-model="good.recommend" ></el-input>
       </div>  
-     
+       <div class="item d-flex">
+        <p class="tagname">商品分类</p>  
+        <el-select v-model="good.gcid" placeholder="请选择" @change="selectage">
+            <el-option
+              v-for="item in goodcata"
+              :key="item.gcid"
+              :label="item.gname"
+              :value="item.gcid">
+            </el-option>
+         </el-select>
+      </div> 
     
       <div class="item d-flex">
          <el-button type="success" @click="savegood">保存</el-button>
@@ -87,6 +97,7 @@ export default {
   },
   data() {
     return {
+      goodcata:'',
       stage:[
           {sid:0,sname:"1段"},
           {sid:1,sname:"2段"},
@@ -122,7 +133,8 @@ export default {
         stage:1,
         age:6,
         bid:0,
-        img:""
+        img:"",
+        gcid:''
     }
 };
   },
@@ -156,6 +168,10 @@ export default {
        let res = await axios.get('/api/brand/0');
     //    console.log(res);
        this.brandarr = res.data.result
+
+      //  查询商品的分类
+      let resp = await axios.get('/api/goodcata')
+      this.goodcata = resp.data
   }
 };
 </script>

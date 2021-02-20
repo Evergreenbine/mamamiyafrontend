@@ -14,18 +14,18 @@
       @click="sid = index">{{item}}</p>
     </div> 
     <div class="tag d-flex flex-wrap">
-      <p class="tagname" >品牌</p>
+      <p class="tagname" @click="bid = -1">品牌</p>
       <div class="brandbox d-flex flex-wrap">
         <!-- 这里注意下,到时需要绑定的是index坐标对应的bid -->
-      <p class="tag-item bitem" v-for="(item,index) in brand" :key="index" @click="bid = index" :class="{con : index === bid}"
+      <p class="tag-item bitem" v-for="(item,index) in brand" :key="index" :class="{con : index === bid}"  @click="bid = index"
       >{{item.bname}}</p>
-      <p class="more" @click="showmorebrand"> 更多 >></p>
+      <p class="more" @click="showmorebrand"> {{ moreb == 0 ?"更多 >>":"收起<<"}}</p>
       </div>
       
     </div> 
 
     <div class="tag d-flex">
-      <p class="tagname">年龄</p>
+      <p class="tagname" @click="aid = ''">年龄</p>
       <p class="tag-item" v-for="(item,index) in age" :key="index" @click="aid = index" :class="{con : index === aid}" >{{item}}</p>
     </div> 
     <div class="tag d-flex" :class="{inputmoreactive:imactive == true}">
@@ -107,6 +107,8 @@ export default {
 
       // 展示更多条件变量
       more:0,
+      // 展示更多品牌的样式变量
+      moreb:0,
       // 价格输入样式条件变量
       imactive:false,
       inputhidden:false,
@@ -126,50 +128,78 @@ export default {
     }
   },
   watch:{
-
+    // 分类
      cid:async function(val,oldVal){
        this.params.cata =val
        const axios = this.$config. getAxiosInstance('shop');
        let res = await axios({
          url:'/api/milk',
          methods:'get',
-         params:{
+           params:{
            cata:this.params.cata,
            stage:this.params.stage,
-           age:this.params.age
+           age:this.params.age,
+           bid:this.params.bid
           
         }
        })
        this.itemsarr = res.data.result
        console.log(res.data);
      },
+    //  阶段
      sid:async function(val,oldVal){
        this.params.stage =val
        const axios = this.$config. getAxiosInstance('shop');
        let res = await axios({
          url:'/api/milk',
          methods:'get',
-         params:{
+          params:{
            cata:this.params.cata,
            stage:this.params.stage,
-            age:this.params.age
-          
+            age:this.params.age,
+            bid:this.params.bid
         }
        })
        this.itemsarr = res.data.result
        console.log(res.data);
      },
+    //  年龄段
      aid:async function(val,oldVal){
        this.params.age= val
         const axios = this.$config. getAxiosInstance('shop');
        let res = await axios({
          url:'/api/milk',
          methods:'get',
-         params:{
+          params:{
            cata:this.params.cata,
            stage:this.params.stage,
-            age:this.params.age
+            age:this.params.age,
+            bid:this.params.bid
           
+        }
+       })
+       this.itemsarr = res.data.result
+       console.log(res.data);
+     },
+     bid:async function (val,oldVal){
+       console.log(val);
+       if(val == -1){
+         this.params.bid = ''
+       }else{
+        this.params.bid = this.brand[val].bid
+       }
+      // alert(this.brand[val].bname + this.brand[val].bid );
+      //  console.log(this.params.bid);
+  
+      const axios = this.$config. getAxiosInstance('shop');
+       let res = await axios({
+         url:'/api/milk',
+         methods:'get',
+         params:{
+            cata:this.params.cata,
+            stage:this.params.stage,
+            age:this.params.age,
+            bid:this.params.bid
         }
        })
        this.itemsarr = res.data.result
@@ -193,9 +223,17 @@ export default {
     },
     // 更多品牌显示控制方法
     async showmorebrand(){
+      if(this.moreb == 0){
       const axios = this.$config. getAxiosInstance('shop');
       let res = await axios.get('/api/brand/0');
       this.brand=  res.data.result
+        this.moreb=5
+      }else{
+         const axios = this.$config. getAxiosInstance('shop');
+      let res = await axios.get('/api/brand/5');
+      this.brand=  res.data.result
+      this.moreb = 0
+      }
     },
     
     selectsta(index){
@@ -206,14 +244,14 @@ export default {
       
       // 拼接购物车item
       var goods = {
-        id:item.gid,
+        gid:item.gid,
         price:item.price,
         count:item.count,
         img:item.img,
         rec:item.recommend,
         store:item.store
       }
-    
+  
       // 丢到vuex
       this.$store.commit('increase',goods)
 
@@ -229,7 +267,7 @@ export default {
       //  this.shopcar = localStorage.getItem("shopset")
       //  console.log(this.shopcar);
        const axios = this.$config. getAxiosInstance('shop')
-       let res = await axios.get('/api/milks');
+       let res = await axios.get('/api/milk');
        this.itemsarr = res.data.result
       //  初始化每件商品的购物车数量
        for(let item of this.itemsarr){
@@ -262,6 +300,7 @@ export default {
   background-color: rgba(93, 155, 247, 0.26);
   color: white;
   margin: 0;
+  cursor: pointer;
 }
 .tag-item{
   width: 150px;

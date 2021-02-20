@@ -1,6 +1,19 @@
 <template>
   <div class="createshop">
+       <div class="item d-flex">
+        <p class="tagname">品牌图片</p> 
+        <el-upload 
+          class="avatar-uploader inoimga"
+          action="http://localhost:8003/api/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          >
+          <img v-if="brand.img" :src="brand.img" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </div> 
       <div class="item d-flex">
+        
         <p class="tagname">品牌名</p><el-input ></el-input>
       </div>  
       <div class="item d-flex">

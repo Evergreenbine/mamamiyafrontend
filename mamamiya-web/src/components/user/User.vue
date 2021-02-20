@@ -109,14 +109,29 @@
     <div class="infobox position-re" v-show="pid == 5">
 
       <div class="selectbox">
-          <div>查看金额</div>
-          <div>我的回复</div>
-          <div>我的贴子</div>
-          <div>回复我的</div>
-          <div>我关注的圈子</div> 
+          <div class="pageitem" :class="{pageitemac : pageid == 1}" @click="pageid = 1">查看金额</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 2}" @click="pageid = 2">我的回复</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 3}" @click="pageid = 3">我的贴子</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 4}" @click="pageid = 4">回复我的</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 5}" @click="pageid = 5">我关注的圈子</div> 
+          <div class="pageitem" :class="{pageitemac : pageid == 6}" @click="querymything">我购买的</div> 
       </div>
-      <div class="qusbox" >
+      <!-- 5:第一页 -->
+      <div class="otherbox" v-show="pageid == 1" >
         余额:<el-input v-model="user.monney" placeholder="请输入标题" style="margin-right:10px"></el-input> 
+      </div>
+      <!-- 5:第二页 -->
+      <div class="otherbox" v-show="pageid == 6" >
+        <div class="overflow-auto poposi">
+          <div v-for="(item,index) in myshop" :key="index">
+            {{item.gname}}
+          </div>
+         <el-pagination
+  background
+  layout="prev, pager, next"
+  :total="1000">
+</el-pagination>
+        </div>
       </div>
     </div>
 
@@ -140,6 +155,8 @@ export default {
           content:'',
           qcid:''
         },
+        // 这是其他页面的页面控制变量
+        pageid:6,
         // 这个是问题分类变量
         quescata2:'',
 
@@ -165,7 +182,11 @@ export default {
         // 单独接收子组件传来的内容
         content:'',
         // 圈子分类
-        circle:[]
+        circle:[],
+        // 购买记录
+        myshop:[],
+        // 总页数
+        totalpage:0
   
       }
     },
@@ -242,6 +263,27 @@ export default {
           alert("发布问题成功")
           this.pid =1
         }
+      },
+      //查询我的购买记录
+      querymything(){
+        this.pageid = 6
+        const bbsaxios = this.$config.getAxiosInstance('shop')
+      },
+      // 分页栏方法
+       async linkGen(pageNum) {
+         console.log(pageNum);
+          const axios = this.$config.getAxiosInstance('shop')
+          let resp = await axios({
+            url:'/api/myshop',
+            method:'get',
+            params:{
+              useraccount: this.user.useraccount,
+              curpage:pageNum+1
+            }
+          })
+         this.myshop = resp.data.resp
+         this.totalpage = resp.data.totalpage
+        return pageNum === 1 ? '?' : `?page=${pageNum}`
       }
     },
     async created() {
@@ -267,6 +309,7 @@ export default {
       //  查询问题分类
       let quescata = await bbsaxios.get("/api/ques/all")
       this.quescata2 = quescata.data
+      // 查询购买记录
      
     }
   
@@ -408,9 +451,39 @@ p{
 
   // 发布问题盒子
   .qusbox{
-    width: 900px;
+    width: 960px;
     margin-top: 30px;
     margin-left: 15px;
+    // border: 1px solid blue;
+    height: 420px;
+  }
+  .otherbox{
+    position: relative;
+     width: 960px;
+    margin-top: 30px;
+    margin-left: 15px;
+    border: 1px solid blue;
+    height: 420px;
+    .poposi{
+      position: absolute;
+      bottom: 0;
+      right: 20px;
+    }
+  }
+  .selectbox{
+    width: 800px;
+    height: 30px;
+    margin-top: 20px;
+    .pageitem{
+      float: left;
+      margin-left: 20px;
+      font-size: 13px;
+      width: 90px;
+      cursor: pointer;
+    }
+    .pageitemac{
+      border-bottom: 1px solid gainsboro;
+    }
   }
 </style>
 

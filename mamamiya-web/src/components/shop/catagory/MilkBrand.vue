@@ -69,7 +69,7 @@ export default {
                     console.log(item);
                     // 拼接购物车item
                     var goods = {
-                      id:item.gid,
+                      gid:item.gid,
                       price:item.price,
                       count:0,
                       img:item.img,
@@ -88,11 +88,7 @@ export default {
         },
         goto(item){
                 this.$router.push({
-                    path:'/shop/milkbrand',
-                    query:{
-                        bid:item.bid,
-                        gid:item.gid
-                    }
+                    path:`/shop/milkbrand?bid=${item.bid}&gid=${item.gid}`
                 })
             }
         },
@@ -107,15 +103,10 @@ export default {
         // 根据gid查询特定的商品
         let gid = this.$route.query.gid
 
-        let speicialgood = await axios({
-            url:'/api/milk',
-            method:'get',
-            params:{
-                gid:gid
-            }
-        })
+        let speicialgood = await axios.get(`/api/specificgood/${gid}`)
+      
         console.log(speicialgood);
-        this.speicialgood = speicialgood.data.result[0]
+        this.speicialgood = speicialgood.data
 
         // 根据bid查询所有商品
 
@@ -154,6 +145,7 @@ export default {
 .midbox2{
     height: 500px;
     // border: 1px solid greenyellow;
+    margin-top: 30px;
 }
 .midbox3{
     cursor: pointer;
@@ -165,7 +157,7 @@ export default {
 .rightbox{
     width: 750px;
     height: 350px;
-    // border: 1px solid gainsboro;
+    border-bottom: 1px solid gainsboro;
     .price{
         text-align: left;
         left: 0;

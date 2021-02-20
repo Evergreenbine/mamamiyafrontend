@@ -38,7 +38,7 @@ export default new Vuex.Store({
             var flag = false;
 
             state.shopcar.some(item => {
-                if (item.id == goods.id) {
+                if (item.gid == goods.gid) {
                     // 赋值给购物车里的item
                     item.count += parseInt(goods.count)
                     flag = true

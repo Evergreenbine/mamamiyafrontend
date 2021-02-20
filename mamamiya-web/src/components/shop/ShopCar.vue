@@ -41,7 +41,7 @@
           <!-- <div><p>清除失效宝贝</p></div> -->
           <!-- <div><p>移入收藏夹</p></div> -->
           <div class="toright">
-          <div><p class="items">已选3件宝贝</p></div>
+          <div><p class="items">已选{{wantitem.length}}件宝贝</p></div>
           <div><p class="acount">合计(不含运费)：<span>{{this.summoney}}</span>元</p></div>
            <b-button variant="danger" style="margin-top:20px;width=100px" @click="purchase">结算</b-button>
            
@@ -59,7 +59,9 @@ export default {
                 // 选中的购物车
                 wantitem:[],
                 // 选中物品的总金额
-                summoney:0
+                summoney:0,
+                // 是否全选
+                chekall:false
             }
         },
     watch:{
@@ -78,6 +80,7 @@ export default {
          this.summoney = 0;
          var sum = 0
            for(var i=0;i<val.length;i++){
+               
                 sum += val[i].price*val[i].count
            }
            this.summoney = sum
@@ -86,7 +89,24 @@ export default {
     methods: {
         async purchase(){
             const axios = this.$config. getAxiosInstance('shop')
-            let res = await axios.post("/api/milks/purchase",this.wantitem)
+            console.log(this.wantitem);
+            let res = await axios({
+                url:'/api/milks/purchase',
+                method:'post',
+                data:this.wantitem,
+                params:{
+                    useraccount:JSON.parse(localStorage.getItem('username')),
+                    needmoney:this.summoney
+                }
+            })
+            if(res.data == 1){
+                alert("支付成功")
+                this.shopcar2 = this.shopcar2.filter((x) => !this.wantitem.some((item) => x.gid === item.gid));
+                 localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
+                // this.$router.go(0)
+            }else{
+                alert("支付失败")
+            }
         },
         // 需要添加bug
         // 传入index,再从购物车里面找到对应的item,然后--
@@ -100,7 +120,7 @@ export default {
                   // 要处理下选中的物品的车车
                  for (var j = 0;j< this.wantitem.length;j++) {
                  console.log(this.wantitem[j].id);
-                 if(this.shopcar2[index].id == this.wantitem[j].id){
+                 if(this.shopcar2[index].gid == this.wantitem[j].gid){
                      this.wantitem.splice(j,1)
                      console.log(this.wantitem);
                  }
@@ -181,10 +201,10 @@ export default {
            
         },
         iwantall(){
-            // let arr = document.getElementsByClassName("iswant")
-            // for(var i =0;i<arr.length;i++){
-            //    alert(arr[i].getAttribute("checked"))
-            // }
+            let arr = document.getElementsByClassName("iswant")
+            for(var i = 0;i<arr.length;i++){
+                console.log(arr[i]);
+            }
         },
         handleScroll () {
             // var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
@@ -206,13 +226,16 @@ export default {
 
         },
     },
+    
     created() {
     //  console.log(this.$store.state.shopcar);
         this.shopcar2 =this.$store.state.shopcar
+
+        // 进入这个页面前，还要查询一下购物车中的商品是否失效了，比如说后端把这个商品删了，或者库存没了
     },
     mounted(){
         window.addEventListener('scroll',this.handleScroll)
-        
+ 
     }
 }
 
