@@ -15,12 +15,26 @@
              <div class="rate"></div>
              <div class="price position-ab">价格:{{speicialgood.price}}</div>
              <div class="cata">{{cataarr[speicialgood.cata]}}</div>
-             <div class="age">{{age[speicialgood.age].value}}</div>
-             <div class="stage">{{stage[speicialgood.stage].sname}}</div>
+             <div class="age">{{age[speicialgood.age]}}</div>
+             <div class="stage">{{stage[speicialgood.stage]}}</div>
              <el-button class="button" type="primary" @click="toShopCar(speicialgood)">加入购物车</el-button>
              <div></div>
          </div>
      </div>
+
+     <div class="goodcomment max-width margin-auto" >
+         <div class="commentbox" v-for="(item,index) in gcomment" :key="index">
+             <div class="userbox">
+                    <img :src="item.avator" alt="" class="av">
+                    <p class="name">{{item.username}}</p>
+             </div>
+             <div class="commentbox">
+                 <b-textarea rows="3"  readonly :placeholder="item.content"/>
+                 <p class="time">{{item.createtime}}</p>
+             </div>
+         </div>
+     </div>
+
      <div class="max-width margin-auto morelogo">
         更多商品
      </div>
@@ -42,26 +56,33 @@ export default {
             //根据bid查询所有商品
             bidshop:[],
             cataarr:['羊奶粉','婴幼儿奶粉','防腹泻奶粉'],
-            age:[{
-                aid:0,
-                  value:"0 - 6 个月"
-              },{
-                  aid:1,
-                  value:"6 - 12 个月"
-              },{
-                  aid:2,
-                  value:"12 - 24 个月"
-              },{
-                  aid:3,
-                  value:"24 - 36 个月"
-              }],
+            age:[
+                
+                 "0 - 6 个月"
+              ,
+                 
+                 "6 - 12 个月"
+              ,
+                 
+                 "12 - 24 个月"
+              ,
+                 
+                 "24 - 36 个月"
+              ],
                stage:[
-          {sid:0,sname:"1段"},
-          {sid:1,sname:"2段"},
-          {sid:2,sname:"3段"},
-          {sid:3,sname:"4段"},
-          {sid:4,sname:"5段"},
+          "1段",
+          "2段",
+          "3段",
+          "4段",
+          "5段",
       ],
+    //  商品评论数组 
+      gcomment:[]
+        }
+    },
+    watch:{
+        $router:function(val,oldval){
+            alert(val)
         }
     },
     methods:{
@@ -90,6 +111,8 @@ export default {
                 this.$router.push({
                     path:`/shop/milkbrand?bid=${item.bid}&gid=${item.gid}`
                 })
+                // 刷新一下就行了哈哈
+                this.$router.go(0)
             }
         },
 
@@ -124,6 +147,16 @@ export default {
                 this.bidshop.splice(j,1)
             }
         }
+        // 查询商品评论
+        let respp= await axios({
+            url:'/api/comment',
+            method:'get',
+            params:{
+                gid:gid
+            }
+        })
+        this.gcomment = respp.data
+
 
     }
 }
@@ -232,6 +265,46 @@ export default {
         position: absolute;
         top: 250px;
         left: 10px;
+    }
+}
+.goodcomment{
+  
+    height: auto;
+    border-bottom: 1px solid gainsboro;
+    .commentbox{
+        width: inherit;
+        height: 130px;
+        position: relative;
+        // border: 1px solid gainsboro;
+        .userbox{
+            position: absolute;
+            width: 120px;
+            height: 130px;
+            // border: 1px solid yellow;
+            left: 40px;
+            .av{
+                width: 82px;
+                height: 82px;
+                margin-top: 10px;
+            }
+            .name{
+                margin-top: 6px;
+                color: rgb(143, 143, 143);
+            }
+        }
+        .commentbox{
+            width: 900px;
+            // height: 105px;
+            position: absolute;
+            right: 30px;
+            top: 10px;
+        }
+        .time{
+            position: absolute;
+            color: rgb(143, 143, 143);
+            right: 0;
+        }
+
     }
 }
 </style>

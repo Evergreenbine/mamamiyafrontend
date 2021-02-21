@@ -28,6 +28,9 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+
+
+
 new Vue({
     router,
     store,
