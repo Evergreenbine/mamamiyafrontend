@@ -129,7 +129,7 @@
                   <div id="recommendBox" class="position-ab ">
                       <p class="loooo">推荐品牌</p>
                     <div class="brandbox ">
-                        <div class="braitem" v-for="(item,index) in 8" :key="index">
+                        <div class="braitem" v-for="(item,index) in sellgoodbrand" :key="index">
 
                         </div>
                     </div>
@@ -163,7 +163,8 @@ export default {
             // 热销商品
             welocomegood:[],
             // 最新热评论
-            lgood:[]
+            lgood:[],
+            sellgoodbrand:[]
         }
     },
     methods:{
@@ -191,27 +192,29 @@ export default {
     },
     async created(){
          const axios = this.$config.getAxiosInstance('shop')
-         let res = await axios.get('/api/milks/good');
+         let res = await axios.get('/api/milks/good/1');
         //  好评商品
          this.bboxitem = res.data
          console.log(res);
 
         //  最新商品
-        let resp = await axios.get('/api/lastestgood')
+        let resp = await axios.get('/api/lastestgood/1')
         this.lastestgood = resp.data
 
         //  热门商品
-        let respo = await axios.get('/api/welcome')
+        let respo = await axios.get('/api/welcome/1')
         this.welocomegood = respo.data
         console.log("热门商品");
         console.log(respo.data);
 
         // 最新热评论
-        let respp = await axios.get('/api/lastestrate')
+        let respp = await axios.get('/api/lastestrate/1')
         this.lgood = respp.data.res
         console.log("最新热评论");
         
-
+ // 销量最好的品牌
+        let nonamel = await axios.get('/api/sellgoodbrand/1')
+        this.sellgoodbrand = nonamel.data.result
        
     }
 

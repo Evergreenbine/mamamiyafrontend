@@ -74,9 +74,19 @@ const routes = [{
             { path: '/shop/milk', component: MilkSelect },
             { path: '/shop/shopcar', component: ShopCar },
             {
+                path: '/shop/diapers',
+                component: () =>
+                    import ('../components/shop/catagory/DiapersSelect')
+            },
+            {
                 path: '/shop/milkbrand',
                 component: () =>
                     import ('../components/shop/catagory/MilkBrand')
+            },
+            {
+                path: '/shop/diapersbrand',
+                component: () =>
+                    import ('../components/shop/catagory/DiapersBrand')
             }
         ]
     },
@@ -170,16 +180,33 @@ const routes = [{
                 component: () =>
                     import ('../components/admin/shop/ShopCreate')
             }, {
-                path: '/admin/shop/milkcreate',
+                path: '/admin/shop/diaperscreate',
                 component: () =>
-                    import ('../components/admin/shop/ShopCreate')
+                    import ('../components/admin/shop/DiapersCreate')
+            },
+            {
+                path: '/admin/shop/feedingcreate',
+                component: () =>
+                    import ('../components/admin/shop/FeedingCreate')
+            },
+            {
+                path: '/admin/shop/feedinglist',
+                component: () =>
+                    import ('../components/admin/shop/FeedingList')
             },
 
             {
                 path: '/admin/shop/list',
                 component: () =>
                     import ('../components/admin/shop/ShopList')
-            }, {
+            },
+
+            {
+                path: '/admin/shop/diaperslist',
+                component: () =>
+                    import ('../components/admin/shop/DiapersList')
+            },
+            {
                 path: '/admin/shop/brand',
                 component: () =>
                     import ('../components/admin/shop/BrandCreate')

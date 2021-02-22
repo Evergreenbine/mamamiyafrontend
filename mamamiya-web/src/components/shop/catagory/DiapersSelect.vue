@@ -2,14 +2,14 @@
   <div id="milkSelect" class="max-width margin-auto">
     <div id="tagnav">
     <div class="tag d-flex ">
-      <p class="tagname "  @click="cid = ''">分类</p>
+      <p class="tagname "  @click="cid = ''">尿布类型</p>
       <p class="tag-item" v-for="(item,index) in cataarr" :key="index" :class="{con : index === cid}" 
       @click="cid = index" >{{item}}</p>
       
     </div> 
 
     <div class="tag d-flex">
-      <p class="tagname" @click="sid = ''">阶段</p>
+      <p class="tagname" @click="sid = ''">尺码</p>
       <p class="tag-item" v-for="(item,index) in stage" :key="index" :class="{con : index === sid}" 
       @click="sid = index">{{item}}</p>
     </div> 
@@ -25,24 +25,11 @@
     </div> 
 
     <div class="tag d-flex">
-      <p class="tagname" @click="aid = ''">年龄</p>
+      <p class="tagname" @click="aid = ''">年龄段</p>
       <p class="tag-item" v-for="(item,index) in age" :key="index" @click="aid = index" :class="{con : index === aid}" >{{item}}</p>
     </div> 
-    <div class="tag d-flex" :class="{inputmoreactive:imactive == true}">
-      <p class="tagname" >价格</p>
-      <p class="tag-item" v-for="(item,index) in price" :key="index" @click="pid = index" :class="{con : index === pid}">{{item}}</p>
-      <p class="inputmore" @click="input()">输入 >></p>
-      <!-- <el-input v-model="input" placeholder="请输入内容"></el-input> -->
-    </div> 
-   <div  v-show="inputhidden">
-   <div class="tag d-flex " style="margin-top:10px" >
-      <p class="tagname " style=" background-color:white"></p>
-      <div class="priceinput" >
-         <input class="price-item" type="text" placeholder="请输入最低价格"> <p class="price-item">-</p> <input class="price-item" type="text" placeholder="请输入最高价格"> 
-         <p class="price-item">确定</p>
-      </div>
-    </div> 
-    </div>
+
+   
 
     <!-- <div class="tag max-width"><p class="tagname">阶段</p></div>
     <div class="tag max-width"><p class="tagname">品牌</p></div>
@@ -103,7 +90,7 @@ export default {
        age:'',
        // 价格的id
        pid:-1,
-       gcid:1
+       gcid:2
       },
 
       // 展示更多条件变量
@@ -115,10 +102,10 @@ export default {
       inputhidden:false,
       count:0,
       // 条件数字 条件以这里为准
-      cataarr:['羊奶粉','婴幼儿奶粉','防腹泻奶粉'],
-      stage:['1段','2段','3段','4段','5段'],
+      cataarr:['婴儿尿裤','拉拉裤','婴儿纸尿片'],
+      stage:['s码','m码','l码','xl码','xxl码'],
       brand:[],
-      age:['0 - 6 个月','6 - 12个月','12 - 24个月','24 - 36 个月'] ,
+      age:['0 - 3 个月','3 - 6 个月','6 - 9 个月','9 - 12 个月'] ,
       price:['0 - 100 元','100 - 200 元','200 -300 元','300 - 400 元'],
       // 默认列表数组
       itemsarr:[],
@@ -129,7 +116,7 @@ export default {
     }
   },
   watch:{
-    // 分类
+    // 尿布分类
      cid:async function(val,oldVal){
        this.params.cata =val
        const axios = this.$config. getAxiosInstance('shop');
@@ -141,7 +128,7 @@ export default {
            stage:this.params.stage,
            age:this.params.age,
            bid:this.params.bid,
-           gcid:1
+           gcid:2
           
         }
        })
@@ -160,7 +147,7 @@ export default {
            stage:this.params.stage,
             age:this.params.age,
             bid:this.params.bid,
-            gcid:1
+            gcid:2
         }
        })
        this.itemsarr = res.data.result
@@ -178,7 +165,7 @@ export default {
            stage:this.params.stage,
             age:this.params.age,
             bid:this.params.bid,
-            gcid:1
+            gcid:2
           
         }
        })
@@ -204,7 +191,7 @@ export default {
             stage:this.params.stage,
             age:this.params.age,
             bid:this.params.bid,
-            gcid:1
+            gcid:2
         }
        })
        this.itemsarr = res.data.result
@@ -230,12 +217,11 @@ export default {
     async showmorebrand(){
       if(this.moreb == 0){
       const axios = this.$config. getAxiosInstance('shop');
-     
       let res = await axios({
          url:'/api/brand',
          method:'get',
          params:{
-           gcid:1,
+           gcid:2,
            limit:0
          }
          });
@@ -287,7 +273,8 @@ export default {
       //  this.shopcar = localStorage.getItem("shopset")
       //  console.log(this.shopcar);
        const axios = this.$config. getAxiosInstance('shop')
-       let res = await axios({url:'/api/milk',params:{gcid:1}});
+      //  查出所有商品
+       let res = await axios({url:'/api/milk',params:{gcid:2}});
        this.itemsarr = res.data.result
       //  初始化每件商品的购物车数量
        for(let item of this.itemsarr){
@@ -295,11 +282,11 @@ export default {
         //  console.log(item);
          item.count = 0;
        }
-       let resbrand =  await axios({
+       let resbrand = await axios({
          url:'/api/brand',
          method:'get',
          params:{
-           gcid:1,
+           gcid:2,
            limit:5
          }
          });
