@@ -108,8 +108,31 @@
           <div class="rightbox">
               <div id="select"  @click="moreSelect(cata[0])"><p>更多选项 >></p></div>
               <div id="subrightbox" class="position-re"> 
-                  <div id="recommendBox" class="position-ab">
-                      <p>推荐品牌</p>
+                  <div class="goodcomentgoods" >
+                      <div class="gooditem position-re" v-for="item in lgood" :key="item">
+                          <!-- 商品信息 -->
+                         <div class="goodinfo">
+                             <img :src="item.img" alt="">
+                             <p>{{item.gname}}</p>
+                         </div>
+                         <!-- 评论信息 -->
+                         <div class="commentbox">
+                             <p class="rr">{{item.recommend}}</p>
+                             <el-rate class="rra" disabled v-model="item.rate"></el-rate>
+                             <p class="cc">{{item.content}}</p>
+                             <p class="ii">用户:{{item.useraccount}}&nbsp&nbsp&nbsp{{item.createtime}}</p>
+                             
+                         </div>
+
+                      </div>
+                  </div>
+                  <div id="recommendBox" class="position-ab ">
+                      <p class="loooo">推荐品牌</p>
+                    <div class="brandbox ">
+                        <div class="braitem" v-for="(item,index) in 8" :key="index">
+
+                        </div>
+                    </div>
                   </div>
               </div>
              
@@ -135,9 +158,12 @@ export default {
             ],
             // 好评商品盒
             bboxitem:[],
+            // 新品
             lastestgood:[],
             // 热销商品
-            welocomegood:[]
+            welocomegood:[],
+            // 最新热评论
+            lgood:[]
         }
     },
     methods:{
@@ -174,9 +200,17 @@ export default {
         let resp = await axios.get('/api/lastestgood')
         this.lastestgood = resp.data
 
+        //  热门商品
         let respo = await axios.get('/api/welcome')
         this.welocomegood = respo.data
+        console.log("热门商品");
         console.log(respo.data);
+
+        // 最新热评论
+        let respp = await axios.get('/api/lastestrate')
+        this.lgood = respp.data.res
+        console.log("最新热评论");
+        
 
        
     }
@@ -184,11 +218,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /* 左边盒子*/
 .maxbox{
     height: 480px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     /* border: 1px solid blue; */
 }
 .leftbox{
@@ -304,13 +338,96 @@ export default {
 #subrightbox{
      width: 770px;
     height: 380px;
-     border: 1px solid rgb(255, 241, 47);
+    //  border: 1px solid rgb(255, 241, 47);
+     .goodcomentgoods{
+         width: 470px;
+         height:380px ;
+         float: left;
+        //  border:#007bff 1px solid;
+         .gooditem{
+             cursor: pointer;
+             width: inherit;
+             height: 123px;
+            //  border-bottom: 1px solid pink;
+             margin-bottom: 3px;
+            //  商品信息盒子
+             .goodinfo{
+                 width: 123px;
+                 height: 123px;
+                //  border: 1px solid greenyellow;
+                 float: left;
+                 img{
+                     width: 98px;
+                     height: 98px;
+                     border: gainsboro 1px solid;
+                     margin: 0 auto;
+                     margin-top: 5px;
+                     
+                 }
+                 p{
+                     font-size: 10px;
+                     color:rgb(155, 155, 155);
+                 }
+                 
+
+             }
+            //  评论盒子
+             .commentbox{
+                 float: left;
+                 width: 343px;
+                 height: 123px;
+                //  border: 1px orange solid;
+                 .rr{
+                    //    border: 1px solid gainsboro;
+                       margin: 0;
+                        color:rgb(155, 155, 155);
+                 }
+                 .rra{
+                    //  border: 1px solid gainsboro;
+                 }
+                 .cc{
+                    //    border: 1px solid gainsboro;
+                       text-align: left;
+                         color:rgb(155, 155, 155);
+                         width: inherit;
+                         height: 50px;
+                         font-size: 13px;
+                         overflow: hidden;
+                         margin: 0;
+                 }
+                 .ii{
+                     line-height: inherit;
+                     font-size: 10px;
+                     text-align: left;
+                     color:rgb(155, 155, 155);
+                 }
+             }
+         }
+     }
 }
 #recommendBox{
     right: 0;
     width: 300px;
     height: 380px;
-    border: 1px solid greenyellow;
+    // border: 1px solid greenyellow;
+    .loooo{
+        margin: 0;
+        color: #007bff;
+    }
+    .brandbox{
+        width: inherit;
+        height: 356px;
+        // border: 1px solid gainsboro;
+       
+        .braitem{
+            float: left;
+            margin-left:2px;
+            width: 147px;
+            height: 80px;
+            border: 1px solid orange;
+            margin-top: 8px;
+        }
+    }
 }
 
 #select{

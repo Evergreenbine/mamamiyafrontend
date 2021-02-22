@@ -52,7 +52,7 @@ export default {
     data() {
         return {
             // 圈子变量
-            cid:'',
+            cid:1,
             // 关注变量
             isfollow:0,
             // 圈子列表
@@ -145,8 +145,12 @@ export default {
             // alert(useraccount)
         }
     },
+    mounted(){
+       
+    },
     async created(){
-       let cid = this.cid = this.$route.query.cid
+        // 进入页面时默认是第一个圈子
+       let cid = 1
        const bbsaxios = this.$config.getAxiosInstance('bbs')
     //    获取所有圈子
        let resp = await bbsaxios.get('/api/circle')

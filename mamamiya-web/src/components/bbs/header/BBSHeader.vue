@@ -1,12 +1,12 @@
 <template>
   <div id="bbsheader" class=" margin-auto">
-        <div class="bbslogo"><p>mama论坛</p></div>
+        <div class="bbslogo"><p>mamamiya论坛</p></div>
         <div class="hobby">
             <div id="bbscenter" class="max-width margin-auto">
                 <div class="hobbynav max-width margin-auto d-flex  fd-row"  >
                     <div class="hobbyitem" v-for="item  in this.circle" :key="item.cid" @click="tothequan(item.cid)">{{item.cname}}</div>
                    
-                    <div class=" hobbyitemmores" @mouseover="mid = true" @mouseleave="mid = false" :class="{hobbyitemmore : mid == true}">更多圈子</div>  
+                    <!-- <div class=" hobbyitemmores" @mouseover="mid = true" @mouseleave="mid = false" :class="{hobbyitemmore : mid == true}">更多圈子</div>   -->
                 </div>
                 <div id="morequan"  class="morequan max-width margin-auto"  v-show="this.mid == 1" @mouseover="mid = true" @mouseleave="mid = false">
                     geng
@@ -44,21 +44,28 @@ export default {
        const bbsaxios = this.$config.getAxiosInstance('bbs')
        let resp = await bbsaxios.get('/api/circle')
        let result = resp.data.result
-       this.circle = result
+       this.circle = result.slice(0,10)
     }
 }
 </script>
 
 <style lang="scss" scoped>
+ .bbslogo{
+          font-size: 40px;
+        //   position: absolute;
+     
+          margin-top: 10px;
+          color: rgba(0, 132, 255, 0.411);
+          float: left;
+          margin-left: 20px;
 
+      }
 .hobby {
-    
+     clear: both;
       margin-top: 50px;
       height: 45px;
       background-color: rgb(136, 215, 252);
-      .bbslogo{
-          width: 200px;
-      }
+     
       .hobbyitem{
           cursor: pointer;
           color: aliceblue;

@@ -166,18 +166,25 @@ const routes = [{
         component: () =>
             import ('../components/admin/shop/ShopAdmin'),
         children: [{
-            path: '/admin/shop/create',
-            component: () =>
-                import ('../components/admin/shop/ShopCreate')
-        }, {
-            path: '/admin/shop/list',
-            component: () =>
-                import ('../components/admin/shop/ShopList')
-        }, {
-            path: '/admin/shop/brand',
-            component: () =>
-                import ('../components/admin/shop/BrandCreate')
-        }]
+                path: '/admin/shop/milkcreate',
+                component: () =>
+                    import ('../components/admin/shop/ShopCreate')
+            }, {
+                path: '/admin/shop/milkcreate',
+                component: () =>
+                    import ('../components/admin/shop/ShopCreate')
+            },
+
+            {
+                path: '/admin/shop/list',
+                component: () =>
+                    import ('../components/admin/shop/ShopList')
+            }, {
+                path: '/admin/shop/brand',
+                component: () =>
+                    import ('../components/admin/shop/BrandCreate')
+            }
+        ]
     },
     // 主要管理员
     {

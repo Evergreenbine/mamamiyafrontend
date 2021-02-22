@@ -151,6 +151,7 @@
           <img class="cocoimg" :src="cocogood.img" alt="">
             <p class="cocobrand">品牌:{{cocogood.bname}}</p>
             <p class="cocogoodname">商品名:{{cocogood.gname}}</p>
+             <el-rate v-model="commentgood.rate"></el-rate>
             <b-form-input class="ccinput" v-model="commentgood.content"></b-form-input>
             <div class="goback" @click="()=>{
                 this.curgid = -1
@@ -182,7 +183,8 @@ export default {
         commentgood:{
           gid:'',
           content:'',
-          useraccount:''
+          useraccount:'',
+          rate:0
         },
 
         labelPosition:'left',
@@ -608,7 +610,7 @@ p{
            
     .ccinput{
       position: absolute;
-      top: 190px;
+      top: 200px;
       width: 900px;
       margin: 0 auto;
       left: 36px;
