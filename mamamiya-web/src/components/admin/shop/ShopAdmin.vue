@@ -9,10 +9,12 @@
           <template slot="title">分类</template>
           <el-menu-item index="/admin/shop/milkcreate">新建奶粉</el-menu-item>
           <el-menu-item index="/admin/shop/diaperscreate">新建纸尿布</el-menu-item>
-          <el-menu-item index="/admin/shop/feedingcreate">新建哺食用品</el-menu-item>
+          <el-menu-item index="/admin/shop/foodcreate">新建婴儿食品</el-menu-item>
+          <el-menu-item index="/admin/shop/feedingcreate">新建母婴用品</el-menu-item>
           <el-menu-item index="/admin/shop/list">奶粉列表</el-menu-item>
           <el-menu-item index="/admin/shop/diaperslist">纸尿布列表</el-menu-item>
-          <el-menu-item index="/admin/shop/feedinglist">哺食用品列表</el-menu-item>
+          <el-menu-item index="/admin/shop/foodlist">婴儿食品列表</el-menu-item>
+          <el-menu-item index="/admin/shop/feedinglist">婴儿用品列表</el-menu-item>
           <el-menu-item index="/admin/shop/brand">品牌列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

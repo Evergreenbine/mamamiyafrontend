@@ -19,9 +19,9 @@
       </div>
       <!-- <div class="userinfo position-ab">
           hello
-      </div> -->
-      <!-- <div class="user position-re">user <b-button variant="outline-primary">Button</b-button></div> -->
-      <!-- <div class="search max-width position-ab">
+      </div>
+      <div class="user position-re">user <b-button variant="outline-primary">Button</b-button></div> -->
+      <div class="search max-width position-ab">
         <div>
           <b-input-group>
           <b-form-input type="search" ></b-form-input>
@@ -30,7 +30,7 @@
           </b-input-group-append>
           </b-input-group>
         </div> 
-      </div> -->
+      </div>
     </div>
   </div>
 </template>

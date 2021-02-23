@@ -4,7 +4,7 @@
           <!-- 左边的盒子 -->
         <div class="leftbox">
               <!-- logo -->
-             <div class="catatag"><p>奶粉</p></div>
+             <div class="catatag"><p>婴儿用品</p></div>
 
              <!-- 选项卡顶部的盒子 -->
              <div class="tabcard d-flex">
@@ -150,7 +150,7 @@ export default {
             curId:0,
             //这是选项也里面激活的id
             subId:0,
-            cata:['milk'],
+            cata:['feeding'],
             tabcarditem:[
                 "热门商品", 
                 "新品推荐", 
@@ -164,6 +164,7 @@ export default {
             welocomegood:[],
             // 最新热评论
             lgood:[],
+            // 推荐品牌
             sellgoodbrand:[]
         }
     },
@@ -182,7 +183,7 @@ export default {
         // 去到专门的商品页
         goto(item){
             this.$router.push({
-                path:'/shop/milkbrand',
+                path:'/shop/feedingbrand',
                 query:{
                     bid:item.bid,
                     gid:item.gid
@@ -192,29 +193,27 @@ export default {
     },
     async created(){
          const axios = this.$config.getAxiosInstance('shop')
-         let res = await axios.get('/api/milks/good/1');
+         let res = await axios.get('/api/milks/good/3');
         //  好评商品
          this.bboxitem = res.data
          console.log(res);
 
         //  最新商品
-        let resp = await axios.get('/api/lastestgood/1')
+        let resp = await axios.get('/api/lastestgood/3')
         this.lastestgood = resp.data
-
         //  热门商品
-        let respo = await axios.get('/api/welcome/1')
+        let respo = await axios.get('/api/welcome/3')
         this.welocomegood = respo.data
-        console.log("热门商品");
         console.log(respo.data);
 
         // 最新热评论
-        let respp = await axios.get('/api/lastestrate/1')
+        let respp = await axios.get('/api/lastestrate/3')
         this.lgood = respp.data.res
-        console.log("最新热评论");
-        
- // 销量最好的品牌
-        let nonamel = await axios.get('/api/sellgoodbrand/1')
+
+        // 销量最好的品牌
+        let nonamel = await axios.get('/api/sellgoodbrand/3')
         this.sellgoodbrand = nonamel.data.result
+
        
     }
 
@@ -225,7 +224,7 @@ export default {
 /* 左边盒子*/
 .maxbox{
     height: 480px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     /* border: 1px solid blue; */
 }
 .leftbox{

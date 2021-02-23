@@ -79,6 +79,16 @@ const routes = [{
                     import ('../components/shop/catagory/DiapersSelect')
             },
             {
+                path: '/shop/feeding',
+                component: () =>
+                    import ('../components/shop/catagory/FeedingSelect')
+            },
+            {
+                path: '/shop/food',
+                component: () =>
+                    import ('../components/shop/catagory/FoodSelect')
+            },
+            {
                 path: '/shop/milkbrand',
                 component: () =>
                     import ('../components/shop/catagory/MilkBrand')
@@ -87,6 +97,16 @@ const routes = [{
                 path: '/shop/diapersbrand',
                 component: () =>
                     import ('../components/shop/catagory/DiapersBrand')
+            },
+            {
+                path: '/shop/feedingbrand',
+                component: () =>
+                    import ('../components/shop/catagory/FeedingBrand ')
+            },
+            {
+                path: '/shop/foodbrand',
+                component: () =>
+                    import ('../components/shop/catagory/FoodBrand')
             }
         ]
     },
@@ -190,9 +210,19 @@ const routes = [{
                     import ('../components/admin/shop/FeedingCreate')
             },
             {
+                path: '/admin/shop/foodcreate',
+                component: () =>
+                    import ('../components/admin/shop/FoodCreate')
+            },
+            {
                 path: '/admin/shop/feedinglist',
                 component: () =>
                     import ('../components/admin/shop/FeedingList')
+            },
+            {
+                path: '/admin/shop/foodlist',
+                component: () =>
+                    import ('../components/admin/shop/FoodList')
             },
 
             {

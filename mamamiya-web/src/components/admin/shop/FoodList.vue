@@ -20,7 +20,7 @@
         
         <!-- 分类 -->
         <div class="item d-flex">
-           <p class="tagname">奶粉分类</p> 
+           <p class="tagname">食品分类</p> 
            <el-select v-model="item.cata" placeholder="请选择" >
               <el-option
                  v-for="cataitem in cata"
@@ -56,7 +56,7 @@
       </div>
        <!-- 尺码 -->
       <div class="item d-flex">
-        <p class="tagname">阶段</p>  
+        <p class="tagname">产地</p>  
         <el-select v-model="item.stage" placeholder="请选择">
             <el-option
               v-for="stageitem in stage"
@@ -82,29 +82,36 @@ export default {
         // 获取当前的图片的index
         imgindex:0,
         brandarr:[], 
-      stage:[
-          {sid:0,sname:"1段"},
-          {sid:1,sname:"2段"},
-          {sid:2,sname:"3段"},
-          {sid:3,sname:"4段"},
-          {sid:4,sname:"5段"},
+       stage:[
+          {sid:0,sname:"国产"},
+          {sid:1,sname:"进口"},
       ],  
       cata:[
-          { cid:0,cname:"羊奶粉"},{cid:1,cname:"婴幼儿奶粉"},{cid:2,cname:"防腹泻奶粉"}
-          ],
+          { cid:0,cname:"宝宝零食"}
+          ,{cid:1,cname:"面条/粥"}
+          ,{cid:2,cname:"果泥/果汁"}
+          ,{cid:3,cname:"休闲零食"}
+          ,{cid:5,cname:"饼干蛋糕"}
+          ,{cid:6,cname:"糖果巧克力"}
+          ,{cid:7,cname:"牛奶乳品"}
+          ,{cid:8,cname:"钙铁锌/维生素"}
+          ,{cid:9,cname:"清火/开胃"}
+          ,{cid:10,cname:"益生菌/初乳"}
+     
+      ],
       brandarr:[], 
-      age:[{
+       age:[{
           aid:0,
           value:"0 - 6 个月"
       },{
           aid:1,
-          value:"6 - 12 个月"
+          value:"7 - 12 个月"
       },{
           aid:2,
-          value:"12 - 24 个月"
+          value:"1 - 3 岁"
       },{
           aid:3,
-          value:"24 - 36 个月"
+          value:"3岁以上"
       }],
         itemsarr:[]
       }
@@ -144,7 +151,7 @@ export default {
   },
   async created(){
       const axios = this.$config. getAxiosInstance('shop')
-       let res = await axios({url:'/api/milk',params:{gcid:1}});
+       let res = await axios({url:'/api/milk',params:{gcid:4}});
      
       console.log(res);
       this.itemsarr = res.data.result
@@ -154,7 +161,7 @@ export default {
          url:'/api/brand',
          method:'get',
          params:{
-           gcid:1,
+           gcid:4,
            limit:0
          }
          });
