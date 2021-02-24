@@ -6,7 +6,9 @@
             <div class="brandlogo">{{this.bname}}</div>
          </div>
      </div>
-     <div class="midbox2 max-width margin-auto d-flex">
+     <!-- 第一页 -->
+   <div class="bigboxbox" v-show="gid != undefined">
+     <div class="midbox2 max-width margin-auto d-flex" >
          <div class="leftbox">
              <img class="goodsimg" :src="speicialgood.img" />
          </div>
@@ -45,12 +47,23 @@
          </div>
      </div>
   </div>
+
+
+
+<!-- 第二页 根据bid查询所有商品-->
+    <div class="bigboxbox" v-show="gid == undefined">
+
+            haha 
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
     data() {
         return {
+            // gid控制是否显示的变量
+            gid:undefined,
             bname:'',
             speicialgood:'',
             //根据bid查询所有商品
@@ -117,6 +130,7 @@ export default {
         },
 
     async created(){
+        this.gid = undefined
         // 根据bid查询特定的品牌
          let bid = this.$route.query.bid
          const axios = this.$config. getAxiosInstance('shop')
@@ -125,6 +139,8 @@ export default {
         
         // 根据gid查询特定的商品
         let gid = this.$route.query.gid
+        // 显示控制变量
+        this.gid =gid
 
         let speicialgood = await axios.get(`/api/specificgood/${gid}`)
       
@@ -179,6 +195,7 @@ export default {
     height: 500px;
     // border: 1px solid greenyellow;
     margin-top: 30px;
+    display: none;
 }
 .midbox3{
     cursor: pointer;

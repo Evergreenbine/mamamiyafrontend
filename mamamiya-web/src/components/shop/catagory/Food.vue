@@ -130,7 +130,7 @@
                       <p class="loooo">推荐品牌</p>
                     <div class="brandbox ">
                         <div class="braitem" v-for="(item,index) in sellgoodbrand" :key="index">
-
+                            <img :src="item.img" alt="">
                         </div>
                     </div>
                   </div>
@@ -426,8 +426,12 @@ export default {
             margin-left:2px;
             width: 147px;
             height: 80px;
-            border: 1px solid orange;
+            border: 1px solid gainsboro;
             margin-top: 8px;
+            img{
+                 width: 145px;
+                height: 78px;
+            }
         }
     }
 }

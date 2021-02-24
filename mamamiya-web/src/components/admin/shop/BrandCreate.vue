@@ -2,7 +2,8 @@
   <div class="createshop">
     <div class="bnav d-flex">
       <p class="navitem"  @click="()=>{pageid = 1,this.brand = this.brand2}"  :class="{navitemac:pageid == 1}">{{ pageid == 3 ?"编辑":"新建"}}品牌</p>
-      <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">品牌列表</p>
+      <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"品牌列表"}}</p>
+      <p class="navitem"  @click="countall" :class="{navitemac:pageid == 5}">品牌数据统计</p>
     </div>
     <!-- 第一页 -->
     <div class="bigbox" v-show="pageid == 1">
@@ -40,9 +41,9 @@
     </div>
     <!-- 第二页 -->
     <div class="bigbox" v-show="pageid == 2">
-      <div v-for="(item,index) in brandlist" :key="index">
-        <div class="itembox">
-          <img :src="item.img" alt="">
+      <div v-for="(item,index) in brandlist" :key="index" >
+        <div class="itembox"  >
+          <img :src="item.img" alt="" @click="checkgoodbid(item.bid)">
             <p class="rrrrr">品牌名：{{item.bname}}</p>
             <p class="rrrrrr">品牌分类：{{gcid[item.gcid -1]}}</p>
             
@@ -53,7 +54,7 @@
       <el-pagination
        @current-change="handleCurrentChange"
         background
-        page-size="5"
+        page-size=5
         layout="prev, pager, next"
         :total="total">
       </el-pagination>
@@ -82,6 +83,30 @@
          <el-button type="success" @click="savegood">更新</el-button>
       </div>  
     </div>
+    <!-- 第4页 -->
+      <div class="bigbox" v-show="pageid == 4">
+       <div v-for="(item,index) in goodarr" :key="index" >
+        <div class="itembox"  >
+          <img :src="item.img" alt="">
+            <p class="rrrrr">商品名：{{item.gname}}</p>
+            <p class="rrrrrr">商品推荐语：{{item.gname}}</p>
+            <p class="rrrrrrr">商品价格：{{item.price}}</p>
+            <p class="rrrrrra">商品库存：{{item.store}}</p>
+            <p class="rrrrrrb">商品创建时间：{{item.createtime}}</p>
+            <p class="rrrrrrc">商品编号：{{item.gid}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- 第5页品牌数据统计 -->
+    <div class="bigbox" v-show="pageid == 5">
+      <div class="Echarts">
+        <div id="myChart" ></div>
+      </div>
+
+      <div class="Echarts">
+        <div id="myChartt" ></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -90,6 +115,8 @@ export default {
     return {
       // 页面变量
       pageid:1,
+      // 品牌变量
+      goodarr:'',
       // 分页变量
       total:0,
        brand:{
@@ -107,10 +134,64 @@ export default {
        },
        gcid:['奶粉','纸尿布','辅食','哺食工具'],
        brandcata:[],
-       brandlist:[]
+       brandlist:[],
+      //  统计每个品牌的商品数量
+      bgbrand:[],
+      bgnums:[],
+      // 热销商品
+      gname:[],
+      gnums:[]
     };
   },
+  mounted(){
+     this.drawLine()
+  },
   methods: {
+    // 数据统计
+    async countall(){
+      this.pageid = 5
+       const axios = this.$config.getAxiosInstance("shop");
+      //  每个品牌的商品数量
+        let res = await axios({url:'/api/numsofgood',method:'get'})
+        this.bgbrand = res.data.brand
+        this.bgnums = res.data.nums
+        // 热销商品
+         let resp = await axios({url:'/api/sellgoodgood',method:'get'})
+         this.gname = resp.data.good
+         this.gnums = resp.data.gnums
+
+        console.log(resp.data);
+   
+         this.drawLine()
+    },
+     drawLine(){
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = this.$echarts.init(document.getElementById('myChart'))
+     
+        // 绘制图表
+        myChart.setOption({
+            title: { text: '每个品牌的商品数量' },
+            tooltip: {},
+            xAxis: {
+                data:this.bgbrand
+            },
+            yAxis: {
+              
+            },
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: this.bgnums
+            }]
+        });
+    },
+    // 根据bid查询商品
+    async checkgoodbid(bid){
+      this.pageid = 4
+        const axios = this.$config.getAxiosInstance("shop");
+        let res = await axios({url:'/api/milk',method:'get',params:{bid:bid}})
+        this.goodarr = res.data.result
+    },
     async deleteitem(item){
         const axios = this.$config.getAxiosInstance("shop");
         let res = await axios.get(`/api/brands/${bid}`)
@@ -161,6 +242,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+#myChart{
+  width: 1500px;
+  height: 500px;
+}
+
 .bnav{
   .navitem{
     width: 110px;
@@ -179,6 +265,7 @@ export default {
     border: 1px solid gainsboro;
     margin-bottom: 5px;
     position: relative;
+    cursor: pointer;
     img{
       position: absolute;
       width: 130px;
@@ -195,8 +282,32 @@ export default {
     }
     .rrrrrr{
       position: absolute;
-    top: 30px;
+      top: 30px;
       left: 180px;
+      color: #8c939d;
+    }
+    .rrrrrrr{
+      position: absolute;
+      top: 50px;
+      left: 180px;
+      color: #8c939d;
+    }
+    .rrrrrra{
+      position: absolute;
+      top: 5px;
+      left: 400px;
+      color: #8c939d;
+    }
+    .rrrrrrb{
+      position: absolute;
+      top: 30px;
+      left: 400px;
+      color: #8c939d;
+    }
+    .rrrrrrc{
+      position: absolute;
+      top: 50px;
+      left: 400px;
       color: #8c939d;
     }
     .btnbd{

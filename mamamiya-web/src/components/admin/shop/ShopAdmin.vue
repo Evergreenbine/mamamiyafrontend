@@ -16,6 +16,7 @@
           <el-menu-item index="/admin/shop/foodlist">婴儿食品列表</el-menu-item>
           <el-menu-item index="/admin/shop/feedinglist">婴儿用品列表</el-menu-item>
           <el-menu-item index="/admin/shop/brand">品牌列表</el-menu-item>
+          <el-menu-item index="/admin/shop/dataview">数据统计与导出</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

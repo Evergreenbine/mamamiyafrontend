@@ -17,6 +17,14 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.bubble.css'
+
+
+// 引入echarts
+import echarts from 'echarts'
+
+
+
+
 Vue.use(VueQuillEditor)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
@@ -28,7 +36,7 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
-
+Vue.prototype.$echarts = echarts
 
 
 new Vue({

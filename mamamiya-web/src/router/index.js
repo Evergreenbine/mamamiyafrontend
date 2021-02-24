@@ -111,6 +111,13 @@ const routes = [{
         ]
     },
     {
+        path: '/echarts',
+        component: () =>
+            import ('../components/Echarts')
+    }
+
+    ,
+    {
         path: '/user',
         component: User,
 
@@ -240,6 +247,11 @@ const routes = [{
                 path: '/admin/shop/brand',
                 component: () =>
                     import ('../components/admin/shop/BrandCreate')
+            },
+            {
+                path: '/admin/shop/dataview',
+                component: () =>
+                    import ('../components/admin/shop/DataCount')
             }
         ]
     },

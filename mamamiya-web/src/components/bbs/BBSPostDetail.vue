@@ -5,6 +5,10 @@
       <div class="d-flex fd-rows">
           <!-- 左边栏 -->
       <div class="leftbar">
+          <p>最多回复</p>
+          <div class="postbox">
+              <div></div>
+          </div>
       </div>
       <!-- 中间 -->
       <div class="margin-auto">
@@ -188,9 +192,12 @@ export default {
 // 左边栏
 .leftbar{
     // float: left;
-    width: 150px;
+    width: 250px;
     height: 1000px;
-    // border: 1px solid gray;
+    border: 1px solid gainsboro;
+    margin-top: 20px;
+    margin-left: 20px
+    ;
 }
 
 // 中间大框
@@ -371,7 +378,7 @@ export default {
 // 右边栏
 .rightbar{
     // float: right;
-     width: 150px;
+    width: 250px;
     height: 1000px;
     // border: 1px solid gray;
    

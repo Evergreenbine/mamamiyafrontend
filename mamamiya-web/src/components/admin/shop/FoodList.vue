@@ -24,9 +24,9 @@
            <el-select v-model="item.cata" placeholder="请选择" >
               <el-option
                  v-for="cataitem in cata"
-                 :key="cataitem.cata"
+                 :key="cataitem.cid"
                  :label="cataitem.cname"
-                 :value="cataitem.cata">
+                 :value="cataitem.cid">
               </el-option>
           </el-select>
         </div> 
