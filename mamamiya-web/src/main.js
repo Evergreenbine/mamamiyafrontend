@@ -13,6 +13,9 @@ import { StringUtils, LoginIntecepter } from './utils'
 import { config } from './http'
 import { ip } from './ip'
 
+
+// import './assets/iconfont/iconfont.css'
+
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.core.css'

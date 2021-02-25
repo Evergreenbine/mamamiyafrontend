@@ -17,7 +17,7 @@
         <!--富文本编辑器组件-->
         <el-row v-loading="quillUpdateImg">
             <quill-editor
-                    v-model="content"
+                    v-model="parrentcontent"
                     ref="myQuillEditor"
                     :options="editorOption"
                     @change="onEditorChange($event)"
@@ -28,7 +28,7 @@
             </quill-editor>
         </el-row>
     
- <!-- <div v-html="this.content">{{this.content}}</div> -->
+ <!-- <div v-html="parrentcontent">{{parrentcontent}}</div> -->
   </div>
 </template>
 
@@ -59,14 +59,14 @@ const toolbarOptions = [
 export default {
   name: 'Home',
   // 接受父组件传来的内容进行回显
-  
+  props:['parrentcontent'],
    data () {
       return {
         quillUpdateImg: false,
         headerToken: {'X-Auth-Token': localStorage.getItem('accessToken')},
         actionUrl: process.env.VUE_APP_URL + '/api/upload',
         // 富文本内容
-        content: JSON.parse(localStorage.getItem("content")),
+        content: props[0],
         editorOption: {
           // some quill options
           modules:{
@@ -115,7 +115,7 @@ export default {
           localStorage.setItem("content",JSON.stringify(this.content))
           // alert("将自动保存到本地")
         },10000)
-        this.$emit("func",this.content)
+        this.$emit("func",this.parrentcontent)
         // console.log(this.content);
       },
       onEditorFocus(quill) {
@@ -163,7 +163,7 @@ export default {
        }
     },
     created(){
-     
+      // console.log(props.parrentcontent);
     },
    computed: {
       editor() {

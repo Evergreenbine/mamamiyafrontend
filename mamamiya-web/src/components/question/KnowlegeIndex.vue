@@ -17,81 +17,29 @@
 
     <!-- 顶部导航栏 -->
      <div class="quescata max-width">
-          <div class="quesitem"> <a href="#one"> 准备怀孕</a></div>
-          <div class="quesitem"> <a href="#two">怀孕期</a></div>
-          <div class="quesitem"> <a href="#three">分娩必读</a></div>
-          <div class="quesitem"> <a href="#four">婴幼儿期</a></div>
-          <div class="quesitem bbnn"><a href="#five">幼儿期</a></div>
+          <div class="quesitem" v-for="(item,index) in konwcata" :key="index"> <a href="#one"> {{item.kname}}</a></div>
       </div>
   
-    <!-- 准备怀孕 -->
-    <div id="one" class="max-width margin-auto konwbox position-re" :class="{activecc:org==1}">
-        <p class="logo">准备怀孕</p>
-        <p class="more" @click="moreshow(1)" >{{moretag}}</p>
+    <!-- 哈哈魔鬼，就这样我就搞顶一个首页 -->
+    
+    <div v-for="(item,index) in konwcata" :key="index">
+        <div id="one"  class="max-width margin-auto konwbox position-re" :class="{activecc:org==index}">
+            <p class="logo">{{item.kname}}</p>
+            <p class="more" @click="moreshow(index)" >{{moretag}}</p>
 
-        <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
-            <!-- 每个title -->
-            <div v-for="item in this.reszero" :key="item.kid" class="titleitem" >
-                 <div  @click="togoto(item)" :class="{notfree : item.isfree == 0}">
-                    {{item.title}}
-                 </div>
-            </div>
-        </div>     
+            <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
+                <!-- 每个title -->
+                <div v-for="item in konwmap.get(item.kcid)" :key="item.kid" class="titleitem" >
+                     <div  @click="togoto(item)" :class="{notfree : item.isfree == 0}">
+                        {{item.title}}
+                     </div>
+                </div>
+            </div>     
+        </div>
     </div>
 
-    <!-- 怀孕期 -->
-     <div id="two" class="max-width margin-auto konwbox position-re" :class="{activecc:org==2}">
-        <p class="logo">怀孕期</p>
-        <p class="more" @click="moreshow(2)" >{{moretag}}</p>
 
-        <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
-            <!-- 每个title -->
-            <div v-for="item in this.resone" :key="item.kid" class="titleitem" >
-                 <div @click="togoto(item)" :class="{notfree : item.isfree == 0}">
-                    {{item.title}}
-                 </div>
-            </div>
-        </div>     
-    </div>
-    <!-- 分娩必读 -->
-       <div id="three" class="max-width margin-auto konwbox position-re" :class="{activecc:org==3}">
-        <p class="logo">分娩必读</p>
-        <p class="more" @click="moreshow(3)" >{{moretag}}</p>
-
-        <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
-            <!-- 每个title -->
-            <div v-for="item in this.restwo" :key="item.kid" class="titleitem" >
-                 <div @click="togoto(item)" :class="{notfree : item.isfree == 0}">
-                    {{item.title}}
-                 </div>
-            </div>
-        </div>     
-    </div>
-    <!-- 婴幼儿期 -->
-    <div id="four" class="max-width margin-auto konwbox position-re" :class="{activecc:org==4}">
-        <p class="logo">婴幼儿期</p>
-       <p class="more" @click="moreshow(4)" >{{moretag}}</p>
-        <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
-            <div v-for="item in this.res" :key="item.kid" class="titleitem" >
-                 <div><router-link  :to="{path:'/ques/konw',query:{
-                     kid:item.kid
-                 }}" >{{item.title}}</router-link></div>
-            </div>
-        </div>     
-    </div>
-    <!-- 幼儿期 -->
-    <div id="five" class="max-width margin-auto konwbox position-re" :class="{activecc:org==5}">
-        <p class="logo">幼儿期</p>
-        <p class="more" @click="moreshow(5)" >{{moretag}}</p>
-        <div class="content d-flex  fd-row flex-wrap" style="margin-top: 31px">
-            <div v-for="item in this.res" :key="item.kid" class="titleitem" >
-                 <div><router-link :to="{path:'/ques/konw',query:{
-                     kid:item.kid
-                 }}" >{{item.title}}</router-link></div>
-            </div>
-        </div>     
-    </div>
-
+    
   
   </div>
 </template>
@@ -100,11 +48,9 @@
 export default {
     data() {
         return {
-            reszero:'',
-            resone:'',
-            restwo:'',
-            resthree:'',
-            resfour:'',
+            konwcata:[],
+            konwmap:'',
+          
            
             // 控制变量
             org:0,
@@ -122,11 +68,11 @@ export default {
         },
         // 判断是否免费
         async togoto(item){
-            // alert(item.isfree)
+           
             // 获取账户名
 
            
-
+            // 这个判断是否免费必须请求后端的，因为有些文章虽然收费，但有些用户是买了的
            const bbsaxios = this.$config.getAxiosInstance('bbs')
            let res = await bbsaxios({
                url:"/api/konws/isfree",
@@ -168,18 +114,20 @@ export default {
     },
     async created() {
          const bbsaxios = this.$config.getAxiosInstance('bbs')
-        //  准备怀孕
-         let reszero = await bbsaxios.get('/api/konws/0')
-         this.reszero = reszero.data
-        
-        // 怀孕期
-        let resone = await bbsaxios.get('/api/konws/1')
-        this.resone = resone.data
 
-        // 分娩必读
-        let restwo = await bbsaxios.get('/api/konws/2')
-        this.restwo = restwo.data
+        // 查询知识分类
+        let res = await bbsaxios.get('/api/konwcata')
+        this.konwcata = res.data
+      
+        let konwmap = new Map()
 
+        for(var i = 0;i< this.konwcata.length;i++){
+           let cata = this.konwcata[i].kcid
+           let res = await bbsaxios.get(`/api/konws/${cata}`)
+           konwmap.set(cata,res.data)
+        }
+
+        this.konwmap = konwmap
         
     },
 
