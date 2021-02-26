@@ -110,9 +110,16 @@
 
       <div class="selectbox">
           <div class="pageitem" :class="{pageitemac : pageid == 1}" @click="pageid = 1">查看金额</div>
-          <div class="pageitem" :class="{pageitemac : pageid == 2}" @click="pageid = 2">我的回复</div>
-          <div class="pageitem" :class="{pageitemac : pageid == 3}" @click="pageid = 3">我的贴子</div>
-          <div class="pageitem" :class="{pageitemac : pageid == 4}" @click="pageid = 4">回复我的</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 2}" @click="()=>{
+            this.pageid = 2
+            this.$router.push({path:'/user/other'})}">回复我的</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 3}" @click="()=>{
+            this.pageid = 3
+            this.$router.push({path:'/user/myreplyto'})}">我的回复</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 4}" @click="()=>{
+            this.pageid = 4
+            this.$router.push({path:'/user/myreplypost'})}">我的贴子</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 7}" @click="pageid = 4">回复我的贴子</div>
           <div class="pageitem" :class="{pageitemac : pageid == 5}" @click="pageid = 5">我关注的圈子</div> 
           <div class="pageitem" :class="{pageitemac : pageid == 6}" @click="querymything">{{ curgid == -1?"我购买的":"评价商品"}}</div> 
       </div>
@@ -120,6 +127,18 @@
       <div class="otherbox" v-show="pageid == 1" >
         余额:<el-input v-model="user.monney" placeholder="请输入标题" style="margin-right:10px"></el-input> 
       </div>
+      <!-- 5:查看回复我的 -->
+      <div class="otherbox" v-show="pageid == 2">
+         <router-view/>
+      </div>
+      <!-- 5:查看我回复的 -->
+      <div class="otherbox" v-show="pageid == 3">
+         <router-view/>
+      </div>
+      <div class="otherbox" v-show="pageid == 4">
+         <router-view/>
+      </div>
+      
       <!-- 5:我购买的 -->
     <div class="otherbox" v-show="pageid == 6 && curgid == -1" >
          <div class="recorditem position-re" v-for="(item,index) in myshop" :key="index">
@@ -178,6 +197,10 @@ export default {
     name:"user",
     data() {
       return { 
+
+        // 回复我的
+        replymetotal:0,
+        replyme:[],
         
         // 评价商品
         commentgood:{
@@ -316,6 +339,10 @@ export default {
         // 点击查看购买记录时，要去1
          this.handleCurrentChange(1)
       },
+       // 查询回复我的
+      async checkmyreply(){
+        this.pageid = 2
+      },
       // 分页栏方法
        async handleCurrentChange(pageNum) {
           const axios = this.$config.getAxiosInstance('shop')
@@ -329,9 +356,12 @@ export default {
           })
          this.myshop = resp.data.resp
          this.totalrecord = resp.data.total
+
         //  alert(resp.data.totalpage)
         return pageNum === 1 ? '?' : `?page=${pageNum}`
       },
+        
+     
       //评价商品的方法,跳转到页面的方法
       ccgood(item){
         // 将当前要评论的商品gid记录一下
@@ -347,7 +377,9 @@ export default {
         if(res.data == 1){
           alert("评价成功")
         }
-      }
+      },
+     
+
     },
     async created() {
       //  后端分了模块 user模块

@@ -120,6 +120,20 @@ const routes = [{
     {
         path: '/user',
         component: User,
+        children: [{
+            path: '/user/other',
+            component: () =>
+                import ('../components/user/OtherDetail')
+
+        }, {
+            path: '/user/myreplyto',
+            component: () =>
+                import ('../components/user/MyReplyTo')
+        }, {
+            path: '/user/myreplypost',
+            component: () =>
+                import ('../components/user/MyReplyPost')
+        }]
 
     },
     {

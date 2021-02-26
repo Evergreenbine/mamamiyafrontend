@@ -5,6 +5,7 @@
        <!-- 将cid设置为-1 是为了去除新建圈子的默认值 -->
        <div class="navbut" :class="{navbutact : page == 0 || page == 2}" @click="()=>{page = 0,cid = -1}">{{cid == -1 ? "新建":"编辑"}}圈子</div>
        <div class="navbut" :class="{navbutact : page == 1}" @click="seeallcircle">圈子列表</div>
+       <div class="navbut" :class="{navbutact : page == 3}" @click="seeallcircle">查看贴子</div>
        
    </div> 
    <!-- 第一页 -->
