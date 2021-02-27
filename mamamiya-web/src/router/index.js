@@ -114,26 +114,46 @@ const routes = [{
         path: '/echarts',
         component: () =>
             import ('../components/Echarts')
-    }
-
-    ,
+    },
+    {
+        path: '/testviedo',
+        component: () =>
+            import ('../components/Videodemo')
+    },
     {
         path: '/user',
         component: User,
         children: [{
-            path: '/user/other',
-            component: () =>
-                import ('../components/user/OtherDetail')
+                path: '/user/other',
+                component: () =>
+                    import ('../components/user/OtherDetail')
 
-        }, {
-            path: '/user/myreplyto',
-            component: () =>
-                import ('../components/user/MyReplyTo')
-        }, {
-            path: '/user/myreplypost',
-            component: () =>
-                import ('../components/user/MyReplyPost')
-        }]
+            }, {
+                path: '/user/myreplyto',
+                component: () =>
+                    import ('../components/user/MyReplyTo')
+            }, {
+                path: '/user/myreplypost',
+                component: () =>
+                    import ('../components/user/MyReplyPost')
+
+            },
+            {
+                path: '/user/replymepost',
+                component: () =>
+                    import ('../components/user/ReplyMePost')
+            },
+            {
+                path: '/user/replymefloor',
+                component: () =>
+                    import ('../components/user/Replymefloor')
+            },
+            {
+                path: '/user/myfollowcircle',
+                component: () =>
+                    import ('../components/user/MyFollowCircle')
+            }
+        ]
 
     },
     {

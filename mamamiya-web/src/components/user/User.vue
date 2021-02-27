@@ -119,8 +119,17 @@
           <div class="pageitem" :class="{pageitemac : pageid == 4}" @click="()=>{
             this.pageid = 4
             this.$router.push({path:'/user/myreplypost'})}">我的贴子</div>
-          <div class="pageitem" :class="{pageitemac : pageid == 7}" @click="pageid = 4">回复我的贴子</div>
-          <div class="pageitem" :class="{pageitemac : pageid == 5}" @click="pageid = 5">我关注的圈子</div> 
+          <div class="pageitem" :class="{pageitemac : pageid == 7}" @click="()=>{
+            this.pageid = 7
+            this.$router.push({path:'/user/replymepost'})
+            }">回复我的贴子</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 8}" @click="()=>{
+            this.pageid = 8
+            this.$router.push({path:'/user/replymefloor'})
+            }">回复层主信息</div>
+          <div class="pageitem" :class="{pageitemac : pageid == 5}" @click="()=>{
+            this.pageid = 5
+            this.$router.push({path:'/user/myfollowcircle'})}">我关注的圈子</div> 
           <div class="pageitem" :class="{pageitemac : pageid == 6}" @click="querymything">{{ curgid == -1?"我购买的":"评价商品"}}</div> 
       </div>
       <!-- 5:第一页 -->
@@ -135,7 +144,20 @@
       <div class="otherbox" v-show="pageid == 3">
          <router-view/>
       </div>
+      <!-- 5：查看我的贴子 -->
       <div class="otherbox" v-show="pageid == 4">
+         <router-view/>
+      </div>
+      <!-- 5:回复我的贴子 -->
+      <div class="otherbox" v-show="pageid == 7">
+         <router-view/>
+      </div>
+      <!-- 5：回复我作为层主时的信息 -->
+      <div class="otherbox" v-show="pageid == 8">
+         <router-view/>
+      </div>
+      <!-- 5：查看我的圈子 -->
+      <div class="otherbox" v-show="pageid == 5">
          <router-view/>
       </div>
       

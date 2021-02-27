@@ -1,24 +1,23 @@
 <template>
   <div>
+        <div class="d-flex okbox">
 
-
+     
        <div v-for="(item,index) in replyme" :key="index">
-           <div class="itembox" >
-              <img :src="item.avator" alt="">
-              <p class="qtitle">问题标题:{{item.title}}</p>
-              <p class="qcontent">回复内容:{{item.content}}</p>
-              <p class="qtime">回复时间:{{item.createtime}}</p>
-              <div class="quse" >{{item.use == 1 ?"已采纳":"未采纳"}}</div>
-           </div>
-           
+           <div class="itembox " >
+               <img :src="item.avator" alt="">
+              <p class="qtitle">圈子名:{{item.cname}}</p>
+              <p class="qtime" @mouseout="ooaa(item)" @mouseover="ooa(item)" @click="nofollow(item)">{{item.isfollow == 1 ? "已关注":"取消关注?"}}</p>
+        </div>
+              </div>
        </div>
         <div class="pagenav">
          <el-pagination
             @current-change="handleCurrentChange"
-          :page-size="5"
+          :page-size=5
           :pager-count="11"
           layout="prev, pager, next"
-          :total="replymetotal">
+          :total=replymetotal>
           </el-pagination>
         </div>
 
@@ -37,7 +36,7 @@ export default {
             
          const bbsaxios = this.$config.getAxiosInstance('bbs')
          let res = await bbsaxios({
-           url:"/api/myreplyto",
+           url:"/api/myfollowcircle",
            method:'get',
            params:{
              useraccount:JSON.parse(localStorage.getItem("username")),
@@ -48,11 +47,34 @@ export default {
          this.replymetotal = res.data.total
     },
     methods:{
+        ooa(item){
+            item.isfollow = 0
+        },
+        ooaa(item){
+            item.isfollow = 1
+        },
+
+        async nofollow(item){
+            const bbsaxios = this.$config.getAxiosInstance('bbs')
+            let res = await bbsaxios({
+                    url:'/api/nofollow',
+                    methods:'get',
+                    params:{
+                        cid:item.cid,
+                        useraccount:JSON.parse(localStorage.getItem("username"))
+                    }
+                })
+            if(res.data ==1 ){
+                alert("取消关注成功")
+                this.$router.go(0)
+            }
+
+        },
         // 分页方法
         async handleCurrentChange(pageNum) {
           const bbsaxios = this.$config.getAxiosInstance('bbs')
          let res = await bbsaxios({
-           url:"/api/myreplyto",
+           url:"/api/myfollowcircle",
            method:'get',
            params:{
              useraccount:JSON.parse(localStorage.getItem("username")),
@@ -64,7 +86,8 @@ export default {
         //  alert(resp.data.totalpage)
         return pageNum === 1 ? '?' : `?page=${pageNum}`
       },
-    //   采纳
+    //   取消关注
+    
     
 
     }
@@ -72,12 +95,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.okbox{
+    flex-wrap: wrap;
+}
 .itembox{
-    width: 960px;
+    width: 250px;
     height: 100px;
     border: 1px solid gainsboro;
     margin-bottom: 5px;
     position: relative;
+    margin-left: 10px;
+
     img{
         width: 82px;
         height: 82px;
@@ -85,6 +113,7 @@ export default {
         position: absolute;
         left: 9px;
         top:9px;
+      
     }
     .qtitle{
         position: absolute;
@@ -99,10 +128,20 @@ export default {
         color: grey;
     }
     .qtime{
+        width: 120px;
+        height: 30px;
+        line-height: 30px;
+        cursor: pointer;
+        border: 1px solid gainsboro;
         position: absolute;
         top: 60px;
         left: 120px;
         color: grey;
+    }
+    .qtime:hover{
+        border: 1px solid red;
+        background-color: red;
+        color: white;
     }
     .quse{
         position: absolute;
