@@ -192,11 +192,16 @@ const routes = [{
             }
         ]
     },
-    // 论坛首页
+    // 资讯首页
     {
         path: '/bbsindex',
         component: BBSIndex,
-        hidden: true
+
+    },
+    {
+        path: '/infodetail',
+        component: () =>
+            import ('../components/bbs/InfoDetail')
     },
     {
         path: '/bbs/post',
