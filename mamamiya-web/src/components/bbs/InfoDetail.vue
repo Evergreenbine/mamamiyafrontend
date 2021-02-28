@@ -27,7 +27,8 @@
                  <div v-for="itemon in cen[index]" :key="itemon">
                      <div class="replyto">
                          <img class="kaka" :src="itemon.avator" alt="">
-                         <p class="conte">{{itemon.content}}</p>
+                          <!-- <b-textarea  rows="3" @focus="replyothers(itemon,index)" readonly :placeholder="itemon.content"/> -->
+                         <p class="conte" @click="replyothers(itemon,index)">{{itemon.content}}</p>
                      </div>
                  </div>
                  
@@ -101,6 +102,9 @@ export default {
               }
         },
         async replyothers(item,index){
+            if(item.ruid != undefined){
+                
+            }
             // 获取a标签跳转到回复内容，a标签隐藏了
            let ooop = document.getElementById("oooop")
            ooop.click()

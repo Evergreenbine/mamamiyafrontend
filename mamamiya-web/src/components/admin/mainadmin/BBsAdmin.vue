@@ -5,7 +5,9 @@
        <!-- 将cid设置为-1 是为了去除新建圈子的默认值 -->
        <div class="navbut" :class="{navbutact : page == 0 || page == 2}" @click="()=>{page = 0,cid = -1}">{{cid == -1 ? "新建":"编辑"}}圈子</div>
        <div class="navbut" :class="{navbutact : page == 1}" @click="seeallcircle">圈子列表</div>
-       <div class="navbut" :class="{navbutact : page == 3}" @click="seeallcircle">查看贴子</div>
+       <div class="navbut" :class="{navbutact : page == 3}" @click="page = 3" v-show="page == 3 ">查看贴子列表</div>
+       <div class="navbut" :class="{navbutact : page == 4}" @click="page = 4" v-show="page == 4" >正在编辑贴子</div>
+       <div class="navbut" :class="{navbutact : page == 5}" @click="page = 5"  >论坛数据统计</div>
        
    </div> 
    <!-- 第一页 -->
@@ -36,9 +38,9 @@
    </div>
     <!-- 第二页 -->
     <div class="createshop" v-show="page == 1">
-      <div v-for="(item,index) in circlearr" :key="index">
+      <div v-for="(item,index) in circlearr"  :key="index">
           <div class="itembox">
-            <div class="itemname">   {{item.cname}}</div> 
+            <div class="itemname" @click="lookpost(item)">   {{item.cname}}</div> 
             <div class="btnn" @click="editor(item.cid)">编辑</div>
             <div class="btnnn" @click="dele(item.cid)" >删除</div>
           </div>
@@ -70,15 +72,65 @@
       <div class="item d-flex">
          <el-button type="success" @click="savecircle">保存</el-button>
       </div>  
+ 
    </div>
 
+ <!-- 查看贴子列表 -->
+  <div class="createshop" v-show="page == 3">
+    <div v-for="(item,index) in cpost"  :key="index">
+          <div class="itembox">
+            <div class="itemname" @click="editpost(item)" >   {{item.title}}</div> 
+            <div class="btnn" @click="editor(item.cid)">编辑</div>
+            <div class="btnnn" @click="dele(item.cid)" >删除</div>
+          </div>
+      </div>
+  </div>
 
+  <!-- 编辑具体贴子 -->
+  <div class="createshop" v-show="page == 4">
+    <!-- 贴子标题 -->
+   <div class="item d-flex">
+       <p :style="{width:'120px'}">贴子标题</p>
+        <el-input  v-model="post.title"></el-input>
+    </div>
+    <!-- 圈子分类 -->
+        <div class="item d-flex">
+          <p :style="{width:'120px'}">选择圈子</p>
+          <el-select v-model="post.cid" slot="prepend" placeholder="请选择分类" >
+             <el-option :label="item.cname" :value="item.cid" v-for="item in circlearr " :key="item.cid" >
+             </el-option>
+           </el-select>
+        </div>
+         <div  class="item d-flex">
+           <p :style="{width:'120px'}">审核状态</p>
+            <input type="checkbox" :style="{cursor:'pointer'}"  @click="ispasss(post.pass)" v-model="post.pass">
+         </div>
+        <!-- 贴子内容 -->
+        <div class="item d-flex">
+            <p :style="{width:'120px'}">贴子内容</p>
+            <UFullTextEditor v-bind:parrentcontent="post.content" v-on:func="savecontent"/>
+         </div>
+         <div class="item d-flex">
+           
+         </div>
+         <div class="item d-flex">   
+           <el-button type="success" @click="publish">更新</el-button>
+        </div>  
+    
+  </div>
+  
+ <!-- 论坛数据统计 -->
+ 
 </div>
 </template>
 <script>
+import UFullTextEditor from '../../UpdateFullTextEditor'
 export default {
   props: {
     id: ""
+  },
+  components:{
+    UFullTextEditor
   },
   data() {
     return {
@@ -92,12 +144,67 @@ export default {
          introduce:'',
          avator:''
      },
-     circlearr:[]
+     circlearr:[],
+     cpost:[],
+    //  正在编辑的贴子
+    post:'',
+    // 记录当前编辑的贴子的审核状态，因为watch监控不到内部属性的变化
+    ispass:0
         
      
     };
   },
   methods: {
+    // 发布贴子的方法
+    async publish(){
+        // alert(this.user.username)
+        // alert(this.post.author)
+        this.post.author = this.user.username
+        this.post.useraccount = this.user.useraccount
+         const bbsaxios = this.$config.getAxiosInstance('bbs')
+         let res = await bbsaxios({
+           url:'/api/post',
+           method:'post',
+           data:this.post,
+           params:{
+            //  postcircle:this.content
+           }
+         })
+         if(res.data == 1){
+           alert("发布帖子成功")
+         }
+        
+      },
+    ispasss(pass){
+      // alert(pass)
+      if(pass == 1){
+        alert("贴子已经审核，无法修改")
+        this.post.pass = 1
+      }
+    },
+    // 保存更新的贴子
+    savecontent(content){
+      this.post.content = content
+    },
+    // 编辑贴子
+    editpost(item){
+      this.page = 4
+      this.post = item
+    },
+    async lookpost(item){
+        const bbsaxios = this.$config.getAxiosInstance('bbs')
+        let res = await bbsaxios({
+                url:'/api/posts',
+                method:'get',
+                params:{
+                    cid:item.cid
+                }
+            })
+
+        this.cpost = res.data.result
+        this.page =  3
+
+    },
     handleAvatarSuccess(res, file) {
         this.circle.avator = res.url
         // this.saveinfo()
@@ -184,6 +291,7 @@ export default {
     color: #409EFF;
     position: relative;
     .itemname{
+      cursor: pointer;
         position: absolute;
         left: 10px;
     }
