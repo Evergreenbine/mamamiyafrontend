@@ -74,6 +74,16 @@ const routes = [{
             { path: '/shop/milk', component: MilkSelect },
             { path: '/shop/shopcar', component: ShopCar },
             {
+                path: '/shop/orderdetail',
+                component: () =>
+                    import ("../components/shop/OrderInfo")
+            },
+            {
+                path: '/shop/orderall',
+                component: () =>
+                    import ("../components/shop/AllOrder")
+            },
+            {
                 path: '/shop/diapers',
                 component: () =>
                     import ('../components/shop/catagory/DiapersSelect')
@@ -291,6 +301,11 @@ const routes = [{
                 path: '/admin/shop/dataview',
                 component: () =>
                     import ('../components/admin/shop/DataCount')
+            },
+            {
+                path: '/admin/shop/order',
+                component: () =>
+                    import ('../components/admin/shop/AdminAllOrder')
             }
         ]
     },

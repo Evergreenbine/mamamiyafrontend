@@ -7,7 +7,7 @@
        <div class="navbut" :class="{navbutact : page == 1}" @click="seeallcircle">圈子列表</div>
        <div class="navbut" :class="{navbutact : page == 3}" @click="page = 3" v-show="page == 3 ">查看贴子列表</div>
        <div class="navbut" :class="{navbutact : page == 4}" @click="page = 4" v-show="page == 4" >正在编辑贴子</div>
-       <div class="navbut" :class="{navbutact : page == 5}" @click="page = 5"  >论坛数据统计</div>
+       <div class="navbut" :class="{navbutact : page == 5}" @click="countbbs()"  >论坛数据统计</div>
        
    </div> 
    <!-- 第一页 -->
@@ -120,6 +120,18 @@
   </div>
   
  <!-- 论坛数据统计 -->
+  <div class="createshop" v-show="page == 5">
+      <div class="Echarts">
+        <div id="myChart" :style="{width: '1000px', height: '300px'}"></div>
+      </div>
+      <div class="Echarts">
+        <div id="myChartt" :style="{width: '1000px', height: '300px'}"></div>
+      </div>
+      <div class="Echarts">
+        <div id="myChartp" :style="{width: '1000px', height: '300px'}"></div>
+      </div>
+  </div>
+ 
  
 </div>
 </template>
@@ -134,6 +146,9 @@ export default {
   },
   data() {
     return {
+      // 论坛数据统计
+      numsofreplypost:[],
+
         // 页面变量
         page:0,
         // 当前编辑的圈子变量
@@ -149,12 +164,68 @@ export default {
     //  正在编辑的贴子
     post:'',
     // 记录当前编辑的贴子的审核状态，因为watch监控不到内部属性的变化
-    ispass:0
+    ispass:0,
+    // 数据统计数组
+    norpost:[],
+    follownumsofcircle:[],
+    unofquestion:[]
         
      
     };
   },
   methods: {
+    // 数据统计
+    async countbbs(){
+       this.page = 5;
+       const bbsaxios = this.$config.getAxiosInstance('bbs')
+       let res = await bbsaxios.get("/api/countofbbs")
+       this.norpost = res.data
+
+       let ress  = await bbsaxios.get("/api/numsofcirle")
+       this.follownumsofcircle = ress.data
+
+      let ressp  = await bbsaxios.get("/api/unofq")
+      this.unofquestion = ressp.data
+       
+       this.drawLine()
+    },
+    drawLine(){
+       let myChart = this.$echarts.init(document.getElementById('myChart'))
+       let myChartt = this.$echarts.init(document.getElementById('myChartt'))
+       let myChartp = this.$echarts.init(document.getElementById('myChartp'))
+
+        myChart.setOption({
+            title: { text: '贴子回复量占比' },
+            tooltip: {},
+            roseType: 'angle',
+            series: [{
+                name: '贴子的回复数量',
+                type: 'pie',
+                data: this.norpost
+            }]
+            });
+        myChartt.setOption({
+            title: { text: '圈子关注的人数' },
+            tooltip: {},
+            roseType: 'angle',
+            series: [{
+                name: '关注圈子的人数',
+                type: 'pie',
+                data: this.follownumsofcircle
+            }]
+            });
+        myChartp.setOption({
+            title: { text: '回答已采纳的回复数' },
+            tooltip: {},
+            roseType: 'angle',
+            series: [{
+                name: '已采纳的回复',
+                type: 'pie',
+                data: this.unofquestion
+            }]
+            });
+    },
+
     // 发布贴子的方法
     async publish(){
         // alert(this.user.username)

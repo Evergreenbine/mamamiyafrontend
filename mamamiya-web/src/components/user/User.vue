@@ -637,7 +637,7 @@ p{
   }
   // 我购买的 那个导航栏
   .selectbox{
-    width: 800px;
+    width: 1000px;
     height: 30px;
     margin-top: 20px;
     // border: 1px solid gray;

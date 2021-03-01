@@ -12,6 +12,9 @@
           <div class="userplane">
             <a href="javascript::#" class="us-pl-item" @click="toUser">个人中心</a>
             <a href="javascript::#" class="us-pl-item" @click="toShopCar">我的购物车</a>
+            <a href="javascript::#" class="us-pl-item" @click="()=>{
+              this.$router.push('/shop/orderall')
+              }">我的订单</a>
             <a href="javascript::#"  class="us-pl-item" @click="logout">退出</a>
           </div>
         </div>
@@ -61,6 +64,9 @@ export default {
             password: "",
             token: ''
       }
+      localStorage.removeItem("username")
+      localStorage.removeItem("tokemn")
+      localStorage.removeItem("shopcar")
       window.location.reload();
        
     },

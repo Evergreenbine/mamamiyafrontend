@@ -1,4 +1,5 @@
 <template>
+
   <div id="shopcar" class="max-width margin-auto position-re">
       <div class="shopnav">
           <div class="shopnav-item">全部商品</div>
@@ -89,24 +90,57 @@ export default {
     methods: {
         async purchase(){
             const axios = this.$config. getAxiosInstance('shop')
-            console.log(this.wantitem);
+          
+
+            // 第一步，未登录无法进入
+            let useraccount = localStorage.getItem("username");
+
+         
+            // 第二步，生成订单，并进入支付页面
             let res = await axios({
-                url:'/api/milks/purchase',
+                url:"/api/createorder",
                 method:'post',
                 data:this.wantitem,
                 params:{
-                    useraccount:JSON.parse(localStorage.getItem('username')),
+                    useraccount:useraccount,
                     needmoney:this.summoney
-                }
-            })
-            if(res.data == 1){
-                alert("支付成功")
-                this.shopcar2 = this.shopcar2.filter((x) => !this.wantitem.some((item) => x.gid === item.gid));
-                 localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
-                // this.$router.go(0)
-            }else{
-                alert("支付失败")
-            }
+            }})
+            // console.log(res.data);
+            // 返回订单信息
+            // console.log(res.data);
+            let orderinfo = res.data.orderinfo
+            // console.log(res.data);
+        if(orderinfo.state == 2){
+            // 支付成功
+            alert("支付成功")
+            this.shopcar2 = this.shopcar2.filter((x) => !this.wantitem.some((item) => x.gid === item.gid));
+            localStorage.setItem('shopcar',JSON.stringify(this.shopcar2))
+           
+        }else if( orderinfo.state == 1){
+            alert("支付失败")
+        }
+
+        this.$router.push({path:"/shop/orderdetail",query:{
+            orderid:orderinfo.orderid
+        }});
+
+
+            // let res = await axios({
+            //     url:'/api/milks/purchase',
+            //     method:'post',
+            //     data:this.wantitem,
+            //     params:{
+            //         useraccount:JSON.parse(localStorage.getItem('username')),
+            //         needmoney:this.summoney
+            //     }
+            // })
+            // if(res.data == 1){
+            //     alert("支付成功")
+            //     
+            //     // this.$router.go(0)
+            // }else{
+            //     alert("支付失败")
+            // }
         },
         // 需要添加bug
         // 传入index,再从购物车里面找到对应的item,然后--
@@ -228,6 +262,10 @@ export default {
     },
     
     created() {
+        // 未登录无法进入组件
+        let useraccount = JSON.parse(localStorage.getItem("username"))
+        
+
     //  console.log(this.$store.state.shopcar);
         this.shopcar2 =this.$store.state.shopcar
 
