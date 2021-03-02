@@ -16,6 +16,7 @@
            <div class="middle max-width margin-auto position-re" >
           <!-- 顶部栏部分 -->
           <div class="headerinfo position-ab">
+               <p class="time">发布时间:{{this.res.time}}</p>
                <div class="opbutton"><router-link :to="'/user'">发帖</router-link></div>
                <div class="opbutton"><a href="#fulltext"> 回帖</a></div>
           </div>
@@ -48,6 +49,7 @@
                 <div class="title">
                     <!-- {{item.ruid}} -->
                     <!-- 回复->第{{item.floor}}楼的{{item.rname}} -->
+                    <p class="rtime">回帖时间:{{item.createtime}}</p>
                     <div class="buttn" @click="replythis(item,index)"><a href="#fulltext"> 回复本楼</a></div>
                 </div>
                 <div>
@@ -213,7 +215,12 @@ export default {
             width: 699px;
             height: 50px;
             border-bottom: 1px solid gainsboro;
-            
+            .time{
+                position: absolute;
+                left: 10px;
+                top: 2px;
+                color: rgb(105, 103, 103);
+            }
             .opbutton{
                 float: right;
                 width: 120px;
@@ -326,6 +333,13 @@ export default {
             .title{
                 height: 50px;
                 border-bottom: 1px solid gainsboro;
+                position: relative;
+                .rtime{
+                  position: absolute;
+                  left: 10px;
+                  top: 10px;
+                  color: gray;  
+                }
             }
             .content{
                  overflow-x: auto;

@@ -16,7 +16,7 @@
              <div class="navitem d-flex fd-row " style="border-right:none ">
                  <div class="navitem-sub">商城</div>
                  <div class="subnavitem"><router-link to="/shop">奶粉</router-link></div>
-                 <div class="subnavitem">用品</div>  
+                 <div class="subnavitem"><router-link to="/shop">用品</router-link></div>  
              </div>    
          </div>   
          <!-- 轮播图 -->
@@ -37,18 +37,14 @@
       <!-- 活动图 -->
       <div id="activity">
           <div class="achead">
-            <p class="title">今日导读</p>
+            <p class="title">今日资讯</p>
             <div class="pline"></div>
           </div>
           <div class="acticle d-flex flex-wrap">
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
-             <div class="acticleitem">生娃后身体迎来的变化</div>
+             <div class="acticleitem" v-for="(item,index) in todaynews" :key="index">
+              <div @click="infodetail(item)">{{item.title}}</div>
+              </div>
+            
           </div>
       </div>
   </div>
@@ -60,9 +56,29 @@ export default {
     name:"Common",
     data() {
         return {
-            to:""
+            to:"",
+            todaynews:[]
         }
     },
+    methods:{
+      infodetail(item){    
+
+           this.$router.push({
+               path:'/infodetail',
+               query:{
+                   infoid:item.infoid
+               }
+           })
+           
+          
+        }
+    },
+    async created(){
+         const bbsaxios = this.$config.getAxiosInstance('bbs')
+         let res = await bbsaxios.get('/api/listnews')
+         this.todaynews = res.data
+
+    }
 }
 </script>
 
@@ -157,8 +173,15 @@ export default {
 .acticleitem{
   width: 160px;
   height: 20px;
+  border: 1px solid white;
+  font-size: 15px;
   margin-top:10px;
   margin-left: 20px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.acticleitem:hover{
+  color: rgba(0, 174, 255, 0.856);
 }
  .el-carousel__item h3 {
     color: #475669;

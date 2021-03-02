@@ -35,7 +35,8 @@
               <div class="postbox">
                 <div class="post" v-for="item in cpost" :key="item.pid" @click="postDetail(item)" >
                    <router-link to="#" class="posttitle">{{item.title}}</router-link>
-                   <router-link to="#" class="postauthor">{{item.author}}</router-link>
+                   <router-link to="#" class="postauthor">发布人:{{item.author}}</router-link>
+                   <router-link to="#" class="posttime">发布时间:{{item.time}}</router-link>
                 </div>
               </div>
           </div>
@@ -311,7 +312,13 @@ export default {
                         .postauthor{
                             position: absolute;
                             right: 10px;
-                            color: gainsboro;
+                            // color: gainsboro;
+                            font-size: 5px;
+                            line-height: 30px;
+                        }
+                        .posttime{
+                            position: absolute;
+                            right: 100px;
                             font-size: 5px;
                             line-height: 30px;
                         }

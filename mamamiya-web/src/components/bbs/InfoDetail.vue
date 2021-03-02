@@ -27,6 +27,7 @@
                  <div v-for="itemon in cen[index]" :key="itemon">
                      <div class="replyto">
                          <img class="kaka" :src="itemon.avator" alt="">
+                         <p class="rconte">{{itemon.rcontent}}</p>
                           <!-- <b-textarea  rows="3" @focus="replyothers(itemon,index)" readonly :placeholder="itemon.content"/> -->
                          <p class="conte" @click="replyothers(itemon,index)">{{itemon.content}}</p>
                      </div>
@@ -305,7 +306,7 @@ export default {
     .replymebox{
         width: 1100px;
         height: auto;
-        // border: 1px solid gainsboro;
+        border: 1px solid gainsboro;
         // position: absolute;
         right: 0;
         bottom: -10px;
@@ -315,6 +316,7 @@ export default {
             height: 50px;
             // border: 1px solid gray;
             position: relative;
+            cursor: pointer;
             .kaka{
                 position: absolute;
                 width: 40px;
@@ -322,8 +324,14 @@ export default {
                 left: 70px;
                 top: 5px;
             }
+            .rconte{
+                position: absolute;
+                left: 130px;
+            }
             .conte{
+                
                position: absolute;
+               top: 20px;
                left:130px ; 
             }
         }

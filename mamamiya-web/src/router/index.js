@@ -323,6 +323,11 @@ const routes = [{
                 path: '/admin/main/konw',
                 component: () =>
                     import ('../components/admin/mainadmin/KonwAdmin')
+            },
+            {
+                path: '/admin/main/user',
+                component: () =>
+                    import ('../components/admin/mainadmin/UserAdmin')
             }
 
         ]

@@ -66,7 +66,7 @@ export default {
           localStorage.setItem("admin",JSON.stringify(this.admin))
           // 这里不明白为啥通过模板字符串拼接成的字符串和要跳转的一样，结果条到时空白
           if(url == '/shop'){
-            this.$router.push({path:'/admin/shop'})
+            this.$router.push({path:'/admin/shop/user'})
           }else{
              this.$router.push({path:'/admin/main'})
           }

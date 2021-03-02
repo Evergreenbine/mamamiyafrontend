@@ -54,7 +54,7 @@ export default {
       this.$router.push('/')
     },
     logout(){
-      console.log("哈哈");
+      
       localStorage.setItem('username','')
       localStorage.setItem('password','')
       localStorage.setItem('tokemn','')

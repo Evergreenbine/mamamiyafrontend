@@ -24,7 +24,6 @@ export default {
     Common,
     Community,
     Shop,
-    Konwleage,
     Footter
 
   }

@@ -18,6 +18,7 @@
           <el-menu-item index="/admin/shop/brand">品牌列表</el-menu-item>
           <el-menu-item index="/admin/shop/dataview">数据统计与导出</el-menu-item>
           <el-menu-item index="/admin/shop/order">订单记录</el-menu-item>
+          <el-menu-item index="/admin/main">返回</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -35,7 +36,7 @@
 </template>
 <style>
 .el-header {
-  background-color: beige;
+  background-color: rgba(0, 140, 255, 0.377);
   color: #333;
   line-height: 60px;
 }

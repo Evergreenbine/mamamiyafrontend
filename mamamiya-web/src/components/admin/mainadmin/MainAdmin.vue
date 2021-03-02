@@ -7,8 +7,9 @@
         </template>
         <el-menu-item-group>
           <template slot="title">分类</template>
-          <el-menu-item index="/admin/main/konw">知识管理</el-menu-item>
-          <el-menu-item index="/admin/shop/list">知识列表</el-menu-item>
+           <el-menu-item index="/admin/main/user">用户管理</el-menu-item>
+           <el-menu-item index="/admin/shop">商城管理</el-menu-item>
+          <el-menu-item index="/admin/main/konw">知识管理</el-menu-item>     
           <el-menu-item index="/admin/main/circle">论坛管理</el-menu-item>
       
         </el-menu-item-group>

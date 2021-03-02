@@ -3,11 +3,11 @@
       <!-- {{speicialgood}} -->
      <div class="brandlogobox">
          <div class="midbox max-width margin-auto d-flex">
-            <div class="brandlogo">{{this.bname}}</div>
+            <div class="brandlogo" @click="getgoodbyid">{{this.bname}}</div>
          </div>
      </div>
      <!-- 第一页 -->
-   <div class="bigboxbox" v-show="gid != undefined">
+   <div class="bigboxbox" v-show="pageid == 2">
      <div class="midbox2 max-width margin-auto d-flex" >
          <div class="leftbox">
              <img class="goodsimg" :src="speicialgood.img" />
@@ -51,9 +51,14 @@
 
 
 <!-- 第二页 根据bid查询所有商品-->
-    <div class="bigboxbox" v-show="gid == undefined">
-
-            haha 
+    <div class="bigboxbox" v-show="pageid == 1">
+        
+         <div class="midbox3 max-width margin-auto d-flex">
+         <div class="shopitem position-re" v-for="(item,index) in bidshop" :key="index" @click="goto(item)">
+             <img :src="item.img" alt="" class="shopimg">
+             <p class="title">{{item.gname}}</p>
+         </div>
+     </div>
     </div>
   </div>
 </template>
@@ -62,6 +67,9 @@
 export default {
     data() {
         return {
+            // 页面变量
+            pageid:1,
+            
             // gid控制是否显示的变量
             gid:undefined,
             bname:'',
@@ -99,6 +107,11 @@ export default {
         }
     },
     methods:{
+
+        getgoodbyid(){
+            this.pageid = 1
+        },
+
         toShopCar(item){
                     console.log(item);
                     // 拼接购物车item
@@ -130,7 +143,7 @@ export default {
         },
 
     async created(){
-        this.gid = undefined
+        
         // 根据bid查询特定的品牌
          let bid = this.$route.query.bid
          const axios = this.$config. getAxiosInstance('shop')
@@ -139,6 +152,13 @@ export default {
         
         // 根据gid查询特定的商品
         let gid = this.$route.query.gid
+        // 根据gid 判定显示哪个页面
+        if(gid == null || gid == undefined || gid == '' ){
+            this.pageid = 1
+        }else{
+            this.pageid = 2
+        }
+
         // 显示控制变量
         this.gid =gid
 
@@ -180,6 +200,7 @@ export default {
 
 <style lang="scss" scoped>
 .brandlogobox{
+    cursor: pointer;
     width: inherit;
     height: 50px;
     background-color: pink;
