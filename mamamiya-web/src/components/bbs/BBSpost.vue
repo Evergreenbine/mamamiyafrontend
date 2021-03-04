@@ -1,12 +1,17 @@
 <template>
   <div id="bbspost" >
       <TopBar/>
-      <p class="logo">mamamiya论坛</p>
+      <p class="logo" >mamamiya论坛</p>
       <div class="logobox">
          <!-- <p>mamamiya论坛</p> -->
-         <div class="search"></div>
+         <div class="search">
+            <el-input placeholder="请输入贴子标题" v-model="title" class="input-with-select">
+                <el-button slot="append" icon="el-icon-search" @click="goto"></el-button>
+            </el-input>
          </div>
-    <div class="mainbody  margin-auto d-flex ">
+      </div>
+      <div v-show="page == 1">
+        <div class="mainbody  margin-auto d-flex " >
           <!-- 左侧圈子 -->
           <div class="mainleft">
               <div class="circle position-re" v-for="item in circle" :key="item.cid" @click="getPostList(item.cid)">
@@ -41,6 +46,15 @@
               </div>
           </div>
           </div>
+        </div>
+     </div>
+
+    <div v-show="page == 2">
+       <div class="bigbox">
+        <div v-for="(item,index) in cpost" :key="index">
+           <p class="posttitle" @click="postDetail(item)"> {{item.title}}</p>
+        </div>
+       </div>
     </div>
 
   </div>
@@ -52,6 +66,8 @@ export default {
 
     data() {
         return {
+            // 页面变量
+            page:1,
             // 圈子变量
             cid:1,
             // 关注变量
@@ -59,13 +75,32 @@ export default {
             // 圈子列表
             circle:[],
             // 贴子列表
-            cpost:[]
+            cpost:[],
+            title:''
         }
     },
     components:{
         TopBar
     },
     methods: {
+        async goto(){
+            this.page = 2
+            // this.$router.push({
+            //     path:'/bbs/post/search'
+            // })
+            const bbsaxios = this.$config.getAxiosInstance('bbs')
+            let res = await bbsaxios({
+                url:'/api/likeposttile',
+                method:'get',
+                params:{
+                    title:this.title
+                }
+            })
+
+            this.cpost = res.data
+            
+        },
+
         // 根据cid获取贴子列表
        async getPostList(cid){
         //    根据cid查询贴子列表
@@ -171,11 +206,12 @@ export default {
     left: 20px;
     margin-top: 10px;
     color: rgba(0, 132, 255, 0.411);
+    cursor: pointer;
 }
 .logobox{
     position: relative;
     margin-top: 80px;
-    height: 43px;
+    height: 50px;
     background-color:rgba(0, 132, 255, 0.411);
     p{
         position: absolute;
@@ -329,6 +365,10 @@ export default {
             
         }
         
+    }
+
+    .bigbox{
+        margin-top: 20px;
     }
 
 }

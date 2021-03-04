@@ -8,16 +8,12 @@
       <div class="queslogo">
           育儿知识
       </div>
-      <div class="search">
-          
+      <div class="search d-flex">
+        <el-input placeholder="请输入知识标题或问答标题" v-model="title" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click="goto"></el-button>
+        </el-input>
       </div>
-      <!-- <div class="quescata max-width">
-          <div class="quesitem">准备怀孕</div>
-          <div class="quesitem">怀孕期</div>
-          <div class="quesitem">分娩必读</div>
-          <div class="quesitem">婴幼儿期</div>
-          <div class="quesitem bbnn">幼儿期</div>
-      </div> -->
+     
   </div>
 </div>
 </div>
@@ -28,10 +24,30 @@ import TopBar from '../TopBar'
 export default {
     data() {
         return {
-          
+          title:''
         }
     },
     methods:{
+       goto(){
+            let konw = '/ques/konwIndex'
+            let ques = '/ques/konw/index'
+            let cata;
+            if(this.$route.path == konw){
+                cata = 1
+            }else if(this.$route.path == ques)
+                cata = 2
+            // alert(cata)
+
+            this.$router.push({
+                path:'/ques/search',
+                query:{
+                    title:this.title,
+                    cata:cata
+                }
+            })
+        }
+         
+            
        
     },
     components:{
@@ -60,9 +76,11 @@ export default {
         right: 0;
         height: 50px;
         width: 800px;
-        border: solid 1px green ;
+        // border: solid 1px green ;
         top: 18px;
     }
+
+  
     // .quescata{
         
     //     position: absolute;

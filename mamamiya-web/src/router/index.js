@@ -176,6 +176,11 @@ const routes = [{
         redirect: '/ques/konwIndex',
         component: QuesIndex,
         children: [{
+                path: '/ques/search',
+                component: () =>
+                    import ('../components/question/SearchResult')
+            },
+            {
                 path: '/ques/konw',
                 component: () =>
                     import ('../components/question/Knowlege')
@@ -205,7 +210,7 @@ const routes = [{
     // 资讯首页
     {
         path: '/bbsindex',
-        component: BBSIndex,
+        component: BBSIndex
 
     },
     {
@@ -215,7 +220,12 @@ const routes = [{
     },
     {
         path: '/bbs/post',
-        component: BBSpost
+        component: BBSpost,
+        children: [{
+            path: '/bbs/post/search',
+            component: () =>
+                import ('../components/bbs/SearchDetail')
+        }]
 
     }, {
         path: '/bbs/detail',
@@ -252,6 +262,11 @@ const routes = [{
         component: () =>
             import ('../components/admin/shop/ShopAdmin'),
         children: [{
+                path: '/admin/shop/cata',
+                component: () =>
+                    import ('../components/admin/shop/Cata')
+            },
+            {
                 path: '/admin/shop/milkcreate',
                 component: () =>
                     import ('../components/admin/shop/ShopCreate')

@@ -100,6 +100,7 @@ export default {
                     //  this.dialogVisible = true;
                 }
         },
+        // 没用的
         gotobuy(item){
             alert(item.kid)
         },

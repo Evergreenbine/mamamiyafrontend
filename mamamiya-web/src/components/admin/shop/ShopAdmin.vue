@@ -7,6 +7,7 @@
         </template>
         <el-menu-item-group>
           <template slot="title">分类</template>
+          <el-menu-item index="/admin/shop/cata">新建分类</el-menu-item>
           <el-menu-item index="/admin/shop/milkcreate">新建奶粉</el-menu-item>
           <el-menu-item index="/admin/shop/diaperscreate">新建纸尿布</el-menu-item>
           <el-menu-item index="/admin/shop/foodcreate">新建婴儿食品</el-menu-item>
