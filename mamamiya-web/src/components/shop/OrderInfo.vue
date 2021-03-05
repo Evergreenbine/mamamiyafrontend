@@ -20,9 +20,9 @@
         <div class="rightbox">
           <p class="position-ab tomount">总金额:{{order.totalmount}}</p>
           <p class="position-ab tonums">总数量:{{order.totalnums}}</p>
-          <p class="position-ab paymoney">支付金额:{{order.monney}}</p>
+          <p class="position-ab paymoney">支付金额:{{order.paymoney}}</p>
           <p class="position-ab payman">支付人:{{order.username}}</p>
-          <p class="position-ab address">收获地址:{{order.address}}</p>
+          <p class="position-ab address">收获地址:{{order.addresss}}</p>
           <div class="position-ab okbutton" @click="updatestate">确认</div>
         </div>
     </div>

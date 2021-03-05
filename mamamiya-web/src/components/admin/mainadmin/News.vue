@@ -1,34 +1,25 @@
 <template>
   <div class="createshop">
+     <div class="bnav" :style="{'width':'700px','margin-bottom':'30px'}">
+        <el-input placeholder="请输入资讯标题" v-model="title" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click="goto"></el-button>
+        </el-input>
+    </div>
     <div class="bnav d-flex">
       <p class="navitem"  @click="()=>{pageid = 1,this.konwpost = this.konwpostt}"  :class="{navitemac:pageid == 1}">{{ pageid == 3 ?"编辑":"新建"}}资讯</p>
-      <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"知识列表"}}</p>
-      <p class="navitem"  @click="countall" :class="{navitemac:pageid == 5}">知识数据统计</p>
-      <p class="navitem"  @click="pageid = 6" :class="{navitemac:pageid == 6}">知识视频课堂</p>
+      <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"资讯列表"}}</p>
+      <!-- <p class="navitem"  @click="countall" :class="{navitemac:pageid == 5}">知识数据统计</p> -->
+ 
     </div>
     <!-- 第一页 -->
     <div class="bigbox" v-show="pageid == 1">
-      <div class="item d-flex">
-        <p class="tagname">知识封面</p> 
-        <el-upload 
-          class="avatar-uploader inoimga"
-          action="http://localhost:8003/api/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          >
-          <img v-if="konwpost.img" :src="konwpost.img" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </div>
+      
       <div class="item d-flex">
        <p :style="{width:'120px'}">资讯标题</p>
         <el-input  v-model="konwpost.title"></el-input>
       </div>
     
-      <div class="item d-flex" v-show="true">
-       <p :style="{width:'120px'}">收费</p>
-       <input type="checkbox" v-model="isfreeshow">
-      </div>
+     
       <div v-show="isfreeshow == true">
       <div class="item d-flex" >
        <p :style="{width:'120px'}">价格</p>
@@ -37,19 +28,19 @@
       </div>
  
         <div class="item d-flex">
-          <p :style="{width:'120px'}">知识分类</p>
+          <p :style="{width:'120px'}">资讯分类</p>
           <el-select v-model="konwpost.cata" slot="prepend" placeholder="请选择分类" >
              <el-option :label="item.kname" :value="item.kcid" v-for="item in konwcata " :key="item.cid" >
              </el-option>
            </el-select>
         </div>
         <div class="item d-flex">
-          <p :style="{width:'120px'}">知识内容</p>
+          <p :style="{width:'120px'}">资讯内容</p>
           <FullTextEditor v-on:func="savecontent"/>
          </div> 
           
          <div class="item d-flex">   
-           <el-button type="success" @click="savegood">创建</el-button>
+           <el-button type="success" @click="savegood">发布资讯</el-button>
         </div>  
   
     </div>
@@ -58,10 +49,10 @@
       <div v-for="(item,index) in konwlist" :key="index" >
         <div class="itembox"  >
           <img :src="item.img" alt="" >
-            <p class="rrrrr">知识标题：{{item.title}}</p>
-            <p class="rrrrrrr">知识价格：{{item.isfree == 0 ? item.price:"免费"}}</p>
-            <p class="rrrrrrb">知识创建时间：{{item.createtime}}</p>
-            <p class="rrrrrr">知识分类：{{konwcata[item.cata].kname}}</p>
+            <p class="rrrrr">资讯标题：{{item.title}}</p>
+
+            <p class="rrrrrrb">资讯创建时间：{{item.createtime}}</p>
+         
             <p class="btnbe" @click="editebrand(item)">编辑</p>
             <p class="btnbd" @click="deleteitem(item)">删除</p>
         </div>
@@ -76,27 +67,12 @@
     </div>
     <!-- 第三页 -->
     <div class="bigbox" v-show="pageid == 3">
-       <div class="item d-flex">
-        <p class="tagname">知识封面</p> 
-        <el-upload 
-          class="avatar-uploader inoimga"
-          action="http://localhost:8003/api/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          >
-          <img v-if="konwpost.img" :src="konwpost.img" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </div>
       <div class="item d-flex">
-       <p :style="{width:'120px'}">知识标题</p>
+       <p :style="{width:'120px'}">资讯标题</p>
         <el-input  v-model="konwpost.title"></el-input>
       </div>
     
-      <div class="item d-flex" v-show="true">
-       <p :style="{width:'120px'}">收费</p>
-       <input type="checkbox" v-model="isfreeshow">
-      </div>
+     
       <div v-show="isfreeshow == true">
       <div class="item d-flex" >
        <p :style="{width:'120px'}">价格</p>
@@ -105,17 +81,16 @@
       </div>
  
         <div class="item d-flex">
-          <p :style="{width:'120px'}">知识分类</p>
+          <p :style="{width:'120px'}">资讯分类</p>
           <el-select v-model="konwpost.cata" slot="prepend" placeholder="请选择分类" >
              <el-option :label="item.kname" :value="item.kcid" v-for="item in konwcata " :key="item.cid" >
              </el-option>
            </el-select>
         </div>
         <div class="item d-flex">
-          <p :style="{width:'120px'}">知识内容</p>
-          <UFullTextEditor v-bind:parrentcontent="konwpost.content" v-on:func="savecontent"/>
-         </div> 
-          
+          <p :style="{width:'120px'}">资讯内容</p>
+          <FullTextEditor v-on:func="savecontent"/>
+         </div>     
          <div class="item d-flex">   
            <el-button type="success" @click="upkonw">更新</el-button>
         </div>  
@@ -137,32 +112,10 @@
         <div id="myChartfour" :style="{width: '1000px', height: '300px'}"></div>
       </div>
     </div>
-  <!-- 第6页 -->
-    <div class="bigbox" v-show="pageid == 6">
-       <div class="item d-flex">
-          <p :style="{width:'120px'}">知识分类</p>
-          <el-select v-model="konwpost.cata" slot="prepend" placeholder="请选择分类" >
-             <el-option :label="item.kname" :value="item.kcid" v-for="item in konwcata " :key="item.cid" >
-             </el-option>
-           </el-select>
-        </div>
+  
 
-    <div class="item d-flex">
-       <p :style="{width:'120px'}">视频上传</p>
-      <el-upload
-        :on-success="handleVideoSuccess"
-         class="upload-demo"
-         drag
-         action="http://localhost:8003/api/upload"
-         multiple>
-         <i class="el-icon-upload"></i>
-         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-         <div class="el-upload__tip" slot="tip">咿呀咿呀</div>
-      </el-upload>
-    </div>
-
-    <video src="http://localhost:8003/static/mamamiya202102260147564052.flv" />
-    </div>
+  
+    
   </div>
 </template>
 <script>
@@ -426,7 +379,7 @@ export default {
       this.pageid = 2
        const axios = this.$config.getAxiosInstance("bbs");
        let res = await axios({
-         url:'/api/allkonws',
+         url:'/api/newall',
          method:'get',
          params:{
            curpage:nums

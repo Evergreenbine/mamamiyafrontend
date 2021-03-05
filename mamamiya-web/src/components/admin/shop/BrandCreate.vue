@@ -80,7 +80,7 @@
         <el-input v-model="brand.bname"></el-input>
       </div>  
       <div class="item d-flex">
-         <el-button type="success" @click="savegood">更新</el-button>
+         <el-button type="success" @click="updategood">更新</el-button>
       </div>  
     </div>
     <!-- 第4页 -->
@@ -147,6 +147,13 @@ export default {
      this.drawLine()
   },
   methods: {
+    async updategood(){
+       const axios = this.$config.getAxiosInstance("admin");
+       let res = await axios.post("/api/updatebrand",this.brand)
+       if(res.data == 1){
+         alert("品牌更新成功")
+       }
+    },
     // 数据统计
     async countall(){
       this.pageid = 5

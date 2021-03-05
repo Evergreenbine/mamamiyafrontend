@@ -13,8 +13,8 @@
              <p class="rrrrrrr">用户余额:{{item.monney}}</p>
             <!-- <p class="rrrrrrb">用户账号：{{item.useraccount}}</p> -->
             <p class="rrrrrr">用户账号：{{item.useraccount}}</p>
-            <p class="btnbe" @click="editebrand(item)">编辑</p>
-            <p class="btnbd" @click="deleteitem(item)">删除</p>
+            <!-- <p class="btnbe" @click="editebrand(item)">编辑</p> -->
+            <!-- <p class="btnbd" @click="deleteitem(item)">删除</p> -->
         </div>
       </div>
       <el-pagination

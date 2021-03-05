@@ -3,9 +3,8 @@
    <HeaderBar/>
    <Common/>
    <Shop/>
-   <Community/>
-   <Konwleage/>
-   <Footter/>
+   
+   
    <router-view/>
   </div>
 </template>

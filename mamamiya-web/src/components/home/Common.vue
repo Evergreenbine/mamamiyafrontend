@@ -37,7 +37,7 @@
       <!-- 活动图 -->
       <div id="activity">
           <div class="achead">
-            <p class="title">今日资讯</p>
+            <p class="title">资讯导读</p>
             <div class="pline"></div>
           </div>
           <div class="acticle d-flex flex-wrap">

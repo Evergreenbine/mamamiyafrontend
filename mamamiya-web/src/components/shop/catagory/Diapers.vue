@@ -129,8 +129,8 @@
                   <div id="recommendBox" class="position-ab ">
                       <p class="loooo">推荐品牌</p>
                     <div class="brandbox ">
-                        <div class="braitem" v-for="(item,index) in sellgoodbrand" :key="index">
-
+                        <div class="braitem" v-for="(item,index) in sellgoodbrand" :key="index" @click="tosearch(item.bid)">
+                            <img :src="item.img" alt="">
                         </div>
                     </div>
                   </div>
@@ -169,6 +169,9 @@ export default {
         }
     },
     methods:{
+        tosearch(bid){
+            // alert(bid)
+        this.$router.push({path:'/shop/search',query:{bid:bid}})},
         tab(index){
             this.curId = index;
         },
@@ -426,8 +429,12 @@ export default {
             margin-left:2px;
             width: 147px;
             height: 80px;
-            border: 1px solid orange;
+            // border: 1px solid orange;
             margin-top: 8px;
+        }
+        img{
+            width: 145px;
+            height: 78px;
         }
     }
 }

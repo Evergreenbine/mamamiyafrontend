@@ -71,6 +71,11 @@ const routes = [{
                     { path: '/shop/index/tem', component: LittleShopTem }
                 ]
             },
+            {
+                path: '/shop/search',
+                component: () =>
+                    import ('../components/shop/ShopSearch')
+            },
             { path: '/shop/milk', component: MilkSelect },
             { path: '/shop/shopcar', component: ShopCar },
             {

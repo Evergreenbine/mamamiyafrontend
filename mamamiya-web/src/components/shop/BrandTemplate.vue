@@ -10,12 +10,12 @@
         <!-- 品牌项目-->
          <div class="brand-items position-ab margin-auto max-width">
              <!-- 第一个 -->
-             <div :id="item" v-for="(item,indexone) in tag" :key="indexone" class="brand-item max-width d-flex">
+             <div :id="item" v-for="(item,indexone) in tag" :key="indexone" class="brand-item max-width d-flex" >
                 <div class="brand-item-logo position-re">
                     <h2>{{item}}</h2>
                 </div>
                 <!-- 品牌名 -->
-                <div v-for="(item,index) in all[indexone]" :key="index" class="brandbrand">
+                <div v-for="(item,index) in all[indexone]" :key="index" class="brandbrand" @click="tosearch(item.bid)">
                         {{item.bname}}
                 </div>
                  <div class="bitem " style="border:none"></div>
@@ -38,6 +38,13 @@ export default {
             ],
             all:[]
         }
+    },
+    methods:{
+        tosearch(bid){
+            // alert(bid)
+        this.$router.push({path:'/shop/search',query:{
+        bid:bid
+      }})}
     },
    async  created(){
        const axios = this.$config. getAxiosInstance('shop')
@@ -125,6 +132,7 @@ export default {
     height: 25px;
     color: #007bff;
     border-right: 1px solid gainsboro;
+    cursor: pointer;
 }
 </style>
 

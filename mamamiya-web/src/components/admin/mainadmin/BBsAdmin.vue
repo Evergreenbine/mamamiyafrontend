@@ -1,6 +1,10 @@
 <template>
 <div>
-    
+     <div class="bnav" :style="{'width':'700px','margin-bottom':'30px'}">
+        <el-input placeholder="请输入贴子标题或者在数据统计页输入贴子id" v-model="title" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click="goto"></el-button>
+        </el-input>
+    </div>
    <div class="navhha">
        <!-- 将cid设置为-1 是为了去除新建圈子的默认值 -->
        <div class="navbut" :class="{navbutact : page == 0 || page == 2}" @click="()=>{page = 0,cid = -1}">{{cid == -1 ? "新建":"编辑"}}圈子</div>
@@ -80,7 +84,9 @@
     <div v-for="(item,index) in cpost"  :key="index">
           <div class="itembox">
             <div class="itemname" @click="editpost(item)" >   {{item.title}}</div> 
-            <div class="btnn" @click="editor(item.cid)">编辑</div>
+            
+            <div class="btnnnn" >{{item.pass == 0?"待审核":"已审核"}}</div>
+           
             <div class="btnnn" @click="dele(item.cid)" >删除</div>
           </div>
       </div>
@@ -91,19 +97,19 @@
     <!-- 贴子标题 -->
    <div class="item d-flex">
        <p :style="{width:'120px'}">贴子标题</p>
-        <el-input  v-model="post.title"></el-input>
+        <el-input readonly  v-model="post.title"></el-input>
     </div>
     <!-- 圈子分类 -->
         <div class="item d-flex">
           <p :style="{width:'120px'}">选择圈子</p>
-          <el-select v-model="post.cid" slot="prepend" placeholder="请选择分类" >
+          <el-select  v-model="post.cid" slot="prepend" placeholder="请选择分类" >
              <el-option :label="item.cname" :value="item.cid" v-for="item in circlearr " :key="item.cid" >
              </el-option>
            </el-select>
         </div>
          <div  class="item d-flex">
            <p :style="{width:'120px'}">审核状态</p>
-            <input type="checkbox" :style="{cursor:'pointer'}"  @click="ispasss(post.pass)" v-model="post.pass">
+            <input type="checkbox" :style="{cursor:'pointer'}"  v-model="ispass">
          </div>
         <!-- 贴子内容 -->
         <div class="item d-flex">
@@ -114,11 +120,16 @@
            
          </div>
          <div class="item d-flex">   
-           <el-button type="success" @click="publish">更新</el-button>
+           <el-button type="success" @click="publish()">更新</el-button>
         </div>  
     
   </div>
-  
+  <!-- 模糊搜索 -->
+  <div class="createshop" v-show="page == 6">
+    <div v-for="item in cpost" :key="item.id">
+       <p class="okokok" @click="editpost(item)">{{item.title}}</p>
+    </div>
+  </div>
  <!-- 论坛数据统计 -->
   <div class="createshop" v-show="page == 5">
       <div class="Echarts">
@@ -146,6 +157,11 @@ export default {
   },
   data() {
     return {
+      title:'',
+      // 审核状态
+      ispass:'',
+
+
       // 论坛数据统计
       numsofreplypost:[],
 
@@ -162,7 +178,17 @@ export default {
      circlearr:[],
      cpost:[],
     //  正在编辑的贴子
-    post:'',
+    post:{
+      pid:'',
+      title:'',
+      author:'',
+      content:'',
+      time:'',
+      useraccount:'',
+      cid:'',
+      replynums:'',
+      pass:''
+    },
     // 记录当前编辑的贴子的审核状态，因为watch监控不到内部属性的变化
     ispass:0,
     // 数据统计数组
@@ -173,7 +199,48 @@ export default {
      
     };
   },
+  watch:{
+    ispass:function(Val,oldval){
+     
+      if(Val == true){
+        this.post.pass = 1
+      }else{
+        this.post.pass = 0
+      }
+      
+    }
+  },
   methods: {
+
+    async goto(){
+ // 进行模糊搜索
+      const bbsaxios = this.$config.getAxiosInstance('bbs')
+      // if(this.page == 5){
+      //   let aaa = await bbsaxios({
+      //     url:'/api/posts',
+      //     method:'get',
+      //     params:{
+            
+      //       pid:this.title,
+      //       isadmin:"admin"
+      //     }
+      //   })
+      //   console.log(aaa.data);
+      // }
+
+
+      this.page = 6
+    let res = await bbsaxios({
+        url:'/api/likeposttile',
+        method:'get',
+        params:{
+            title:this.title
+        }
+    })
+
+      this.cpost = res.data
+    },
+
     // 数据统计
     async countbbs(){
        this.page = 5;
@@ -228,30 +295,34 @@ export default {
 
     // 发布贴子的方法
     async publish(){
+
+   
+      console.log(this.post);
         // alert(this.user.username)
         // alert(this.post.author)
-        this.post.author = this.user.username
-        this.post.useraccount = this.user.useraccount
+        // this.post.author = this.user.username
+        // this.post.useraccount = this.user.useraccount
          const bbsaxios = this.$config.getAxiosInstance('bbs')
          let res = await bbsaxios({
-           url:'/api/post',
+           url:'/api/updatepost',
            method:'post',
            data:this.post,
            params:{
-            //  postcircle:this.content
+            
            }
          })
          if(res.data == 1){
-           alert("发布帖子成功")
+           alert("更新帖子成功")
          }
         
       },
     ispasss(pass){
-      // alert(pass)
+      alert(pass)
       if(pass == 1){
         alert("贴子已经审核，无法修改")
         this.post.pass = 1
       }
+      
     },
     // 保存更新的贴子
     savecontent(content){
@@ -268,7 +339,8 @@ export default {
                 url:'/api/posts',
                 method:'get',
                 params:{
-                    cid:item.cid
+                    cid:item.cid,
+                    isadmin:"admin"
                 }
             })
 
@@ -374,8 +446,13 @@ export default {
     }
     .btnnn{
         position: absolute;
-        right: 0;
+        right: 10px;
         cursor: pointer;
+    }
+    .btnnnn{
+      position: absolute;
+      right: 70px;
+      cursor: pointer;
     }
 }
 
@@ -418,5 +495,16 @@ export default {
 
   .item {
     padding: 18px 0;
+  }
+  .okokok{
+    margin: 0;
+    padding: 0;
+    width: 1000px;
+    // border: 1px solid gainsboro;
+    text-align: left;
+  }
+  .okokok:hover{
+    color: #409EFF;
+    cursor: pointer;
   }
 </style>

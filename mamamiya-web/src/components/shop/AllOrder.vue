@@ -30,8 +30,10 @@
                   
               </div>
               <div class="tailinfo">
-                  <p class="address">收货地址:{{oditem.address}}</p>
+                  <p class="address">收货地址:{{oditem.addresss}}</p>
                   <p class="totalmount">总价:{{oditem.totalmount}}元</p>
+                  <p class="username">支付人:{{oditem.username}}</p>
+                  <p class="totalnums">总数量:{{oditem.totalnums}}</p>
                   <p class="paymoney">{{oditem.paymoney != null ? "实际支付:"+oditem.paymoney+"元":"实际支付:0元" }}</p>
                   <div class="okbutton" v-show="oditem.state == 1" @click="continuepay(oditem)">继续支付</div>
                   <div class="cancel" @click="cancelorder(oditem)" v-show="oditem.state != 6 && oditem.state != 5&& oditem.state != 8">取消订单</div>
@@ -107,6 +109,10 @@ export default {
      },
     //  更新订单状态
       async updatestate(expected,order){
+          if(expected == 5 && order.state == 3){
+            alert("商品还未发货")
+            return
+          }
         //    如果支付成功，则将状态改为代发货
            
             const axios = this.$config.getAxiosInstance('shop')
@@ -271,6 +277,18 @@ export default {
                 color: gray;
                 left: 10px;
             }
+            .username{
+                position: absolute;
+                top: 30px;
+                color: red;
+                left: 10px;
+            }
+            .totalnums{
+                position: absolute;
+                top: 50px;
+                color: gray;
+                left: 10px;
+            }
             .totalmount{
                 position: absolute;
                 right: 0;
@@ -284,6 +302,7 @@ export default {
                 right: 10px;
                 top: 30px;
             }
+            
             .okbutton{
             position: absolute;
             width: 100px;

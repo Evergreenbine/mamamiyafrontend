@@ -2,7 +2,7 @@
    <div id="brand" class="max-width margin-auto mb">
        <div id="section-logo"><p class="position-ab">热门品牌 </p></div>
        <div id="brandnav" class="max-width">
-           <p class="bitem" v-for="(item,index) in brandarr" :key="index">
+           <p class="bitem" v-for="(item,index) in brandarr" :key="index" @click="tosearch(item.bid)">
                {{item.bname}}
            </p>
         
@@ -21,6 +21,7 @@ export default {
         }
     },
     methods:{
+        
         morebrand(){
             console.log(this.$route);
             if(this.$route.fullPath == "/shop/morebrand"){
@@ -31,7 +32,10 @@ export default {
                 this.tag = "收起品牌 <<<"
             }
           
-        }
+        },
+        tosearch(bid){
+            // alert(bid)
+        this.$router.push({path:'/shop/search',query:{bid:bid}})}
     },
     async mounted() {
        const axios = this.$config. getAxiosInstance('shop')

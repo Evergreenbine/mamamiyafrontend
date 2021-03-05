@@ -5,10 +5,10 @@
       <div class="d-flex fd-rows">
           <!-- 左边栏 -->
       <div class="leftbar">
-          <p>最多回复</p>
-          <div class="postbox">
+          
+          <!-- <div class="postbox">
               <div></div>
-          </div>
+          </div> -->
       </div>
       <!-- 中间 -->
       <div class="margin-auto">
@@ -202,7 +202,7 @@ export default {
     // float: left;
     width: 250px;
     height: 1000px;
-    border: 1px solid gainsboro;
+    // border: 1px solid gainsboro;
     margin-top: 20px;
     margin-left: 20px
     ;

@@ -145,11 +145,11 @@ export default {
     }
  },
  created(){
-    let useraccount = JSON.parse(localStorage.getItem("username"))
-    if(useraccount == null){
-        this.$router.push("/new/login")
-    }
-    this.useraccount = useraccount
+    // let useraccount = JSON.parse(localStorage.getItem("username"))
+    // if(useraccount == null){
+    //     this.$router.push("/new/login")
+    // }
+    // this.useraccount = useraccount
     this.checkall()
 
  }

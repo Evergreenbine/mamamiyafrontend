@@ -7,10 +7,12 @@
         </el-input>
     </div>
     <div class="bnav d-flex">
+       <p class="navitem"  @click="pageid = 8" :class="{navitemac:pageid == 8}">新建知识分类</p>
       <p class="navitem"  @click="()=>{pageid = 1,this.konwpost = this.konwpostt}"  :class="{navitemac:pageid == 1}">{{ pageid == 3 ?"编辑":"新建"}}知识</p>
       <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"知识列表"}}</p>
       <p class="navitem"  @click="countall" :class="{navitemac:pageid == 5}">知识数据统计</p>
       <p class="navitem"  @click="pageid = 6" :class="{navitemac:pageid == 6}">知识视频课堂</p>
+     
     </div>
     
     <!-- 第一页 -->
@@ -179,6 +181,13 @@
     
       
     </div>
+
+    <div class="bigbox" v-show="pageid == 8">
+       <div class="item d-flex">
+         <el-input  v-model="kname"></el-input>
+          <el-button type="success" @click="createkcata">新建知识分类</el-button>
+       </div>
+    </div>
   </div>
 </template>
 <script>
@@ -189,6 +198,8 @@ export default {
   
   data() {
     return {
+      // 分类名
+      kname:'',
         title:'',
         //  ---------------- 知识 ---------------------
         
@@ -274,6 +285,15 @@ export default {
      this.drawLine()
   },
   methods: {
+      async createkcata(){
+        
+         const axisos = this.$config.getAxiosInstance('bbs')
+         let kname = this.kname
+         let res  =  await axisos.get(`/api/createkcata/${kname}`)
+         if(res.data == 1){
+           alert("新建知识分类成功")
+         }
+      },
        async drawLine(){
           let myChart = this.$echarts.init(document.getElementById('myChart'))
           let myChartt = this.$echarts.init(document.getElementById('myChartt'))
