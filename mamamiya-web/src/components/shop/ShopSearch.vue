@@ -49,6 +49,18 @@ export default {
     async created(){
           const axios = this.$config. getAxiosInstance('shop')
          let gname = this.$route.query.gname
+         
+         if(gname != undefined){
+              let res = await axios({
+                 url:'/api/likequerygood',
+                 method:'get',
+                 params:{
+                     gname:gname
+                 }
+             })
+             this.goodarr = res.data
+         }
+
          let bid = this.$route.query.bid
          console.log(bid);
          if(bid != undefined){

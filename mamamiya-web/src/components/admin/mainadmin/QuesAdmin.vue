@@ -1,10 +1,9 @@
 <template>
   <div class="createshop">
     <div class="bnav d-flex">
-      <p class="navitem"  @click="()=>{pageid = 1,this.konwpost = this.konwpostt}"  :class="{navitemac:pageid == 1}">{{ pageid == 3 ?"编辑":"新建"}}知识</p>
-      <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"知识列表"}}</p>
-      <p class="navitem"  @click="countall" :class="{navitemac:pageid == 5}">知识数据统计</p>
-      <p class="navitem"  @click="pageid = 6" :class="{navitemac:pageid == 6}">知识视频课堂</p>
+      
+      <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"问答列表"}}</p>
+     
     </div>
     <!-- 第一页 -->
     <div class="bigbox" v-show="pageid == 1">

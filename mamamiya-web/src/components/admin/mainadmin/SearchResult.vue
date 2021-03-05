@@ -33,6 +33,7 @@ export default {
 
     async created(){
         let title = this.$route.query.title
+        
         let cata = this.$route.query.cata
         this.cata = cata
         const axisos = this.$config.getAxiosInstance('bbs')
