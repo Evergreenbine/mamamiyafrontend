@@ -11,6 +11,8 @@
            <el-menu-item index="/admin/shop">商城管理</el-menu-item>
           <el-menu-item index="/admin/main/konw">知识管理</el-menu-item>     
           <el-menu-item index="/admin/main/circle">论坛管理</el-menu-item>
+          <el-menu-item index="/admin/main/news">资讯管理</el-menu-item>
+          <el-menu-item index="/admin/main/ques">问答管理</el-menu-item>
       
         </el-menu-item-group>
       </el-submenu>

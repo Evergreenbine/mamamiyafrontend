@@ -106,6 +106,7 @@ export default {
         }
     },
     async created(){
+        
          let qid  = this.$route.query.qid
          const bbsaxios = this.$config.getAxiosInstance('bbs')
          let queryques = await bbsaxios.get(`/api/quesbyqid/${qid}`)
@@ -120,6 +121,7 @@ export default {
         const useraxios = this.$config.getAxiosInstance('user')
         let user = await useraxios.get(`/api/user/${useraccount}`)
         this.user = user.data.result
+
         // console.log(this.user);
        
     }

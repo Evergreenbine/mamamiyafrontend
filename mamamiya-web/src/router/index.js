@@ -329,7 +329,9 @@ const routes = [{
         path: '/admin/main',
         component: () =>
             import ('../components/admin/mainadmin/MainAdmin'),
-        children: [{
+        children: [
+
+            {
                 path: '/admin/main/circle',
                 component: () =>
                     import ('../components/admin/mainadmin/BBsAdmin')
@@ -337,13 +339,28 @@ const routes = [{
             {
                 path: '/admin/main/konw',
                 component: () =>
-                    import ('../components/admin/mainadmin/KonwAdmin')
+                    import ('../components/admin/mainadmin/KonwAdmin'),
+                children: [{
+                    path: '/admin/main/konw/Search',
+                    component: () =>
+                        import ('../components/admin/mainadmin/SearchResult')
+                }]
             },
             {
                 path: '/admin/main/user',
                 component: () =>
                     import ('../components/admin/mainadmin/UserAdmin')
+            }, {
+                path: '/admin/main/news',
+                component: () =>
+                    import ('../components/admin/mainadmin/News')
+            }, {
+                path: '/admin/main/ques',
+                component: () =>
+                    import ('../components/admin/mainadmin/QuesAdmin')
             }
+
+
 
         ]
     },

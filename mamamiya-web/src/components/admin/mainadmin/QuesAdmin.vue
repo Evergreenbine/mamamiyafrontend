@@ -1,64 +1,13 @@
 <template>
   <div class="createshop">
-
-    <div class="bnav" :style="{'width':'700px','margin-bottom':'30px'}">
-        <el-input placeholder="请输入知识标题或者在数据统计页输入知识id" v-model="title" class="input-with-select">
-        <el-button slot="append" icon="el-icon-search" @click="goto"></el-button>
-        </el-input>
-    </div>
     <div class="bnav d-flex">
       <p class="navitem"  @click="()=>{pageid = 1,this.konwpost = this.konwpostt}"  :class="{navitemac:pageid == 1}">{{ pageid == 3 ?"编辑":"新建"}}知识</p>
       <p class="navitem"  @click="getbrandlist(1)" :class="{navitemac:pageid == 2}">{{pageid == 4?"品牌商品":"知识列表"}}</p>
       <p class="navitem"  @click="countall" :class="{navitemac:pageid == 5}">知识数据统计</p>
       <p class="navitem"  @click="pageid = 6" :class="{navitemac:pageid == 6}">知识视频课堂</p>
     </div>
-    
     <!-- 第一页 -->
     <div class="bigbox" v-show="pageid == 1">
-      <div class="item d-flex">
-        <p class="tagname">知识封面</p> 
-        <el-upload 
-          class="avatar-uploader inoimga"
-          action="http://localhost:8003/api/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          >
-          <img v-if="konwpost.img" :src="konwpost.img" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </div>
-      <div class="item d-flex">
-       <p :style="{width:'120px'}">知识标题</p>
-        <el-input  v-model="konwpost.title"></el-input>
-      </div>
-    
-      <div class="item d-flex" v-show="true">
-       <p :style="{width:'120px'}">收费</p>
-       <input type="checkbox" v-model="isfreeshow">
-      </div>
-      <div v-show="isfreeshow == true">
-      <div class="item d-flex" >
-       <p :style="{width:'120px'}">价格</p>
-        <el-input type="number"  v-model="konwpost.price"></el-input>
-      </div>
-      </div>
- 
-        <div class="item d-flex">
-          <p :style="{width:'120px'}">知识分类</p>
-          <el-select v-model="konwpost.cata" slot="prepend" placeholder="请选择分类" >
-             <el-option :label="item.kname" :value="item.kcid" v-for="item in konwcata " :key="item.cid" >
-             </el-option>
-           </el-select>
-        </div>
-        <div class="item d-flex">
-          <p :style="{width:'120px'}">知识内容</p>
-          <FullTextEditor v-on:func="savecontent"/>
-         </div> 
-          
-         <div class="item d-flex">   
-           <el-button type="success" @click="savegood">创建</el-button>
-        </div>  
-  
     </div>
     <!-- 第二页 -->
     <div class="bigbox" v-show="pageid == 2">
@@ -170,15 +119,6 @@
 
     <video src="http://localhost:8003/static/mamamiya202102260147564052.flv" />
     </div>
-
-    <div class="bigbox" v-show="pageid == 7">
-       <div v-for="item in article" :key="item.kid" >
-         <a href="javascript:void(0);" @click="togoto(item)" > {{item.title}}</a>
-       
-      </div>
-    
-      
-    </div>
   </div>
 </template>
 <script>
@@ -189,7 +129,6 @@ export default {
   
   data() {
     return {
-        title:'',
         //  ---------------- 知识 ---------------------
         
         // 新建知识模型
@@ -222,8 +161,6 @@ export default {
         konwlist:[],
         // 分页变量
         total:0,
-        //
-        article:[],
 
 
       // 页面变量
@@ -331,37 +268,7 @@ export default {
             
             
             
-      },
-      async  togoto(item){
-          // 都不用请求后端了
-          this.konwpost= item
-          this.pageid =3
-      },
-      // 模糊查询
-       async goto(){
-         const axisos = this.$config.getAxiosInstance('bbs')
-        this.article = []
-        //  数据统计页，则不能进行模糊查询，
-         if(this.pageid == 5){
-            this.pageid = 7
-            let kid = this.title
-            let resa = await axisos.get(`/api/konw/${kid}`)
-            this.article.push(resa.data)
-
-         }else{
-            this.pageid = 7
-             
-            let res = await axisos({
-            url:'/api/likequery',
-            params:{
-                title:this.title,
-                cata:1
-            }
-            })
-          this.article = res.data}
-            
-        },
-         
+            },
 
 
 
@@ -403,19 +310,6 @@ export default {
            etime:this.etime
          }})
       this.mostuse = resppp.data
-      //-------------------------------------
-       let aa = await axios({
-         url:'/api/everylook',
-         method:'get',
-         params:{
-           stime:this.stime,
-           etime:this.etime
-         }
-         
-         })
-      // console.log(aa.data);
-      this.kidarr = aa.data.kid
-      this.nums = aa.data.nums
 
 
 

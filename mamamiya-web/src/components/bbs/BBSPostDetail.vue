@@ -159,7 +159,13 @@ export default {
        let pid = this.$route.query.pid
        let cid = this.$route.query.cid
        let useraccount = this.$route.query.useraccount
+
+
          const bbsaxios = this.$config.getAxiosInstance('bbs')
+
+        await bbsaxios.get(`/api/lookuppost/${pid}`)
+
+        //  查询贴子和帖主详情
          let res = await bbsaxios({
              url:'/api/posts',
              method:'get',
