@@ -31,8 +31,10 @@
               <!-- 买家 （2->3已支付， 3->4待发货， 4->5已发货） ->   5->8确认收货 -> 6关闭 -->
               <!-- 商家 2 3  确认发货 -> 4   8 -> 同意退货  -->
               <div class="tailinfo">
-                  <p class="address">收货地址:{{oditem.address}}</p>
+                  <p class="address">收货地址:{{oditem.addresss}}</p>
                   <p class="totalmount">总价:{{oditem.totalmount}}元</p>
+                    <p class="username">支付人:{{oditem.username}}</p>
+                     <p class="totalnums">总数量:{{oditem.totalnums}}</p>
                   <p class="paymoney">{{oditem.paymoney != null ? "实际支付:"+oditem.paymoney+"元":"实际支付:0元" }}</p>
                   <div class="cancel" @click="cancelorder(oditem)" v-show="oditem.state == 8">同意退货</div>
                   <div class="okbutton" @click="updatestate(4,oditem)" v-show="oditem.state == 3 || oditem.state == 2">发货</div>
@@ -258,6 +260,18 @@ export default {
             .address{
                 position: absolute;
                 top: 9px;
+                color: gray;
+                left: 10px;
+            }
+             .username{
+                position: absolute;
+                top: 30px;
+                color: red;
+                left: 10px;
+            }
+            .totalnums{
+                position: absolute;
+                top: 50px;
                 color: gray;
                 left: 10px;
             }
